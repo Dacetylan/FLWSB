@@ -2,7 +2,7 @@
 
 * Schematics
   
-  * Main Board
+  * [Main Board](./schematics/main-board.md)
   
   * LoRaWAN Board
   
