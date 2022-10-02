@@ -1,6 +1,6 @@
  # Flexible LoRaWAN Sensor Board SAMDaaNo21
 
-Het FLWSB Main Board is een microcontroller bord gebaseerd op de ATSAMD21 in de vormfactor vergelijkbaar met een Arduino Nano. Het mot gemakkelijk zijn om dit bord in een breadboard te prikken en zo testen uit te voeren of schakelingen te bouwen. Het elektrisch schema van dit bord ziet er als volgt uit:
+Het FLWSB Main Board is een microcontroller bord gebaseerd op de ATSAM D21 in de vormfactor vergelijkbaar met een Arduino Nano. Het mot gemakkelijk zijn om dit bord in een breadboard te prikken en zo testen uit te voeren of schakelingen te bouwen. Het elektrisch schema van dit bord ziet er als volgt uit:
 
 <figure>
 <img src="./assets/FLWSB-SAMDaaNo21.svg" alt="Figuur 1: FLWSB-SAMDaaNo21 schema"/>
@@ -9,6 +9,8 @@ Het FLWSB Main Board is een microcontroller bord gebaseerd op de ATSAMD21 in de 
 Alle onderdelen worden verder toegelicht.
 
 ![blokdiagram](assets/blokdiagram.svg)
+
+[ATSAM D21 Datasheet](https://ww1.microchip.com/downloads/en/DeviceDoc/SAM-D21DA1-Family-Data-Sheet-DS40001882G.pdf)
 
 ## USB Interface & VIN
 
@@ -41,7 +43,7 @@ De Schottky diode (D6) is er om de USB poort van je laptop te beschermen wanneer
 <img src="./assets/reset-debug.svg" alt="Figuur 3: RESET & DEBUG schema"/>
 <figcaption >Figuur 3: RESET & DEBUG schema</figcaption>
 </figure>
-De reset knop is opgebouwd zoals in de datasheet van de ATSAMD21 wordt weergegeven onder de Schematic Checklist Figure 45-4. External Reset Circuit Schematic.
+De reset knop is opgebouwd zoals in de datasheet van de ATSAM D21 wordt weergegeven onder de Schematic Checklist Figure 45-4. External Reset Circuit Schematic.
 
 
 
@@ -61,7 +63,7 @@ In dit geval wordt er een LD1117 3,3 V regelaar gebruikt. Deze regelaar kan met 
 <img src="./assets/power.svg" alt="Figuur 5: Power Supply Connections schema"/>
 <figcaption >Figuur 5: Power Supply Connections schema</figcaption>
 </figure>
-Het schema voor de ontkoppelcondensatoren en spoel voor de ATSAMD21 komt ook rechtstreeks uit de datasheet. Wat belangrijk is bij deze componenten is dat alles rechts van de blauwe snippenlijn zo dicht mogelijk bij de vermelde pinnen staat. Deze condensatoren vangen kleine storingen en rimpels op die zich voordoen in de bronspanning.
+Het schema voor de ontkoppelcondensatoren en spoel voor de ATSAM D21 komt ook rechtstreeks uit de datasheet. Wat belangrijk is bij deze componenten is dat alles rechts van de blauwe snippenlijn zo dicht mogelijk bij de vermelde pinnen staat. Deze condensatoren vangen kleine storingen en rimpels op die zich voordoen in de bronspanning.
 
 ## Input / Output
 
@@ -69,7 +71,7 @@ Het schema voor de ontkoppelcondensatoren en spoel voor de ATSAMD21 komt ook rec
 <img src="./assets/input-output.svg" alt="Figuur 5:  Input / Output schema"/>
 <figcaption >Figuur 5:  Input / Output schema</figcaption>
 </figure>
-Dit zijn alle GPIO, SERCOM en power aansluitingen die via pinheaders naar buiten worden gebracht. De SERCOM poorten zijn alvast gedefinieerd zodat onder andere de pull-up weerstanden geplaatst kunnen worden. Alle andere poorten zijn voor algemeen gebruik. In de datasheet van de ATSAMD21 onder 7. I/O Multiplexing and Considerations kunnen alle verschillende mogelijkheden van deze aansluitingen gevonden worden (AC, ADC, DAC, PTC, DAC, IO, ...). 
+Dit zijn alle GPIO, SERCOM en power aansluitingen die via pinheaders naar buiten worden gebracht. De SERCOM poorten zijn alvast gedefinieerd zodat onder andere de pull-up weerstanden geplaatst kunnen worden. Alle andere poorten zijn voor algemeen gebruik. In de datasheet van de ATSAM D21 onder 7. I/O Multiplexing and Considerations kunnen alle verschillende mogelijkheden van deze aansluitingen gevonden worden (AC, ADC, DAC, PTC, DAC, IO, ...). 
 
 | Pin  | Functies                                                     |
 | ---- | ------------------------------------------------------------ |
@@ -98,9 +100,29 @@ Dit zijn alle GPIO, SERCOM en power aansluitingen die via pinheaders naar buiten
 | SERCOM4_PAD0_SDA (PA12) | EXTINT[12], TCC2/WO[0], TCC0/WO[6], AC/CMP[0]                |
 | SERCOM4_PAD1_SCL (PA13) | EXTINT[13], TCC2/WO[1], TCC0/WO[7], AC/CMP[1]                |
 | SERCOM3_MISO (PA18)     | EXTINT[2], X[6], TC3/WO[0], TCC0/WO[2], AC/CMP[0]            |
-| SERCOM3_MOSI (PA16)     |                                                              |
-| SERCOM3_SCK (PA17)      |                                                              |
-| PB09                    |                                                              |
-| PB08                    |                                                              |
-| PA21                    |                                                              |
+| SERCOM3_MOSI (PA16)     | EXTINT[0], X[4], TCC2/WO[0], TCC0/WO[6], GCLK_IO[2]          |
+| SERCOM3_SCK (PA17)      | EXTINT[1], X[5], TCC2/WO[1], TCC0/WO[7], GCLK_IO[3]          |
+| PB09                    | EXTINT[9], AIN[3], Y[15], TC4/WO[1], TCC3/WO[7]              |
+| PB08                    | EXTINT[8], AIN[2], Y[14], TC4/WO[0], TCC3/WO[6]              |
+| PA21                    | X[9], TC7/WO[1], TCC0/WO[7], I2S/FS[0], GCLK_IO[5]           |
+
+### Legende
+
+SERCOM: Serial Communication, keuze tussen: USART, I²C, SPI of SMBus
+
+EXTINT[n]: External Interrupts
+
+AIN[n]: ADC Analog Inputs
+
+X[n], Y[n]: Peripheral Touch Controller - PTC Input
+
+TC4/WO[n], TC6/WO[n]: Waveform/PWM Outputs
+
+TCC3/WO[n]: Waveform/PWM Outputs/ Capture Inputs 
+
+AC/CMP[n]: AC Comparator Outputs
+
+I2S/FS[n]: Inter-IC Sound Controller, I²S Word Select or TDM Frame Sync
+
+GCLK_IO[n]: Generic Clock (source clock or generic clock generator output)
 
