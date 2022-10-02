@@ -24,6 +24,7 @@ Het schema voor de USB-interface is gebaseerd op een voorbeeld uit een Atmel han
 <img src="./assets/usb-voorbeeld.svg" alt="Figuur 2: USB Interface & VIN schema"/>
 <figcaption >Figuur 2: USB Interface & VIN schema</figcaption>
 </figure>
+
 [Ref1](https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-42261-SAM-D21-USB_Application-Note_AT06475.pdf)
 
 [Ref schematic checklist](https://ww1.microchip.com/downloads/en/DeviceDoc/SAM-D21DA1-Family-Data-Sheet-DS40001882G.pdf#_OPENTOPIC_TOC_PROCESSING_d10240e380866)
@@ -108,21 +109,21 @@ Dit zijn alle GPIO, SERCOM en power aansluitingen die via pinheaders naar buiten
 
 ### Legende
 
-SERCOM: Serial Communication, keuze tussen: USART, I²C, SPI of SMBus
+`SERCOM`: Serial Communication, keuze tussen: USART, I²C, SPI of SMBus
 
-EXTINT[n]: External Interrupts
+`EXTINT[n]`: External Interrupts
 
-AIN[n]: ADC Analog Inputs
+`AIN[n]`: ADC Analog Inputs
 
-X[n], Y[n]: Peripheral Touch Controller - PTC Input
+`X[n]`, `Y[n]`: Peripheral Touch Controller - PTC Input
 
-TC4/WO[n], TC6/WO[n]: Waveform/PWM Outputs
+`TC4/WO[n]`, `TC6/WO[n]`: Waveform/PWM Outputs
 
-TCC3/WO[n]: Waveform/PWM Outputs/ Capture Inputs 
+`TCC3/WO[n]`: Waveform/PWM Outputs/ Capture Inputs 
 
-AC/CMP[n]: AC Comparator Outputs
+`AC/CMP[n]`: AC Comparator Outputs
 
-I2S/FS[n]: Inter-IC Sound Controller, I²S Word Select or TDM Frame Sync
+`I2S/FS[n]`: Inter-IC Sound Controller, I²S Word Select or TDM Frame Sync
 
-GCLK_IO[n]: Generic Clock (source clock or generic clock generator output)
+`GCLK_IO[n]`: Generic Clock (source clock or generic clock generator output)
 
