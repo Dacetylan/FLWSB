@@ -12,6 +12,19 @@ Alle onderdelen worden verder toegelicht.
 
 [ATSAM D21 Datasheet](https://ww1.microchip.com/downloads/en/DeviceDoc/SAM-D21DA1-Family-Data-Sheet-DS40001882G.pdf)
 
+## Testpunten
+
+Er zijn verschillende testpunten toegevoegd om op een gemakkelijke en toegankelijke manier verschillende parameters op het bord te kunnen meten.
+
+| Testpunt nummer | Verbinding                                                   |
+| --------------- | ------------------------------------------------------------ |
+| TP2             | VBUS: 5 V afkomstig van USB                                  |
+| TP4             | VIN: Ingangsspanning voordat het naar de lineaire regelaar gaat |
+| TP3             | VDD: 3,3 V gereguleerde spaning                              |
+| TP5             | PA27: I/O funcites proben                                    |
+
+
+
 ## USB Interface & VIN
 
 <figure>
@@ -32,6 +45,8 @@ Het schema voor de USB-interface is gebaseerd op een voorbeeld uit een Atmel han
 
 
 De Schottky diode (D6) is er om de USB poort van je laptop te beschermen wanneer het bord van stroom wordt voorzien via de VIN pin. Het zou kunnen dat aan de VIN pin een hogere spanning wordt geleverd dan 5V waardoor dit potentiaalverschil ongewenste stroom kan laten vloeien. Hetzelfde principe wordt toegepast bij de ESP32 DEVKIT.
+
+`TP4` is een testpunt dat aanwezig is om op een toegankelijke manier de VIN spanning te meten.
 
 [Ref1](https://dl.espressif.com/dl/schematics/esp32_devkitc_v4-sch-20180607a.pdf)
 
@@ -55,6 +70,8 @@ De reset knop is opgebouwd zoals in de datasheet van de ATSAM D21 wordt weergege
 <figcaption >Figuur 4: Low Dropout Lineair Regulator schema</figcaption>
 </figure>
 In dit geval wordt er een LD1117 3,3 V regelaar gebruikt. Deze regelaar kan met een vrij groot ingangsbereik (tot 15 V) een uitgangsspanning van 3,3 V leveren. 
+
+`TP3` is een testpunt dat aanwezig is om op een toegankelijke manier de 3.3 V gereguleerde spanning te meten.
 
 [LD1117 datasheet](https://www.st.com/resource/en/datasheet/ld1117.pdf)
 
