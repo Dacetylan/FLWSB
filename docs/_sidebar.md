@@ -46,15 +46,23 @@
 
 * Backend
 
+  * [BaaVend](./backend/baavend.md)
+
   * NodeRED
 
   * MongoDB
+
+  * Mosquitto
+
+  * Security
 
 * Frontend
 
   * Mock-up
 
   * Angular
+
+  * Grafana
 
 * Demo
 
