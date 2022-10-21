@@ -44,23 +44,29 @@
 
   * [Sensor Identification System](./data-formatting/sis.md)
 
+  * [Metingen](./data-formatting/metingen.md)
+
+  * [Data Structuur]
+
 * Backend
 
   * [BaaVend](./backend/baavend.md)
 
   * NodeRED
 
-  * MongoDB
+  * MongoDb
+
+  * InfluxDb
 
   * Mosquitto
 
-  * Security
+  * [Security](./security.md)
 
 * Frontend
 
   * Mock-up
 
-  * Angular
+  * Node-RED Dashboard
 
   * Grafana
 

@@ -1,4 +1,4 @@
-# BaaVend
+# BaaVend Backend
 
 ## Introductie
 
@@ -6,6 +6,8 @@ De BaaVend is de naam voor de backend van dit project.
 Het bestaat uit services, voor zowel backend als frontend, in Docker containers opgezet met Docker-Compose.
 Voor LoRaWAN connectiviteit wordt gebruik gemaakt van The Things Network (TTN).
 In dit hoofdstuk wordt de backend acrhitectuur beschreven, de algemende werking, hoe deze is opgezet, en hoe de connectiviteit naar buiten de Docker omgeving toe werkt.
+Vervolgens wordt er ingezoomed op de verschillende backend specifieke onderdelen, zijnde Node-RED, MongoDb, InfluxDb en Mosquitto.
+Als laatste worden de aanwezige beveiligingsmaatregelen beschreven.
 De frontend als user interface en de werking hiervan volgt in het Frontend hoofdstuk.
 
 ---
@@ -19,17 +21,16 @@ Als referentie is er onderstaand een blokdiagram met een algemeen overzicht van 
 
 ![BaaVend Blokdiagram](./assets/baavend-diagram.png)
 
-*__Mosquitto nog toevoegen!__
+*__Updaten: Angular weg, en InfluxDb en Mosquitto toevoegen!__
 
 ### Services
 
 - The Things Stack FLWSB applicatie (extern op TTN) voor LoRaWAN ontvangst.
-- Weerstation?
-- baavend-red: Node-Red container voor dataverwerking en alles te verbinden.
-- baavend-db: MongoDb container als database.
+- baavend-red: [Node-RED](https://flows.nodered.org/) container voor dataverwerking en alles te verbinden.
+- baavend-sis-db: [MongoDb](https://www.mongodb.com/) container als database voor het SIS.
+- baavend-time-db: [InlfuxDb v2.0](https://www.influxdata.com/blog/running-influxdb-2-0-and-telegraf-using-docker/) container als database voor de meetresultaten.
 - baavend-mqtt: [Mosquitto](https://github.com/vvatelot/mosquitto-docker-compose) container als MQTT broker voor het weerstation.
-- baavend-connect: Angular container met frontend web applicatie als user interface voor het Sensor Identification System (SIS).
-- baavend-vis: Grafana container met frontend web applicatie voor data visualisatie.
+- baavend-vis: [Grafana](https://grafana.com/oss/grafana/) container met frontend web applicatie voor data visualisatie.
 
 
 ### Connectiviteit
@@ -61,31 +62,6 @@ sensors/rtl_433/Bresser-5in1/Alecto-id/measurement-quantity_unit
 sensors/rtl_433/Bresser-5in1/100/temperature_C
 sensors/rtl_433/Bresser-5in1/100/humidity
 ```
-
-#### REST API
-
-De REST API dient als comminucatie met de frontend services.
-
-Voor de Angular frontend web applicatie zijn volgende endpoints beschikbaar:
-
-| Endpoint | Functie |
-| --- | --- |
-| / | ? |
-
-Voor de data visualisatie in Grafana zijn de volgende endpoints beschikbaar zoals  [hier](https://grafana.com/grafana/plugins/grafana-simple-json-datasource/) beschreven:
-
-| Endpoint | Functie |
-| --- | --- |
-| / | Should return 200 ok. Used for "Test connection" on the datasource config page. |
-| /search | Used by the find metric options on the query tab in panels. |
-| /query | Should return metrics based on input. |
-| /annotations | Should return annotations. |
-| /tag-keys | Should return tag keys for ad hoc filters.* |
-| /tag-values | Should return tag values for ad hoc filters.* |
-
-*_optioneel_
-
-
 
 
 ---
