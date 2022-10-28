@@ -2,9 +2,7 @@
 
 * Schematics
   
-  * [Main Board](./schematics/main-board.md)
-  
-  * LoRaWAN Board
+  * [Main Board with LoRaWAN](./schematics/main-board.md)
   
   * Connector Board
   
@@ -14,7 +12,7 @@
 
 * PCB
   
-  * Main Board
+  * [Main Board with LoRaWAN](./printed-circuit-boards/main-board.md)
   
   * LoRaWAN Board
   
