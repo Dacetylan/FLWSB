@@ -41,7 +41,7 @@ Hierbij wordt de data beschikbaar gemaakt via MQTT.
 
 *(Het is mogelijk data reeds te formateren in de TTN applicatie aan de hand van de TTN Formatter. Met het SIS is dit echter niet mogelijk omdat het data vereist vanuit de database.)*
 
-#### 3. BaaVend (backend met Node-RED, MongoDb en InfluxDb)
+#### 3. BaaVend (backend met Node-RED en InfluxDb)
 
 In Node-RED is er een MQTT node aanwezig die gesubscribeerd is op het topic van het FLWSB-board.
 Van zodra de data door de TTN applicatie verwerkt is wordt deze beschikbaar en ontvangen als JSON in Node-RED.
@@ -50,17 +50,8 @@ Aan de hand van de FLWSB-board naam wordt de nodige SIS data opgevraagd uit de d
 De dataverwerking van de bitstream gebeurt in volgende herhalende stappen tot het einde van de data bereikt wordt:
  - Het sensor-id wordt gelezen en opgezocht.
  - De hoeveelheid bytes van de achterliggende data wordt bepaald en geformatteerd naar het juiste datatype.
- - De geformatteerde meting wordt in een JSON object bewaard met onderstaande structuur:
+ - De geformatteerde meting wordt in een JSON object gestructureerd volgens de bepaalde data structuur en de juiste tags worden toegekend (zie onderdeel [Data Structuur](./data-formatting/data-structuur.md)).
 
- ```javascript
- {
-   "8":[
-     {"Quantity":"Temperature", "Value":15.0, "Unit":"°C", "Sensor":"BME280", "Sensor-id":1}
-   ]
- }
- ```
-
-Vervolgens worden nog extra info over het FLWSB-board toegevoegd aan de JSON structuur.
-Eens volledig wordt de JSON weggeschreven naar de MongoDb database en als document toegevoegd aan de collection van dat FLWSB-board.
+Eens volledig wordt de JSON weggeschreven naar de database en als document toegevoegd aan de collection van dat FLWSB-board.
 
 ---

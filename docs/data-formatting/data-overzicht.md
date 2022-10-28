@@ -71,7 +71,21 @@ Dit voor het Sensor Identification System, de metingen, en extra  informatie uit
             Grootheid van de meting. Hardcoded of handmatig ingevoerd via Node-RED dashboard formulier.
         </td>
         <td>
-            Temperature
+            temp
+        </td>
+    </tr>
+    <tr>
+        <td>
+            datatype
+        </td>
+        <td>
+            string
+        </td>
+        <td>
+            Daatype waarin de meting moet worden opgeslagen in de database. Hardcoded of handmatig ingevoerd via Node-RED dashboard formulier.
+        </td>
+        <td>
+            int
         </td>
     </tr>
     <tr>
@@ -92,7 +106,7 @@ Dit voor het Sensor Identification System, de metingen, en extra  informatie uit
 
 ---
 
-### Metingen
+### Klimatologische data
 
 #### Gevraagde data voor AI
 De studenten van de AI minor vragen volgende data:
@@ -238,7 +252,7 @@ Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor he
             <i>-40.0 tot 60.0</i>
         </td>
         <td>
-            <b>n/a</b><br>
+            <b>float</b><br>
             <i>n/a</i>
         </td>
     </tr>
@@ -252,7 +266,7 @@ Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor he
             <i>540 tot 1100</i>
         </td>
         <td>
-            <b>n/a</b><br>
+            <b>int</b><br>
             <i>n/a</i>
     </tr>
     <tr>
@@ -265,7 +279,7 @@ Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor he
             <i>1 tot 99</i>
         </td>
         <td>
-            <b>n/a</b><br>
+            <b>int</b><br>
             <i>n/a</i>
         </td>
     </tr>
@@ -279,7 +293,7 @@ Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor he
             <i>0.0 tot 50.0</i>
         </td>
         <td>
-            <b>n/a</b><br>
+            <b>float</b><br>
             <i>n/a</i>
         </td>
     </tr>
@@ -293,7 +307,7 @@ Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor he
             <i>16 of 360 (wind direction)</i>
         </td>
         <td>
-            <b>n/a</b><br>
+            <b>int</b><br>
             <i>n/a</i>
         </td>
     </tr>
@@ -307,7 +321,7 @@ Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor he
             <i>0.00 tot 200.00</i>
         </td>
         <td>
-            <b>n/a</b><br>
+            <b>float</b><br>
             <i>n/a</i>
         </td>
     </tr>
@@ -321,7 +335,7 @@ Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor he
             <i>0.0 tot 16.0</i>
         </td>
         <td>
-            <b>n/a</b><br>
+            <b>float</b><br>
             <i>n/a</i>
         </td>
     </tr>
@@ -335,7 +349,7 @@ Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor he
             <i>0.0 tot ?.0 (resolutie: 0,4 mm)<a href="https://nl.wikipedia.org/wiki/Lijst_van_weerrecords">weer records</a></i>
         </td>
         <td>
-            <b>n/a</b><br>
+            <b>float</b><br>
             <i>n/a</i>
         </td>
     </tr>

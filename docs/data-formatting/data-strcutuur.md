@@ -87,9 +87,6 @@ De data die ontvangen wordt via MQTT uit de TTN applicatie is een JSON object di
 
 _Note: Deze data blijkt wel niet helemaal up-to-date. De informatie van de Identity Server moet worden opgehaald uit een API. Dit is de locatie die handmatig kan worden ingesteld op The Things Stack applicatie. De end device location metadata heeft ook een ander formaat, zie onderstaande code block en Figuur 1._
 
-![TTN uplink message in Node-RED, Zanzibar Project 2022](./assets/zanzibar/node-red-ttn-uplink-msg.png ":size=900")
-_Figuur 1.: TTN uplink message in Node-RED, Zanzibar Project 2022_
-
 Het meeste van deze informatie is niet nuttig voor dit project en zal dus niet worden bijgehouden. Wat wel zal bijgehouden worden is:
 
 - ```payload/device-id```: het id toegekend in The Things Stack applicatie.
@@ -103,30 +100,33 @@ Het meeste van deze informatie is niet nuttig voor dit project en zal dus niet w
    payload: {
       end_device_ids: {
          device_id: "<device-id>",
-         ...
-      received_at: "<timestamp, ISO 8601 YYYY-MM-DDTHH:mm:ss.sssZ>"
+         // ...
+      received_at: "<timestamp, ISO 8601 YYYY-MM-DDTHH:mm:ss.sssZ>",
       uplink_message: {
-          ...
+          // ...
           frm_payload: "<bitstream (base64)>",
-          ...
+          // ...
           rx_metadata: {
             0: {
-              ...
+              // ...
               time: "<timestamp, ISO 8601 YYYY-MM-DDTHH:mm:ss.sssZ>"
-              ...
+              // ...
             }
           },
-          ...
+          // ...
           locations: {
-            frm-payload: {
-                    latitude: <coördinaat, float>,
-                    longitude: <coördinaat, float>
+            frm_payload: {
+                    latitude: 37.97155556731436,  // coördinaat, float
+                    longitude: 23.72678801175413  // coördinaat, float
                 }
             }
           },
-    ...
+    // ...
 }
 ```
+
+![TTN uplink message in Node-RED, Zanzibar Project 2022](./assets/zanzibar/node-red-ttn-uplink-msg.png ":size=900")
+_Figuur 1.: TTN uplink message in Node-RED, Zanzibar Project 2022_
 
 ---
 
@@ -134,11 +134,133 @@ Het meeste van deze informatie is niet nuttig voor dit project en zal dus niet w
 
 InfluxDb 2.0 is de database die gebruikt wordt. Het is een open-source Time Series Database (TSDB) geschreven in de GO programeertaal. Meer uitleg kan gevonden worden in het hoofdstuk Backend, onderdeel InfluxDb.
 
-Het belangrijkste is dat deze zeer geschikt is om data gebonden aan tijd bij te houden. Ideaal dus om metingen van sensoren bij te houden. Verder heeft het ook een handig tagging systeem om het Sensor Identification System aan de data te koppelen.
+Het belangrijkste is dat deze zeer geschikt is om data gebonden aan tijd bij te houden. Ideaal dus om metingen van sensoren bij te houden en tendensen te kunnen visualiseren. Verder heeft het ook een handig tagging systeem om het Sensor Identification System aan de data te koppelen.
+
+#### Schema Design
+
+De InfluxDb documentatie heeft een onderdeel over InfluxDb schema design onder [Write data - Best practices- Schema design](https://docs.influxdata.com/influxdb/v2.4/write-data/best-practices/schema-design/).
+
+InfluxDb bestaat uit volgende onderdelen:
+
+<table style="width: 100%">
+    <colgroup>
+        <col span="0" style="width: 15%;">
+        <col span="1" style="width: 15%;">
+        <col span="2" style="width: 50%;">
+        <col span="3" style="width: 30%;">
+    </colgroup>
+    <tr>
+        <th>Naam (Name)</th>
+        <th>Datatype</th>
+        <th>Beschrijving</th>
+        <th>Voorbeeld (Example)</th>
+    </tr>
+    <tr>
+        <td>
+            bucket
+        </td>
+        <td>
+            string
+        </td>
+        <td>
+            Benoemde locatie waar time series data wordt opgeslagen. Vergelijkbaar met een collection in MongoDb of een relationele database op zichzelf. Het kan automatisch datapunten gaan verwijderen afhankelijk van hoe oud ze zijn. Dit is data persistence. <br>
+            Vb. 6 maanden, of 2 jaar. Dit is de retention period. <br>
+            <i>Bevat measurements.</i>
+        </td>
+        <td>
+            flwsb <br>
+            sis
+        </td>
+    </tr>
+    <tr>
+        <td>
+            _measurement
+        </td>
+        <td>
+            string
+        </td>
+        <td>
+            Elke measurement is een simpele naam dat een schema en de data in de fields beschrijft.
+            Vergelijkbaar met een document in MongoDb, of een tabel in een relationele database. <br>
+            <i>Bevat fields, tags en timestamps.</i>
+        </td>
+        <td>
+            airSensor
+        </td>
+    </tr>
+    <tr>
+        <td>
+            _field
+        </td>
+        <td>
+            string: string/double/int
+        </td>
+        <td>
+            Field key-value pairs hebben een naam en bevatten numerische data. De key houd metadata bij en de value houd unieke of sterk variabele data bij verbonden aan een timestamp. <br>
+            <i>Fields worden niet geïndexeerd, lees niet performant in queries.</i>
+        </td>
+        <td>
+            temperature: 22.5
+        </td>
+    </tr>
+    <tr>
+        <td>
+            tag
+        </td>
+        <td>
+            string: string
+        </td>
+        <td>
+            Tag key-value pairs voegen metadata toe die meerdere datapunten met elkaar linken. <br>
+            <i>Tag keys en values worden geïndexeerd, lees performant in queries.</i>
+        </td>
+        <td>
+            tags: { <br>
+              location: "home", <br>
+              sensor: "bme280" <br>
+            }
+        </td>
+    </tr>
+    <tr>
+        <td>
+            _time / timestamp
+        </td>
+        <td>
+            Datetime:RFC3339
+        </td>
+        <td>
+            Standaard de tijd wanneer het datapunt wordt toegevoegd, in nanoseconden. Kan worden meegegeven bij het wegschrijven en in miliseconden wanneer gespecificeerd.
+        </td>
+        <td>
+            2022-10-28T16:43:56.175Z
+        </td>
+    </tr>
+</table>
+
+
+
+_**Keys** herhalen niet binnen een schema en kunnen geen gereserveerde keywords zijn of speciale tekens bevatten._
+
+_**Measurements** en **keys** bevatten geen data; **tag values** en **field values** bevatten wel data._
+
+_Een **datapunt / point** bevat een series key, een field value en een timestamp.
+vb. ```2019-08-18T00:00:00Z census ants 30 portland mullen```. Waarbij measurement = census, field key = ants, field value = 30, location tag = portland, en scientist tag = mullen._
+
+_Een **series key** is een collectie van datapunten dat een measurement, tag set en field key delen.
+Een **series** bevat timestamps en field values voor een bepaalde series key._
+
+[_Bron: InlfuxDb data elements_](https://docs.influxdata.com/influxdb/cloud/reference/key-concepts/data-elements/#bucket)
+
+<br>
+
+#### Voorbeelden
 
 Onderstaand zijn twee voorbeelden hoe data vanuit Node-RED naar de database kan gestuurd worden en hoe deze gestructureerd kunnen worden.
 
-#### Output Node
+__Output Node__
+
+_If msg.payload is an array of arrays, it will be written as a series of points containing fields and tags. For example, the following flow injects two points into an InfluxDb 2.0 database with timestamps specified._
+
 ```javascript
 msg.payload = [
     [{
@@ -167,9 +289,13 @@ msg.payload = [
 return msg;
 ```
 [Bron: Node-RED node-red-contrib-influxdb nodes documentatie.](https://flows.nodered.org/node/node-red-contrib-influxdb)
-_if msg.payload is an array of arrays, it will be written as a series of points containing fields and tags. For example, the following flow injects two points into an InfluxDb 2.0 database with timestamps specified._
 
-#### Batch Output Node
+<br>
+
+__Batch Output Node__
+
+_The following example flow writes two points to two measurements, setting the timestamp to the current date._
+
 ```javascript
 msg.payload = [
     {
@@ -199,8 +325,122 @@ msg.payload = [
 return msg;
 ```
 [Bron: Node-RED node-red-contrib-influxdb nodes documentatie.](https://flows.nodered.org/node/node-red-contrib-influxdb)
-_The following example flow writes two points to two measurements, setting the timestamp to the current date._
+
 
 ---
 
 ### Gekozen data structuur
+
+#### bucket: sis
+
+Data persistence: never
+
+**_measurement: hardcoded**
+
+```javascript
+// FluxDb Output Node
+msg.payload = [
+  {
+        sensor_name: "BME280",
+        quantity: "temp, pressure, humidity",
+        datatype: "int, int, int",
+        unit: "°C; hPa; %",
+        time: new Date().getTime()
+    },
+    {
+        board_id: "board-1",  // device-id TTN en SIS
+        sensor_id: 8
+}];
+return msg;
+```
+
+**_measurement: user_defined**
+
+```javascript
+// FluxDb Output Node
+msg.payload = [
+    [{
+        sensor_name: "TaMM-o-Meter",
+        quantity: "wind_speed",
+        datatype: "float",
+        unit: "m/s",
+        time: new Date().getTime()
+    },
+    {
+        board_id: "board-1",               // device-id TTN en SIS
+        sensor_id: 1
+    }]
+];
+return msg;
+```
+
+#### bucket: flwsb
+
+Data persistence: never
+
+**_measurement: climate_data**
+
+```javascript
+// FluxDb Output Node
+msg.payload = [
+    [{
+        temp: '85i',                        // temperatuur, °C, int
+        pressure: '1100i',                  // luchtdruk, hPa, int
+        humidity: '100i',                   // luchtvochtigheid, %, int
+        time: "2020-02-12T15:15:45.787Z"    // timestamp TTN
+    },
+    {
+        board_id: "board-1",                // device-id TTN en SIS
+        sensor: "BME280"
+    }],
+    [{
+        wind_speed: 32.7,                   // wind snelheid, m/s, float
+        time: new Date().getTime()
+    },
+    {
+        board_id: "board-1",                // device-id TTN en SIS
+        sensor: "TaMM-o-Meter"
+    }],
+    [{
+        soil_moisture: '1023i',             // grondvochtigheid, analoge spanning, int
+        time: new Date().getTime()
+    },
+    {
+        board_id: "board-1",                // device-id TTN en SIS
+        sensor: "TaMM-oisture"
+    }],
+    [{
+        latitude: 37.97155556731436,       // TTN device location latitude
+        longitude: 23.72678801175413,      // TTN device location longitude
+        time: "2020-02-12T15:15:45.787Z"   // timestamp TTN
+    },
+    {
+        board_id: "board-1"                // device-id TTN en SIS
+    }]
+];
+return msg;
+```
+
+_Note: Locatie coördinaten toevoegen aan elke datapunt of enkel in SIS?_
+
+**_measurement: weather_station**
+
+```javascript
+// FluxDb Output Node
+msg.payload = [
+  {
+        temp: 60.0,                 // buiten temperatuur, °C, float
+        pressure: '1100i',          // luchtdruk, mbar, int
+        humidity: '99i',            // buiten luchtvochtigheid, %, int
+        wind_speed: 50.0,           // windsnelheid, m/s, float
+        wind_direction: '360i',     // windrichting, hoek in graden °, int
+        light_intensity: 200.00,    // lichtintensiteit, Klux, float
+        uv_index: 16.0,             // UV-niveau, index, float
+        rain: 1000.0,               // neerslag, mm/10min, float
+        time: new Date().getTime()
+    },
+    {
+        source: "outdoor"
+}];
+return msg;
+```
