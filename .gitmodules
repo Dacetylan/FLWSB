@@ -1,0 +1,3 @@
+[submodule "src/printed-circuit-boards/FLWSB-SAMDaaNo21"]
+	path = src/printed-circuit-boards/FLWSB-SAMDaaNo21
+	url = git@github.com:DaanDekoningKrekels/FLWSB-SAMDaaNo21.git

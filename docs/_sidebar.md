@@ -1,11 +1,9 @@
 * Description
 
 * Schematics
-
-  * [Main Board](./schematics/main-board.md)
-
-  * LoRaWAN Board
-
+  
+  * [Main Board with LoRaWAN](./schematics/main-board.md)
+  
   * Connector Board
 
   * Sensor Board
@@ -13,10 +11,8 @@
   * Power Board
 
 * PCB
-
-  * Main Board
-
-  * LoRaWAN Board
+  
+  * [Main Board with LoRaWAN](./printed-circuit-boards/main-board.md)
 
   * Connector Board
 
