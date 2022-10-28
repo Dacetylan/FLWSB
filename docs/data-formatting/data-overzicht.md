@@ -1,6 +1,98 @@
-## Metingen
+## Data Overzicht
 
-### Welke data wordt er gemeten
+Dit onderdeel geeft een overzicht van alle data die moet worden bijgehouden. Zowel wat de data inhoud en hoe deze eruit ziet.
+Dit voor het Sensor Identification System, de metingen, en extra  informatie uit The Things Network.
+
+### Sensor Identification System
+
+<table style="width: 100%">
+    <colgroup>
+        <col span="0" style="width: 15%;">
+        <col span="1" style="width: 15%;">
+        <col span="2" style="width: 50%;">
+        <col span="3" style="width: 30%;">
+    </colgroup>
+    <tr>
+        <th>Naam (Name)</th>
+        <th>Datatype</th>
+        <th>Beschrijving</th>
+        <th>Voorbeeld (Example)</th>
+    </tr>
+    <tr>
+        <td>
+            board-id
+        </td>
+        <td>
+            string
+        </td>
+        <td>
+            Gekoppeld aan TTN applicatie device-id.
+        </td>
+        <td>
+            board-1
+        </td>
+    </tr>
+    <tr>
+        <td>
+            sensor-id
+        </td>
+        <td>
+            byte
+        </td>
+        <td>
+            ID voor specifieke sensor, hardcoded I2C-adres of connector.
+        </td>
+        <td>
+            8
+        </td>
+    </tr>
+    <tr>
+        <td>
+            sensor-name
+        </td>
+        <td>
+            string
+        </td>
+        <td>
+            Naam van de sensor, hardcoded I2C-adres of connector.
+        </td>
+        <td>
+            BME280
+        </td>
+    </tr>
+    <tr>
+        <td>
+            quantity
+        </td>
+        <td>
+            string
+        </td>
+        <td>
+            Grootheid van de meting. Hardcoded of handmatig ingevoerd via Node-RED dashboard formulier.
+        </td>
+        <td>
+            Temperature
+        </td>
+    </tr>
+    <tr>
+        <td>
+            unit
+        </td>
+        <td>
+            string
+        </td>
+        <td>
+            Eénheid van de meting. Hardcoded of handmatig ingevoerd via Node-RED dashboard formulier.
+        </td>
+        <td>
+            °C
+        </td>
+    </tr>
+</table>
+
+---
+
+### Metingen
 
 #### Gevraagde data voor AI
 De studenten van de AI minor vragen volgende data:
@@ -23,7 +115,7 @@ Om een aantal zaken te meten zoals Windsnelheid en Windrichting wordt een bestaa
  - Neerslag
 
 #### Data van Expansion Boards
-Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor het FLWSB eco systeem.
+Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor het FLWSB ecosysteem.
 
  - TaMM-o-Meter (Anemometer):
     - Windsnelheid (wind tam-heid?) (gebasseerd op <a href="https://hackaday.io/project/185642-anemosens-sla-printed-anemometer">AnemoSens - SLA printed anemometer</a>)
@@ -36,9 +128,9 @@ Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor he
 
 <table style="width: 100%">
     <colgroup>
-        <col span="1" style="width: 25%;">
-        <col span="2" style="width: 25%;">
-        <col span="3" style="width: 50%;">
+        <col span="0" style="width: 33%;">
+        <col span="1" style="width: 33%;">
+        <col span="2" style="width: 33%;">
     </colgroup>
     <tr>
         <th>Grootheid (Quantity/Measurement)<br>& <i>Sensor</i></th>
@@ -252,21 +344,20 @@ Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor he
 
 ---
 
-## Extra Info
+## The Things Network (TTN)
 
-### The Things Network (TTN)
-
-Bij het werken via The Things Network/Stack (TTN) wordt buiten de metingen data nog een heel wat extra info verstuurd over MQTT.
+Bij het werken via The Things Network (TTN) wordt buiten de metingen data nog een heel wat extra info verstuurd over MQTT.
 Zo wordt de id en naam van in The Things Stack applicatie meegestuurd, als ook een timestamp/date wanneer de data is ontvangen.
 Mits gekend wordt ook de locatie van het board meegestuurd.
 Onderstaande tabel geeft hiervan een overzicht.
+Nog extra informatie uit de Identity Server van TTN kan opgevraagd worden via hun API.
 
 <table style="width: 100%">
     <colgroup>
+        <col span="0" style="width: 15%;">
         <col span="1" style="width: 15%;">
-        <col span="2" style="width: 15%;">
+        <col span="2" style="width: 30%;">
         <col span="3" style="width: 30%;">
-        <col span="4" style="width: 30%;">
     </colgroup>
     <tr>
         <th>Naam (Name)</th>
@@ -276,7 +367,7 @@ Onderstaande tabel geeft hiervan een overzicht.
     </tr>
     <tr>
         <td>
-            id
+            device-id
         </td>
         <td>
             string
@@ -287,6 +378,7 @@ Onderstaande tabel geeft hiervan een overzicht.
         <td>
             eui-0004a30b0020bb1b
         </td>
+    </tr>
     <tr>
         <td>
             name
@@ -342,7 +434,6 @@ Onderstaande tabel geeft hiervan een overzicht.
         <td>
             longitude: 39.21113847179748
         </td>
-    </tr>
     </tr>
 </table>
 

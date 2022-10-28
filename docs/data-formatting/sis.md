@@ -54,7 +54,7 @@ De dataverwerking van de bitstream gebeurt in volgende herhalende stappen tot he
 
  ```javascript
  {
-   "0":[
+   "8":[
      {"Quantity":"Temperature", "Value":15.0, "Unit":"°C", "Sensor":"BME280", "Sensor-id":1}
    ]
  }

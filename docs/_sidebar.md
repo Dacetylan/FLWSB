@@ -44,9 +44,9 @@
 
   * [Sensor Identification System](./data-formatting/sis.md)
 
-  * [Metingen](./data-formatting/metingen.md)
+  * [Data Overzicht](./data-formatting/data-overzicht.md)
 
-  * [Data Structuur]
+  * [Data Structuur](./data-formatting/data-structuur.md)
 
 * Backend
 
