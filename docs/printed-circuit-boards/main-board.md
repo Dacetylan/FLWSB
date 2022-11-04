@@ -20,17 +20,10 @@ Het is aangeraden om bibliotheken die niet standaard in KiCad zitten mee in de p
 
 Tutorial: [How to import into KiCad V6 & later?](https://support.snapeda.com/en/articles/5995733-how-to-import-into-kicad-v6-later)
 
-[SAMDaaNo21 symbol (FLWSB.kicad_sym)](/src/printed-circuit-boards/FLWSB-SAMDaaNo21-KiCad-lib/FLWSB.kicad_sym)
+[SAMDaaNo21 bibliotheek bestanden](https://github.com/Dacetylan/FLWSB/tree/SAMDaaNo21/src/printed-circuit-boards/FLWSB-SAMDaaNo21-KiCad-lib)
 
-[SAMDaaNo21 footprint (FLWSB.pretty/FLWSB-SAMDaaNo21-v1.kicad_mod)](/src/printed-circuit-boards/FLWSB-SAMDaaNo21-KiCad-lib/FLWSB.pretty/FLWSB-SAMDaaNo21-v1.kicad_mod)
-
-[SAMDaaNo21 3D-model (FLWSB-SAMDaaNo21-3D-model.step)](/src/printed-circuit-boards/FLWSB-SAMDaaNo21-KiCad-lib/FLWSB-SAMDaaNo21-3D-model.step)
-
-<img src="assets/FLWSB-SAMDaaNo21-v1-symbol.svg" alt="FLWSB-SAMDaaNo21-v1-symbol" style="zoom:200%;" /><img src="assets/FLWSB-SAMDaaNo21-v1-footprint.svg" alt="FLWSB-SAMDaaNo21-v1-footprint" style="zoom:200%;" />
-
-
-
-
+![LWSB-SAMDaaNo21-v1-symbol](assets/FLWSB-SAMDaaNo21-v1-symbol.svg 'SAMDaaNo21 symbol')
+![LWSB-SAMDaaNo21-v1-footprint](assets/FLWSB-SAMDaaNo21-v1-footprint.svg 'SAMDaaNo21 footprint')
 
 ## Testpunten
 
