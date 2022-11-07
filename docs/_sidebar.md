@@ -56,7 +56,7 @@
 
   * Mosquitto
 
-  * [Security](./security.md)
+  * [Security](./backend/security.md)
 
 * Frontend
 
