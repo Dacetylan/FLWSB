@@ -3,16 +3,14 @@
 
 Het FLWSB Main Board is een microcontroller bord gebaseerd op de ATSAM D21 in de vormfactor vergelijkbaar met een Arduino Nano. Het moet gemakkelijk zijn om dit bord in een breadboard te prikken en zo testen uit te voeren of schakelingen te bouwen. Het elektrisch schema van dit bord ziet er als volgt uit:
 
-<figure>
-<img src="./assets/FLWSB-SAMDaaNo21.svg" alt="FLWSB-SAMDaaNo21 schema"/>
-<figcaption >Figuur 1: FLWSB-SAMDaaNo21 schema</figcaption>
-</figure>
+![Figuur 1: FLWSB-SAMDaaNo21 schema](./assets/FLWSB-SAMDaaNo21.svg 'Figuur 1: FLWSB-SAMDaaNo21 schema')
+
 Alle onderdelen worden verder toegelicht.
 
-<figure>
-<img src="./assets/blokdiagram.svg" alt="Blokdiagram werking SAMDaaNo21"/>
-<figcaption >Figuur 2: Blokdiagram werking SAMDaaNo21</figcaption>
-</figure>
+
+![Figuur 2: Blokdiagram werking SAMDaaNo21](./assets/blokdiagram.svg 'Figuur 2: Blokdiagram werking SAMDaaNo21')
+
+
 [ATSAM D21 Datasheet](https://ww1.microchip.com/downloads/en/DeviceDoc/SAM-D21DA1-Family-Data-Sheet-DS40001882G.pdf)
 
 ## Testpunten
@@ -29,10 +27,7 @@ Er zijn verschillende testpunten toegevoegd om op een gemakkelijke en toegankeli
 
 ## LoRaWAN Module
 
-<figure>
-<img src="assets/LoRaWAN.svg" alt="LoRaWAN module"/>
-<figcaption >Figuur 3: LoRaWAN module</figcaption>
-</figure>
+![Figuur 3: LoRaWAN module](./assets/LoRaWAN.svg 'Figuur 3: LoRaWAN module')
 
 Er is een RN2483 module mee geimplementeerd op de printplaat. Deze is aangesloten op de UART bus van SERCOM 2.
 
@@ -40,16 +35,11 @@ Er is een RN2483 module mee geimplementeerd op de printplaat. Deze is aangeslote
 
 ## USB Interface & VIN
 
-<figure>
-<img src="./assets/usb-vin.svg" alt="USB Interface & VIN schema"/>
-<figcaption >Figuur 4: USB Interface & VIN schema</figcaption>
-</figure>
+![Figuur 4: USB Interface & VIN schema](./assets/usb-vin.svg 'Figuur 4: USB Interface & VIN schema')
+
 Het schema voor de USB-interface is gebaseerd op een voorbeeld uit een Atmel handleiding. De zener diodes die zichtbaar zijn zorgen ervoor dat de kans op schade door elektrostatische ontlading (ESD) beperkt wordt. 
 
-<figure>
-<img src="./assets/usb-voorbeeld.svg" alt="USB Interface & VIN schema"/>
-<figcaption >Figuur 5: USB Interface & VIN schema</figcaption>
-</figure>
+![Figuur 5: USB Interface & VIN schema](./assets/usb-voorbeeld.svg 'Figuur 5: USB Interface & VIN schema')
 
 [Ref1](https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-42261-SAM-D21-USB_Application-Note_AT06475.pdf)
 
@@ -68,20 +58,16 @@ De Schottky diode (D6) is er om de USB poort van je laptop te beschermen wanneer
 
 ## RESET & DEBUG
 
-<figure>
-<img src="./assets/reset-debug.svg" alt="RESET & DEBUG schema"/>
-<figcaption >Figuur 6: RESET & DEBUG schema</figcaption>
-</figure>
+![Figuur 6: RESET & DEBUG schema](./assets/reset-debug.svg 'Figuur 6: RESET & DEBUG schema')
+
 De reset knop is opgebouwd zoals in de datasheet van de ATSAM D21 wordt weergegeven onder de Schematic Checklist Figure 45-4. External Reset Circuit Schematic.
 
 
 
 ## Low Dropout Lineair Regulator
 
-<figure>
-<img src="./assets/ldo.svg" alt="Low Dropout Lineair Regulator schema"/>
-<figcaption >Figuur 7: Low Dropout Lineair Regulator schema</figcaption>
-</figure>
+![Figuur 7: Low Dropout Lineair Regulator schema](./assets/ldo.svg 'Figuur 7: Low Dropout Lineair Regulator schema')
+
 In dit geval wordt er een LD1117 3,3 V regelaar gebruikt. Deze regelaar kan met een vrij groot ingangsbereik (tot 15 V) een uitgangsspanning van 3,3 V leveren. 
 
 `TP2` is een testpunt dat aanwezig is om op een toegankelijke manier de 3.3 V gereguleerde spanning te meten.
@@ -90,18 +76,14 @@ In dit geval wordt er een LD1117 3,3 V regelaar gebruikt. Deze regelaar kan met 
 
 ## Power Supply Connections
 
-<figure>
-<img src="./assets/power.svg" alt="Power Supply Connections schema"/>
-<figcaption >Figuur 8: Power Supply Connections schema</figcaption>
-</figure>
+![Figuur 8: Power Supply Connections schema](./assets/power.svg 'Figuur 8: Power Supply Connections schema')
+
 Het schema voor de ontkoppelcondensatoren en spoel voor de ATSAM D21 komt ook rechtstreeks uit de datasheet. Wat belangrijk is bij deze componenten is dat alles rechts van de blauwe snippenlijn zo dicht mogelijk bij de vermelde pinnen staat. Deze condensatoren vangen kleine storingen en rimpels op die zich voordoen in de bronspanning.
 
 ## Input / Output
 
-<figure>
-<img src="./assets/input-output.svg" alt="Input / Output schema"/>
-<figcaption >Figuur 9:  Input / Output schema</figcaption>
-</figure>
+![Figuur 9:  Input / Output schema](./assets/input-output.svg 'Figuur 9:  Input / Output schema')
+
 Dit zijn alle GPIO, SERCOM en power aansluitingen die via pinheaders naar buiten worden gebracht. De SERCOM poorten zijn alvast gedefinieerd zodat onder andere de pull-up weerstanden geplaatst kunnen worden. Alle andere poorten zijn voor algemeen gebruik. In de datasheet van de ATSAM D21 onder 7. I/O Multiplexing and Considerations kunnen alle verschillende mogelijkheden van deze aansluitingen gevonden worden (AC, ADC, DAC, PTC, DAC, IO, ...). 
 
 
@@ -163,5 +145,6 @@ Dit zijn alle GPIO, SERCOM en power aansluitingen die via pinheaders naar buiten
 
 
 ### Bill of Materials
-[poc board bill of materials](assets/bom/ibom.html ':include :type=iframe width=100% height=1024px')
+
+[poc board bill of materials](./assets/ibom.html ':include :type=iframe width=100% height=1024px')
 
