@@ -1,0 +1,61 @@
+Node-red
+	username: "bavo"            
+	password: "s120267"
+	hash-local: "$2b$08$HObhEQAtDCBRE7Kv97T/OuGqBHLjDCZ7TjAKHDNngR6bbxftdtm9."
+	hash-bletchley: "$2b$08$0mbLPqdiX.4PE1E.yPY/o.6HFEgu0sXMmXq89CjRtDS1yR2mqIL0a"
+
+	ttn server: eu1.cloud.thethings.network
+	ttn username: "flwsb@ttn"
+	ttn password/API key: "NNSXS.PCNBCAYOQDAEKPX44RJGREMWPQD4NCDXNVCGZHA.VE55JU36XKALO5BEQMQTI22S4JRCTPAXQXWCFICDFKUGOR5TPWVQ"
+
+	http://10.150.195.89:8880/
+	
+InfluxDb
+	username: bavo
+	psw: secret120267
+	
+	https://flows.nodered.org/node/node-red-contrib-influxdb
+	
+	Initialization in Docker compose with CLI container
+		https://www.influxdata.com/blog/running-influxdb-2-0-and-telegraf-using-docker/
+	
+	SSL cert creation https://docs.influxdata.com/influxdb/v2.5/security/enable-tls/
+		openssl req -x509 -nodes -newkey rsa:2048 \
+			-keyout /etc/ssl/influxdb-selfsigned.key \
+			-out /etc/ssl/influxdb-selfsigned.crt \
+			-days <NUMBER_OF_DAYS>
+	
+Grafana
+	Default user: admin   psw: password
+	admin:$6$utCGq9HKlEIB2HWO$Q77ea1FcXR9b1XoGU/iWQ1Yf9ptVZOgjW/gIxM/YECHdDECZrt0GONub3JtlkC0IGqFrZg4JemcqHzjc1QakQg==
+	
+	docker compose exec -it mosquitto sh
+	Add new file: dmosquitto_passwd -c /mosquitto/config/password.txt bavo [password]
+	prompt for password
+	
+	Bestaande plain-text file encrypteren:
+	mosquitto_passwd -U /mosquitto/config/password.txt
+	
+	Create topic: docker compose exec mosquitto mosquitto_sub -d -t testTopic
+	connection refused?
+	
+	ref psw: http://www.steves-internet-guide.com/mqtt-username-password-example/
+	ref TSL: http://www.steves-internet-guide.com/mosquitto-tls/
+	
+Andere
+	start command:            docker-compose up -d
+	see running conatiners:   docker container ls
+	attach to container:      docker-compose exec -it <container-name> bash (of sh ipv bash)
+	stop & rm cmd:            docker-compose down
+	-d = --detached
+
+	reg add HKLM\SYSTEM\CurrentControlSet\Services\hns\State /v EnableExcludedPortRange /d 0 /f
+	
+	Bletchley: laptop!internet
+	ssh bavo@10.150.195.89
+	passwd: avob2022
+	
+	delete directory and files: rm -r dirname
+	https://linuxize.com/post/how-to-remove-files-and-directories-using-linux-command-line/
+	https://stackoverflow.com/questions/42365336/how-to-stop-docker-under-linux
+	https://docs.tibco.com/pub/mash-local/4.3.0/doc/html/docker/GUID-BD850566-5B79-4915-987E-430FC38DAAE4.html
