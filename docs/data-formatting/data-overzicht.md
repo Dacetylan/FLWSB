@@ -110,7 +110,7 @@ Dit voor het Sensor Identification System, de metingen, en extra  informatie uit
 
 #### Gevraagde data voor AI
 De studenten van de AI minor vragen volgende data:
- - (Temperatuur)
+ - Temperatuur
  - Luchtdruk
  - Luchtvochtigheid
  - Neerslag
