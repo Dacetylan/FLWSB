@@ -19,11 +19,10 @@ Als referentie is er onderstaand een blokdiagram met een algemeen overzicht van 
 
 ### Blokdiagram
 
-<iframe width="1920" height="1080" src="https://miro.com/app/live-embed/uXjVPAdIy0o=/?moveToViewport=-768,-413,1536,824&embedId=541050009056" frameborder="0" scrolling="no" allowfullscreen></iframe>
+<iframe width="600" height="600" src="https://miro.com/app/embed/uXjVPAdIy0o=/?pres=1&frameId=3458764539639092323&embedId=517984770656" frameborder="0" scrolling="no" allowfullscreen></iframe>
 
 ![BaaVend Blokdiagram](./assets/baavend-diagram.jpg)
 
-*__Update: Angular wordt vevangen door Node-Red Dashboard, MongoDb wordt vervangen door InfluxDb en Mosquitto is toegevoegd als MQTT broker voor het weerstation.__
 
 ### Services
 
