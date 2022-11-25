@@ -42,8 +42,8 @@ services:
             - ./baavend-db/data:/var/lib/influxdb2:rw
             - ./baavend-db/config:/etc/influxdb2:rw
             # - ./entrypoint.sh:/docker-entrypoint-initdb.d/entrypoint.sh
-            - ./influxdb-ssl/influxdb-selfsigned.crt:/etc/ssl/influxdb-selfsigned.crt:rw
-            - ./influxdb-ssl/influxdb-selfsigned.key:/etc/ssl/influxdb-selfsigned.key:rw
+            # - ./influxdb-ssl/influxdb-selfsigned.crt:/etc/ssl/influxdb-selfsigned.crt:rw
+            # - ./influxdb-ssl/influxdb-selfsigned.key:/etc/ssl/influxdb-selfsigned.key:rw
         env_file:
             - influxdb.env
         restart: on-failure:1
