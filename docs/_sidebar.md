@@ -22,7 +22,7 @@
 
 * Firmware
   
-  - [Metal](./metal_programming/README.md)
+  * [Metal](./metal_programming/README.md)
   * Arduino Core
   
   * Modular I2C
