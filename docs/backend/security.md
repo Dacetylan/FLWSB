@@ -4,6 +4,8 @@
 
  -> overal ander wachtwoord gebruiken!
 
+ -> [SSL](https://www.digitalocean.com/community/tutorials/how-to-use-certbot-standalone-mode-to-retrieve-let-s-encrypt-ssl-certificates-on-ubuntu-1804)
+
 ## Docker
 
 Docker is opgebouwd om veilig te zijn. Meer info hieroer kan teruggevonden worden in [de officële Docker documentatie](https://docs.docker.com/engine/security/).

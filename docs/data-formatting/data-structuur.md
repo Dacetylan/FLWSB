@@ -430,17 +430,15 @@ _Note: Locatie coördinaten toevoegen aan elke datapunt of enkel in SIS?_
 msg.payload = [
   {
         temp: 60.0,                 // buiten temperatuur, °C, float
-        pressure: '1100i',          // luchtdruk, mbar, int
         humidity: '99i',            // buiten luchtvochtigheid, %, int
-        wind_speed: 50.0,           // windsnelheid, m/s, float
+        wind_speed: 3.0,            // windsnelheid, m/s, float
+        wind_gust: 6.0,             // windsnelheid, m/s, float
         wind_direction: '360i',     // windrichting, hoek in graden °, int
-        light_intensity: 200.00,    // lichtintensiteit, Klux, float
-        uv_index: 16.0,             // UV-niveau, index, float
         rain: 1000.0,               // neerslag, mm/10min, float
         time: new Date().getTime()
     },
     {
-        source: "outdoor"
+        source: "weather-station-1"
 }];
 return msg;
 ```
