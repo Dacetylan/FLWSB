@@ -2,19 +2,25 @@
 
 Het connector board is een dochterbord voor de SAMDaaNo21. Het dient als tussenschakel om allerlei onderdelen te kunnen verbinden met de SAMD21 microcontroller. De focus ligt hier ook op fast prototyping en flexibiliteit. Dit wilt zeggen dat er enkel connectoren voorzien worden en geen sensoren rechtstreeks op dit bordje zullen komen.
 
-## Blokschema
+## Blokdiagram
 
 <iframe width="600" height="600" src="https://miro.com/app/embed/uXjVPAdIy0o=/?pres=1&frameId=3458764539645645619&embedId=776892473756" frameborder="0" scrolling="no" allowfullscreen></iframe>
 
 ![](./assets/connector-board-blockdiagram.jpg)
 
+*Note: in het ontwerp moet rekening gehouden worden met mechanische sterkte. De SAMDaaNo21 wordt gevoed via USB kabel. Deze kan echter loskomen. Dit moet voorkomen worden door het design.*
+
+
 ## Te connecteren onderdelen
 
-- CCS811 TVOC sensor
-- SDS011 fijnstof sensor
-- BME280 temperatuur, barometer en luchtvochtigheid sensor
-- (DHT22 temperatuur en luchtvochtigheid sensor)
-- Zonne-energie manager voor continu gebruik tussen batterij en zonnenpaneel
+- SAMDaaNo21 moederbord
+- Zonne-energie (Solar Power) manager voor continu gebruik tussen batterij en zonnenpaneel.
+- Sensoren:
+  - CCS811 TVOC sensor
+  - SDS011 fijnstof sensor
+  - BME280 temperatuur, barometer en luchtvochtigheid sensor
+  - (DHT22 temperatuur en luchtvochtigheid sensor alternatief)
+
 
 ## Sensoren
 
@@ -54,7 +60,7 @@ Sensor analyse uit [AirQualitySensor documentatie](https://ap-it-gh.github.io/ss
             <ul>
                 <li><b>Fijnstof</b></li>
                 <li>V<sub>cc</sub> = 5V</li>
-                <li>I<sub>max</sub> = 70mA ±10mA</li>
+                <li>I<sub>rated</sub> = 70mA ±10mA</li>
                 <li><a target="_blank" href="https://en.wikipedia.org/wiki/Universal_asynchronous_receiver-transmitter">UART</a> protocol 3.3V</li>
                 <li>Baudrate: 9600</li>
                 <li>Meetbereik PM2.5<sup>3</sup> &amp; PM10<sup>4</sup>: 0μg/m3 ~ 999.9 μg/m3</li>
@@ -75,7 +81,7 @@ Sensor analyse uit [AirQualitySensor documentatie](https://ap-it-gh.github.io/ss
         <td>
             <ul>
                 <li><b>Temperatuur, Barometer &amp; Luchtvochtigheid</b></li>
-                <li>V<sub>cc</sub> = 3.3V</li>
+                <li>V<sub>cc</sub> = 1.8 - 3.6V</li>
                 <li>I<sub>max</sub> = 4.5mA</li>
                 <li><a target="_blank" href="https://en.wikipedia.org/wiki/I%C2%B2C">I²C</a> protocol 3.3V</li>
                 <li>Meetbereik temperatuur: -40°C ~ +85°C</li>
@@ -84,7 +90,7 @@ Sensor analyse uit [AirQualitySensor documentatie](https://ap-it-gh.github.io/ss
                 <li>Leessnelheid: 1Hz (1s)</li>
             </ul>
         </td>
-        <td>Deze IC heeft een tal van metingen aanboord (temperatuur, luchtvochtigheid en druk) en het is een SMD component, dus makkelijk integreerbaar op een pcb.</td>
+        <td>Deze digitale IC heeft een tal van metingen aanboord (temperatuur, luchtvochtigheid en druk). Het is ook een SMD component, dus makkelijk integreerbaar op een pcb.</td>
         <td>
             <a target="_blank" href="https://www.tinytronics.nl/shop/nl/sensoren/temperatuur-lucht-vochtigheid/bme280-digitale-barometer-druk-en-vochtigheid-sensor-module">Winkel</a><br>
             <a target="_blank" href="https://www.mouser.com/datasheet/2/783/BST-BME280_DS001-11-844833.pdf">Datasheet</a><br>
@@ -101,7 +107,7 @@ Sensor analyse uit [AirQualitySensor documentatie](https://ap-it-gh.github.io/ss
                 <li>Digital signal via single-bus (zie datasheet)</li>
                 <li>Meetbereik temperatuur: -40°C ~ +80°C</li>
                 <li>Meetbereik luchtvochtigheid: 0% - 100%</li>
-                <li>Leessnelheid: ~2s</li>
+                <li>Leessnelheid: 2Hz (~2s)</li>
             </ul>
         </td>
         <td>Een handige temperatuur én vochtigheid sensor.</td>
@@ -165,3 +171,59 @@ Deze laat toe een heroplaadbare batterij op te laden
 ![DFROBOT-DFR0559 overzicht](./assets/DFROBOT-DFR0559/DFR0559-overview.jpg)
 
 ![DFROBOT-DFR0559 connecties](./assets/DFROBOT-DFR0559/DFR0559-connections.jpg)
+
+
+## Stroomverbruik
+
+Stroomverbruik per onderdeel en maximum wanneer alles aan is.
+
+| Component | Stroomverbruik in operatie | Start-up | Meet periode | Stroomverbruik standby |
+| --- | --- | --- | --- | --- |
+| ATSAMD21G18A | I = 1 - 6 mA | n/a | n/a | I<sub>25-85°</sub> = 2.70 - 55.2µA |
+| LDL1117S33R | ? | n/a | n/a | I<sub>Q typ.</sub> = 250µA
+| CCS811  | I<sub>DD</sub> = 30mA , I<sub>DD peak</sub> = 54mA | 18 - 20ms | ? | I<sub>DD</sub> = 19µA |
+| SDS011  | I<sub>rated</sub> = 70mA ±10mA | ? | <10s + 1s read | I < 4mA |
+| BME280  | I<sub>DD H/P/T (1V8)</sub> = 340 / 714 / 350µA , I<sub>weather monitoring mode</sub> = 0.16µA | 2ms | <1s | I<sub>DD SB (1V8-3V6)</sub> = 0.2 - 0.5µA |
+| DHT22  | I<sub>measuring (3V3)</sub> = 1mA | 1s | >2s | I<sub>stand-by (3V3)</sub> = 40µA |
+
+*I<sub>Q</sub> = [Quiescent current](https://forum.digikey.com/t/what-is-quiescent-current-and-why-is-it-important/3894)*
+
+I<sub>max. totaal</sub> = 6mA + (250µA * 2) + 54mA + 80mA + 714µA + 1mA
+
+__I<sub>max. totaal</sub> = 142.214 mA__
+
+#### Notes from the CCS811 datasheet
+
+> Modes of Operation
+The CCS811 has 5 modes of operation as follows
+- Mode 0: Idle, low current mode
+- Mode 1: Constant power mode, IAQ measurement every
+second / 1 seconds
+- Mode 2: Pulse heating mode IAQ measurement every 10
+seconds
+- Mode 3: Low power pulse heating mode IAQ
+measurement every 60 seconds
+- Mode 4: Constant power mode, sensor measurement
+every 250ms
+
+> In Modes 1, 2, 3, the equivalent CO2 concentration (ppm) and
+eTVOC concentration (ppb) are calculated for every sample.
+- Mode 1 reacts fastest to gas presence, but has a higher
+operating current
+- Mode 3 reacts more slowly to gas presence but has the
+lowest average operating current.
+
+> When a sensor operating mode is changed to a new mode with a
+lower sample rate (e.g. from Mode 1 to Mode 3), it should be
+placed in Mode 0 (Idle) for at least 10 minutes before enabling
+the new mode. When a sensor operating mode is changed to a
+new mode with a higher sample rate (e.g. from Mode 3 to Mode
+1), there is no requirement to wait before enabling the new
+mode.
+
+> Mode 4 is intended for systems where an external host system
+wants to run an algorithm with raw data and this mode provides
+new sample data every 250ms. Mode 4 is also recommended
+for end-of-line production test to save test time. For additional
+information please refer to application note ScioSense
+AN000373: CCS811 Factory test procedure.
