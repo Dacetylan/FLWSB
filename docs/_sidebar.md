@@ -22,7 +22,7 @@
 
 * Firmware
 
-  * Arduino Core
+  * [Arduino Core](./arduino-core/README.md)
 
   * Modular I2C
 
