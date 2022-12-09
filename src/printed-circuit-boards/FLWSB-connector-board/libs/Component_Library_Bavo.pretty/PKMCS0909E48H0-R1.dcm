@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP PKMCS0909E48H0-R1
+D 9.09.0MM 4.8KHZ PIEZOELECTRIC SO
+K
+F https://www.mouser.es/datasheet/2/281/SPEC_PKMCS0909E48H0_R1-1923784.pdf
+$ENDCMP
+#
+#End Doc Library

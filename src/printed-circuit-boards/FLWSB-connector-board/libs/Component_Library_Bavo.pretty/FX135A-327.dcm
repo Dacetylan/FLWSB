@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP FX135A-327
+D CRYSTAL, 32.768KHZ, 12.5PF, SMD
+K
+F https://componentsearchengine.com/Datasheets/2/FX135A-327.pdf
+$ENDCMP
+#
+#End Doc Library

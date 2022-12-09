@@ -1,17 +1,10 @@
 # Connector board (Dochterbord)
 
-Het connector board is een dochterbord voor de SAMDaaNo21. Het dient als tussenschakel om allerlei onderdelen te kunnen verbinden met de SAMD21 microcontroller. De focus ligt hier ook op fast prototyping en flexibiliteit. Dit wilt zeggen dat er enkel connectoren voorzien worden en geen sensoren rechtstreeks op dit bordje zullen komen.
+Het connector board is een dochterbord voor de SAMDaaNo21. Het dient als tussenschakel om allerlei onderdelen te kunnen verbinden met de SAMD21 microcontroller. De focus ligt hier ook op fast prototyping en flexibiliteit. Dit wilt zeggen dat er enkel connectoren voorzien worden en geen sensoren rechtstreeks op dit bord zullen komen.
 
-## Blokdiagram
+## Veresiten
 
-<iframe width="600" height="600" src="https://miro.com/app/embed/uXjVPAdIy0o=/?pres=1&frameId=3458764539645645619&embedId=776892473756" frameborder="0" scrolling="no" allowfullscreen></iframe>
-
-![](./assets/connector-board-blockdiagram.jpg)
-
-*Note: in het ontwerp moet rekening gehouden worden met mechanische sterkte. De SAMDaaNo21 wordt gevoed via USB kabel. Deze kan echter loskomen. Dit moet voorkomen worden door het design.*
-
-
-## Te connecteren onderdelen
+#### Te connecteren onderdelen
 
 - SAMDaaNo21 moederbord
 - Zonne-energie (Solar Power) manager voor continu gebruik tussen batterij en zonnenpaneel.
@@ -20,6 +13,28 @@ Het connector board is een dochterbord voor de SAMDaaNo21. Het dient als tussens
   - SDS011 fijnstof sensor
   - BME280 temperatuur, barometer en luchtvochtigheid sensor
   - (DHT22 temperatuur en luchtvochtigheid sensor alternatief)
+
+#### Uitbreidingsmogelijkheden
+
+- Extra I2C
+- Extra UART 3V3
+- Voeding voor extra sensoren
+
+#### Behuizing
+
+Zijn specifieke vereisten.
+
+## Blokdiagram
+
+<iframe width="600" height="600" src="https://miro.com/app/embed/uXjVPAdIy0o=/?pres=1&frameId=3458764539645645619&embedId=776892473756" frameborder="0" scrolling="no" allowfullscreen></iframe>
+
+![FLWSB Connector Board blokdiagram v1.0](./assets/connector-board-blockdiagram-v1.0.jpg)
+
+*Note: in het ontwerp moet rekening gehouden worden met mechanische sterkte. De SAMDaaNo21 wordt gevoed via USB kabel. Deze kan echter loskomen. Dit moet voorkomen worden door het design.*
+
+## Schematics
+
+![FLWSB Connector Board schema v1.0](./assets/FLWSB-connector-board-schema-v1.0.svg)
 
 
 ## Sensoren
@@ -167,10 +182,18 @@ Deze laat toe een heroplaadbare batterij op te laden
 - All-round protection functions
 - USB connector with ESD shell
 
-
 ![DFROBOT-DFR0559 overzicht](./assets/DFROBOT-DFR0559/DFR0559-overview.jpg)
 
 ![DFROBOT-DFR0559 connecties](./assets/DFROBOT-DFR0559/DFR0559-connections.jpg)
+
+#### ON/OFF functie
+
+Een zeer handige functie waarover de DFROBOT-DFR0559 beschikt is de mogelijkheid om de 5V output pins aan en uit te schakelen via een enable pin (EN). De USB output blijft hierbij wel nog 5V krijgen. Zo kan een MCU board ononderbroken gevoed worden via USB en via een GPIO pin de enable aansturen en de stroomvoorziening naar sensoren controleren. Via de BAT pin kan ook de batterij capaciteit uitgelezen worden met een analoge pin/ADC.
+
+Hieronder een voorbeeld uit de [documentatie](https://wiki.dfrobot.com/Solar_Power_Manager_5V_SKU__DFR0559):
+
+> This application example use the BME280 environmental sensor to record temperature, humidity and atmospheric pressure, VEML7700 ambient light sensor to record the the ambient illumination, and DS1307 RTC module to record time. Use the analog input A1 to monitor the battery voltage (equivalently the battery capacity). To achieve lower power consumption, use one Arduino digital IO pin to turn ON the power supply, read all the data from the sensors and turn them OFF. Cycle this pattern for a proper interval T to reduce the average power consumption. This can completely get rid of the quiescent power of the peripheral modules. Although single peripheral may consume little power, it can be considerable large for a number of them. This module provides users with effective methods to drive the peripheral modules into discontinuous (pulse) mode to achieve low power operation.
+![DFROBOT-DFR0559 application example](./assets/DFROBOT-DFR0559/DFR0559-application-example.png)
 
 
 ## Stroomverbruik
@@ -191,6 +214,8 @@ Stroomverbruik per onderdeel en maximum wanneer alles aan is.
 I<sub>max. totaal</sub> = 6mA + (250µA * 2) + 54mA + 80mA + 714µA + 1mA
 
 __I<sub>max. totaal</sub> = 142.214 mA__
+
+---
 
 #### Notes from the CCS811 datasheet
 
