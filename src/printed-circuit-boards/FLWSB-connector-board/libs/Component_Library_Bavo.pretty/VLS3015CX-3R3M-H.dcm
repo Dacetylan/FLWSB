@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP VLS3015CX-3R3M-H
+D SMD / SMT Inductors (Coils), L=3.3?H, L x W x T :
+K
+F https://product.tdk.com/system/files/dam/doc/product/inductor/inductor/smd/catalog/inductor_automotive_power_vls3015cx-h_en.pdf
+$ENDCMP
+#
+#End Doc Library
