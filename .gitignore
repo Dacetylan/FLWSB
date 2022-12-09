@@ -40,3 +40,6 @@ nodered-settings.js
 *.exe
 *.out
 *.app
+
+# rare mac files
+.DS_Store
