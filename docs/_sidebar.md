@@ -3,9 +3,9 @@
 * Schematics
   
   * [Main Board with LoRaWAN](./schematics/main-board.md)
-  
-  * Connector Board
-  
+
+  * [Connector Board](./schematics/connector-board.md)
+
   * Sensor Board
   
   * Power Board
