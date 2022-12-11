@@ -6,7 +6,7 @@ Om de SAMDaaNo21 werkende te krijgen met een IDE zoals die van Arduino moeten we
 
 Het toevoegen voor ondersteuning verloopt in een aantal stappen:
 
-- Bootloader aanpassen aan de ATSAMD21G16B
+- Bootloader aanpassen aan de [ATSAMD21G16B](https://www.microchip.com/en-us/product/ATSAMD21G16)
 - Bootloader compileren
 - Een Arduino variant toevoegen voor de SAMDaaNo21
   - Linker script aanpassen
@@ -41,9 +41,9 @@ De UF2 bootloader van Adafruit is BOSSA compatible, wat wil zeggen dat deze ook 
 
 ### Arduino Core voor SAMD21 CPU
 
-Hiervoor speelt alles zich af in de ./bootloaders/ folder van de GitHub repo.
+Hiervoor speelt alles zich af in de [./bootloaders/](https://github.com/DaanDekoningKrekels/ArduinoCore-samd/tree/master/bootloaders) folder van de GitHub repo.
 
-Folder van de Arduino Zero `zero` gedupliceerd en hernoemd naar `samdaano21`.
+Folder van de Arduino Zero `zero/` gedupliceerd en hernoemd naar `samdaano21/`.
 
 Belangrijke bestanden:
 
@@ -53,6 +53,7 @@ Belangrijke bestanden:
 | board_definitions.h            | Lijst de verschillende borden op.                            |
 | board_definitions_samdaano21.h | Bestand gebaseerd op board_definitions_zero.h, specifiek voor de SAMDaaNo21. Bevat instellingen voor de bootloader zoals USB VID, PID en CPU frequentie. |
 | bootloader_samd21x16.ld        | Bestand gebaseerd op bootloader_samd21x18.ld, is een linker script waar onder andere de geheugen regios in worden beschreven. |
+
 
 #### Board definitions
 
@@ -145,17 +146,69 @@ Met het commando `make clean all` kan de gehele bootloader gecompileerd worden.
 
 Er zal een `samd21_sam_ba.hex` en een `samd21_sam_ba.bin` bestand aangemaakt worden.
 
-## Arduino variant
+
+#### Problemen
+
+Het had fijn geweest moest het werk geloond hebben, maar deze bootloader hebben we niet werkende gekregen. Het lukte niet om via de Arduino IDE code te uploaden naar de SAMDaaNo21.
+
+Als alternatief zijn we terechtgekomen bij de standaard bootloader die Microchip aanbriedt voor hun SAMD lijn, de SAM-BA bootloader. 
+
+SAM-BA maakt het mogleijk om via USB te communiceren met een AT SAM microcontroller. Op deze manier is er geen externe programmer nodig!
+
+Wetende dat deze bootloader bestaat, is het enkel nog zoeken naar de download link... Alle verwijzingen in de volgende PDF's zien er als volgt uit:
+
+>The user guide comes with the SAM-BA package available on www.atmel.com.
+
+Enkele links over SAM-BA (SAM Boot Assist):
+
+-  [AN_42438 - AT09423: SAM-BA Overview and Customization Process (PDF)](https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-42438-SAM-BA-Overview-and-Customization-Process_ApplicationNote_AT09423.pdf) 
+-  [AN_42366 - AT07175: SAM-BA Bootloader for SAM D21 (PDF)](https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-42366-SAM-BA-Bootloader-for-SAM-D21_ApplicationNote_AT07175.pdf)
+-  [AN_42728 - AT15004:Using SAM-BA for Linux on SAM Devices (PDF)](https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-42728-Using-SAM-BA-for-Linux-on-SMART-ARM-based-Microcontrollers_ApplicationNotes_AT15004.pdf) 
+-  [SAM-BA Monitor for ROMless Cortex M Devices - SAM-BA® Monitor for ROMless Cortex Devices Application Note (PDF)](https://ww1.microchip.com/downloads/en/DeviceDoc/00002565A.pdf) 
+-  [How to Customize ASFv3 SAM-BA Bootloader on Cortex- (PDF)](https://ww1.microchip.com/downloads/en/DeviceDoc/How-to-Customize-ASFv3-SAM-BA-Bootloade-on-Cortex-M0-Microcontrollers-DS90003190A.pdf) 
+-  [Where can I download the official ATSAM D21 bootloader and how to burn it??](https://www.avrfreaks.net/s/topic/a5C3l000000Uiu3EAC/t185718)
+-  [SAM-BA Bootloader for SAMD21G15B](https://www.avrfreaks.net/s/topic/a5C3l000000Uf3qEAC/t170949)
+-  [SAM-BA Bootloader! (ZIP)](http://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-42366-SAM-BA-Bootloader-for-SAM-D21_ApplicationNote_AT07175.zip)
+
+De laatste link gaat rechtstreeks naar de download van de bootloader. De inhoud zit er als volgt uit:
+
+```
+.
+├── LED_Toggle_0x1000.bin
+├── LED_Toggle_0x2000.bin
+├── load sam-ba
+│   ├── samd21e15a
+│   ├── samd21e16a
+│   ├── samd21e17a
+│   ├── samd21e18a
+│   ├── samd21g15a
+│   ├── samd21g16a
+│   │   ├── samd21_sam_ba_both_interfaces.hex
+│   │   ├── samd21_sam_ba_uart.hex
+│   │   └── samd21_sam_ba_usbcdc.hex
+│   ├── samd21g17a
+│   ├── samd21g18a
+│   ├── samd21j15a
+│   ├── samd21j16a
+│   ├── samd21j17a
+│   └── samd21j18a
+└── sam-ba_monitor.zip
+
+```
+
+Enkel de bootloader `samd21_sam_ba_both_interfaces.hex` in de map `samd21g16a` is voor ons van toepassing. Met deze bootloader werkt uploaden vanaf de Arduino IDE!
+
+Een belangrijke kanttekening: De Arduino IDE gebruikt de prigramming tool [BOSSA](https://github.com/shumatech/BOSSA) om binaries naar een SAM-BA apparaat te sturen. Deze tool onderstunt standaard de ATSAMD21G16 **niet**. Om die reden moet een [aangepaste versie van BOSSA](https://github.com/mattairtech/BOSSA) gebruikt worden, namelijk deze van Justin Mattair (mattairtech).
 
 Nu we een bootloader hebben, moet deze naar de SAMDaaNo21 geschreven worden. Zie documentatie.
+
+## Arduino variant
 
 Wanneer de bootloader op de SAMDaaNo21 straat en je sluit de USB poort aan, zal je onder `tools`-> `port` een apparaat zien staan!
 
 We kunnen echter nog niets programmeren naar de SAMDaano21 omdat de Arduino IDE niet weet hoe het apparaat werkt. In de volgende stappen voegen we een Arduino variant toe aan de IDE.
 
 Hiervoor speelt het meeste zich af in de ./variants/ folder van de GitHub repo, `boards.txt` passen we ook aan.
-
-
 
 | Naam                                           | Beschrijving                                                 |
 | ---------------------------------------------- | ------------------------------------------------------------ |
@@ -226,7 +279,54 @@ static const uint8_t DAC0 = PIN_DAC0;
 
 Op deze manier worden de pinnen gedefinieerd voor Arduino code. Nu kan er gebruik gemaakt worden van `A0` in de code om een analoge pin uit te lezen.
 
+Om gebruik van de SAMDaaNo21 gemakkelijker te maken zijn alle pinnen die omschreven zijn op de slikscreen (PCB zelf) ook voorgedefinieerd.
 
+**Let op dat `PA07` op de slikscreen staat aangegeven als `PA09`**
+
+```c++
+#define PA02        (0ul)
+#define PA03        (1ul)
+#define PB08        (2ul)
+#define PB09        (3ul)
+#define PA04        (4ul)
+#define PA05        (5ul)
+#define S0TX        (4ul) // TX SERCOM0 UART
+#define S0RX        (5ul) // RX
+#define PA06        (6ul)
+#define PA07        (7ul)
+#define PA08        (8ul)
+#define PA09        (9ul)
+#define S2TX        (8ul) // TX SECOM 2 UART
+#define S2RX        (9ul) // RX
+#define PA10        (10ul)
+#define PA11        (11ul)
+#define PA12        (12ul)
+#define PA13        (13ul)
+#define S4SDA       (12ul) // SDA SERCOM 4 I2C
+#define S4SCL       (13ul) // SCL
+
+// Andere kant
+#define PB03        (14ul)
+#define PB22        (15ul)
+#define PA23        (16ul)
+#define PA22        (17ul)
+#define S5RX        (16ul) // RX SERCOM 5 UART
+#define S5TX        (17ul) // TX
+#define PA21        (18ul)
+#define PA20        (19ul)
+#define PA19        (20ul)
+#define PA18        (21ul)
+#define PA17        (22ul)
+#define PA16        (23ul)
+#define S3SS        (20ul) // SS SERCOM 3 SPI
+#define S3MISO      (21ul) // MISO
+#define S3SCK       (22ul) // SCK
+#define S3MOSI      (23ul) // MOSI
+#define PA15        (24ul)
+#define PA14        (25ul)
+```
+
+Ook de SERCOM poorten zijn in dit bestand gefomuleerd.
 
 
 
@@ -235,6 +335,10 @@ Op deze manier worden de pinnen gedefinieerd voor Arduino code. Nu kan er gebrui
 ## Bronnen
 
 Porting Arduino Zero to another samd21g variant: https://forum.arduino.cc/t/porting-arduino-zero-to-another-samd21g-variant/400138/3
+
+https://www.instructables.com/Arduino-IDE-Creating-Custom-Boards/
+
+https://hackaday.io/project/8007-hack/log/41354-docs-how-the-variant-system-works-on-arduino-zero-boards
 
 
 
