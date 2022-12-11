@@ -110,7 +110,7 @@ Dit voor het Sensor Identification System, de metingen, en extra  informatie uit
 
 #### Gevraagde data voor AI
 De studenten van de AI minor vragen volgende data:
- - (Temperatuur)
+ - Temperatuur
  - Luchtdruk
  - Luchtvochtigheid
  - Neerslag
@@ -118,15 +118,13 @@ De studenten van de AI minor vragen volgende data:
  - Windrichting
 
 #### Data van weerstation
-Om een aantal zaken te meten zoals Windsnelheid en Windrichting wordt een bestaand weerstation gebruikt. Namelijk de Bresser ClimateConnect Tuya 7003600QT5000. Deze voert volgende metingen uit:
- - Temperatuur
- - Luchtdruk
- - Luchtvochtigheid
- - Windsnelheid
- - Windrichting
- - Lichtintensiteit
- - UV-niveau
- - Neerslag
+Om een aantal zaken te meten zoals Windsnelheid en Windrichting wordt een bestaand weerstation gebruikt. Namelijk de Bresser 5-in-1 New. Deze voert volgende metingen uit:
+ - Temperatuur (Temperature)
+ - Luchtvochtigheid (Humidity)
+ - Gemiddelde windsnelheid (Wind Speed)
+ - Rukwindsnelheid (Wind Gust)
+ - Windrichting (Direction)
+ - Neerslag (Rain)
 
 #### Data van Expansion Boards
 Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor het FLWSB ecosysteem.
@@ -244,8 +242,8 @@ Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor he
     </tr>
     <tr>
         <td>
-            Buiten-Temperatuur (Out Temperature)<br>
-            <i>Bresser ClimateConnect Tuya 7003600QT5000</i><br>
+            Temperatuur (Temperature)<br>
+            <i>Bresser 5-in-1 New</i><br>
         </td>
         <td>
             <b>°C</b> = graden Celcius<br>
@@ -258,21 +256,8 @@ Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor he
     </tr>
     <tr>
         <td>
-            Luchtdruk (Pressure)<br>
-            <i>Bresser ClimateConnect Tuya 7003600QT5000</i><br>
-        </td>
-        <td>
-            <b>mbar</b> = millibar = hPa<br>
-            <i>540 tot 1100</i>
-        </td>
-        <td>
-            <b>int</b><br>
-            <i>n/a</i>
-    </tr>
-    <tr>
-        <td>
-            Buiten-Luchtvochtigheid (Out Humidity)<br>
-            <i>Bresser ClimateConnect Tuya 7003600QT5000</i><br>
+            Luchtvochtigheid (Humidity)<br>
+            <i>Bresser 5-in-1 New</i><br>
         </td>
         <td>
             <b>%</b> = percentage relatieve luchtvochtigheid<br>
@@ -285,8 +270,8 @@ Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor he
     </tr>
     <tr>
         <td>
-            Windsnelheid<br>
-            <i>Bresser ClimateConnect Tuya 7003600QT5000</i><br>
+            Gemiddelde Windsnelheid (Wind Speed)<br>
+            <i>Bresser 5-in-1 New</i><br>
         </td>
         <td>
             <b>m/s</b> = meter per seconde<br>
@@ -299,8 +284,22 @@ Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor he
     </tr>
     <tr>
         <td>
-            Windrichting<br>
-            <i>Bresser ClimateConnect Tuya 7003600QT5000</i><br>
+            Rukwindsnelheid (Wind Gust)<br>
+            <i>Bresser 5-in-1 New</i><br>
+        </td>
+        <td>
+            <b>m/s</b> = meter per seconde<br>
+            <i>0.0 tot 50.0</i>
+        </td>
+        <td>
+            <b>float</b><br>
+            <i>n/a</i>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Windrichting (Direction)<br>
+            <i>Bresser 5-in-1 New</i><br>
         </td>
         <td>
             <b>°</b> → hoek in graden<br>
@@ -313,36 +312,8 @@ Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor he
     </tr>
     <tr>
         <td>
-            Lichtintensiteit (Light Intensity)<br>
-            <i>Bresser ClimateConnect Tuya 7003600QT5000</i><br>
-        </td>
-        <td>
-            <b>Klux</b> = kilo lux (1 lux = 1 lumen/m²)<br>
-            <i>0.00 tot 200.00</i>
-        </td>
-        <td>
-            <b>float</b><br>
-            <i>n/a</i>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            UV-niveau (UV Index)<br>
-            <i>Bresser ClimateConnect Tuya 7003600QT5000</i><br>
-        </td>
-        <td>
-            <b>Index</b> (<a href="https://ozone.meteo.be/research-themes/uv/todays-uv-index-at-uccle">voorbeeld</a>)<br>
-            <i>0.0 tot 16.0</i>
-        </td>
-        <td>
-            <b>float</b><br>
-            <i>n/a</i>
-        </td>
-    </tr>
-    <tr>
-        <td>
             Neerslag (Rain)<br>
-            <i>Bresser ClimateConnect Tuya 7003600QT5000</i><br>
+            <i>Bresser 5-in-1 New</i><br>
         </td>
         <td>
             <b>mm/10min.</b> = millimeter (= l/m²) om de 10 min. (basis meting, x144 voor een dag/etmaal)<br>

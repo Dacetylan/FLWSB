@@ -1,0 +1,52 @@
+# Try 1: python image (pyarrow not installing)
+# FROM python:slim-bullseye
+
+
+# Try 2: anaconda image (container exits at start bc bash terminal inactive, not doing command)
+# FROM continuumio/anaconda3
+# RUN apt update
+# 
+# WORKDIR /usr/app/src
+# COPY ./influxdb-testdata/ .
+# COPY python-requirements.txt ./requirements.txt
+# 
+# RUN pip install --upgrade pip
+# RUN pip install --no-cache-dir -r requirements.txt
+# RUN conda install -c conda-forge pyarrow
+
+
+# Try 3: https://jfrog.com/knowledge-base/how-to-choose-a-docker-base-image-for-python/
+# (file or directory not found, script not run)
+# FROM ubuntu:20.04
+# RUN apt update
+# RUN apt install -y python3
+# RUN apt install -y python3-pip
+# 
+# WORKDIR /home
+# 
+# COPY python-requirements.txt requirements.txt
+# RUN pip install --upgrade pip
+# RUN pip install --no-cache-dir -r requirements.txt
+# 
+# COPY influxdb-testdata/ .
+# 
+# ENV PATH=/root.local:$PATH
+# CMD [ "python3", "/influxdb-testdata/testdata-populate.py" ]
+
+
+# Try 4
+FROM ubuntu:20.04
+RUN apt update
+RUN apt install -y python3
+RUN apt install -y python3-pip
+
+WORKDIR /home
+
+ADD python-requirements.txt requirements.txt
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir -r requirements.txt
+
+ADD influxdb-testdata/ .
+RUN chmod +x testdata-populate.py
+
+# CMD [ "python3", "./testdata-populate.py" ]

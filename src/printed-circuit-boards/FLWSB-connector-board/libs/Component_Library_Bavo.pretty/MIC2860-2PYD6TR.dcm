@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP MIC2860-2PYD6TR
+D High Efficiency 2 Channel WLED Driver with PWM Control
+K
+F https://ww1.microchip.com/downloads/en/DeviceDoc/mic2860-p.pdf
+$ENDCMP
+#
+#End Doc Library

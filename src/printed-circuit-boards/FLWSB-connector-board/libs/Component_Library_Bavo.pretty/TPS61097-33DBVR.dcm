@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP TPS61097-33DBVR
+D LOW INPUT VOLTAGE SYNCHRONOUS BOOST CONVERTER
+K
+F https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftps61097-33
+$ENDCMP
+#
+#End Doc Library
