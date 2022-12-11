@@ -21,10 +21,11 @@
   * Power Board
 
 * Firmware
-  
+
   * [Metal](./metal_programming/README.md)
-  * Arduino Core
-  
+
+  * [Arduino Core](./arduino-core/README.md)
+
   * Modular I2C
   
   * UART
