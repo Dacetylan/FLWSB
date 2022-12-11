@@ -7,22 +7,43 @@
   <meta name="description" content="Description">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css" />
 </head>
 <body>
   <div id="app"></div>
-  <script>
+<script src="//unpkg.com/docsify-edit-on-github@1/index.js"></script>
+<script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
+
+<script>
+    var repoUrl = "https://github.com/Dacetylan/FLWSB";
+    var editPath = repoUrl + "/blob/main/docs/";
+    var editMsg = "📝 Edit on GitHub";
+
     window.$docsify = {
-      name: '',
-      repo: ''
+      name: "FLWSB Project",
+      repo: repoUrl,
+    plugins: [
+        EditOnGithubPlugin.create(editPath, null, editMsg)
+    ],
+    loadSidebar: true,
+    auto2top: true,
+    latex: {
+      inlineMath   : [['$', '$'], ['\\(', '\\)']], // default
+      displayMath  : [['$$', '$$']],               // default
     }
-  </script>
-  <script>
-  window.$docsify = {
-    loadSidebar: true
   }
 </script>
-<script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
+
+
 <script src="https://unpkg.com/@h-hg/docsify-image-caption/dist/docsify-image-caption.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-cilkc.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-cilkcpp.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script> 
+<script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-yaml.min.js"></script> 
+<script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-javascript.min.js"></script> 
+<script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-python.min.js"></script> 
+<script src="//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> 
+<script src="//cdn.jsdelivr.net/npm/docsify-latex@0"></script>
 </body>
 </html>
 
