@@ -208,4 +208,19 @@ sudo chown -R 104:104 ~/baavend/baavend-vis/
 sudo chown -R 472:472 ~/baavend/baavend-vis/
 ```
 
+### Mosquitto mqtt
+
+Bij de Mosquitto container is het vermoedlijk hetzelfde probleem.
+Hier is het probleem dat de config files niet geschreven zijn en er dus geen authenticatie mogelijk is.
+
+Als je docker nog nooit gestart hebt is het waarschijnlijk voldoende om de map `baavend-mqtt` aan te maken met de [uid 1883](https://github.com/eclipse/mosquitto/issues/1031):
+
+```bash
+mkdir ~/baavend/baavend-vis/
+sudo chown -R 18832:1883 ~/baavend/baavend-vis/
+```
+
+Voor andere gevallen moet je de config files zelf kopiëren met sudo.
+
+
 ---

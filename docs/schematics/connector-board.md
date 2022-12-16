@@ -9,16 +9,21 @@ Het connector board is een dochterbord voor de SAMDaaNo21. Het dient als tussens
 - SAMDaaNo21 moederbord
 - Zonne-energie (Solar Power) manager voor continu gebruik tussen batterij en zonnenpaneel.
 - Sensoren:
-  - CCS811 TVOC sensor
-  - SDS011 fijnstof sensor
-  - BME280 temperatuur, barometer en luchtvochtigheid sensor
-  - (DHT22 temperatuur en luchtvochtigheid sensor alternatief)
+  - [CCS811](https://www.sciosense.com/products/environmental-sensors/ccs811/): TVOC sensor met I2C op 1V8-3V3
+  - [SDS011](https://www.tinytronics.nl/shop/nl/sensoren/lucht/stof/nova-sds011-hoge-precisie-laser-stofsensor): fijnstof sensor met UART 3V3 op 5V
+  -  [BME280](https://www.bosch-sensortec.com/products/environmental-sensors/humidity-sensors-bme280/): temperatuur, barometer en luchtvochtigheid sensor met I2C op 1V8-3V3
+  - ([DHT22](https://www.tinytronics.nl/shop/nl/sensoren/lucht/vochtigheid/dht22-thermometer-temperatuur-en-vochtigheids-sensor): temperatuur en luchtvochtigheid sensor alternatief met Digitale I/O op 3V3-6V)
 
 #### Uitbreidingsmogelijkheden
 
-- Extra I2C
-- Extra UART 3V3
-- Voeding voor extra sensoren
+- 2x Extra I2C 3V3 met 3V3 voeding
+- 1x Extra I2C met 5V voeding
+- 1x Extra UART 3V3 met 3V3 voeding
+- Mogelijke sensoren:
+  - [SCD41](https://sensirion.com/products/catalog/SCD41/): CO2 met I2C op 3V3-5V
+  - [SGP41](https://sensirion.com/products/catalog/SGP41/): TVOC en NOx met I2C op 1V8-3V3
+  - [SPS30](https://sensirion.com/products/catalog/SPS30/): HVAC PM1.0, PM2.5, PM4 en PM10 met I2C en UART op 5V
+  - [GY-NEO6MV2](https://www.tinytronics.nl/shop/nl/communicatie-en-signalen/draadloos/gps/modules/gy-neo6mv2-gps-module): GPS met UART 3V3 op 3V3-5V
 
 #### Behuizing
 
@@ -34,7 +39,7 @@ Zijn specifieke vereisten.
 
 ## Schematics
 
-![FLWSB Connector Board schema v1.0](./assets/FLWSB-connector-board-schema-v1.0.svg)
+![FLWSB Connector Board schema v1.1](./assets/FLWSB-connector-board-schema-v1.1.svg)
 
 
 ## Sensoren
