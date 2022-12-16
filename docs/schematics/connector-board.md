@@ -23,7 +23,6 @@ Het connector board is een dochterbord voor de SAMDaaNo21. Het dient als tussens
   - [SCD41](https://sensirion.com/products/catalog/SCD41/): CO2 met I2C op 3V3-5V
   - [SGP41](https://sensirion.com/products/catalog/SGP41/): TVOC en NOx met I2C op 1V8-3V3
   - [SPS30](https://sensirion.com/products/catalog/SPS30/): HVAC PM1.0, PM2.5, PM4 en PM10 met I2C en UART op 5V
-  ![SPS30 hardware interface specifications](./assets/sensoren/SPS30-interface-specs.png)
   - [GY-NEO6MV2](https://www.tinytronics.nl/shop/nl/communicatie-en-signalen/draadloos/gps/modules/gy-neo6mv2-gps-module): GPS met UART 3V3 op 3V3-5V
 
 #### Behuizing
@@ -40,7 +39,7 @@ Zijn specifieke vereisten.
 
 ## Schematics
 
-![FLWSB Connector Board schema v1.0](./assets/FLWSB-connector-board-schema-v1.0.svg)
+![FLWSB Connector Board schema v1.1](./assets/FLWSB-connector-board-schema-v1.1.svg)
 
 
 ## Sensoren
