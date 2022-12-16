@@ -16,5 +16,29 @@ Voor Node-RED is de container user uid 1000. Om deze error op te lossen moet er 
 Voor baavend-red wordt dit commando:
 
 ```bash
+sudo chown -R 1000:1000 ~/baavend/baavend-red/
+```
 
+## Troubleshooting
+
+### Credentials error bij Deployment
+
+Bij het herstarten van docker krijg je een error over dat de credentials decryption niet lukt en dat er nieuwe credentials gemaakt worden met `$$$` achtervoegsel.
+
+Errors:
+```bash
+"Flushing file /data/flows_cred.json to disk failed : Error: EBUSY: resource busy or locked, rename '/data/flows_cred.json.$$$' -> '/data/flows_cred.json'"
+
+"Error saving flows: EBUSY: resource busy or locked, rename '/data/flows_cred.json.$$$' -> '/data/flows_cred.json'"
+```
+
+Voer de volgende commandos uit om deze te kunnen gebruiken en terug te kunnen deployen.
+
+```bash
+rm flows.json
+rm flows_cred.json
+cp 'flows.json.$$$' flows.json
+cp 'flows_cred.json.$$$' flows_cred.json
+hmod +x flows.json
+chmod +x flows_cred.json
 ```
