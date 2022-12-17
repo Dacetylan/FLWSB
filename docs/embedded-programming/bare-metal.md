@@ -1,10 +1,12 @@
-# Documentatie SAMDaaNo21 Programmatie
+# Embedded Programming
+
+## SAMDaaNo21 Bare-Metal Programmatie
 
 Dit is een korte handleiding om op weg te geraken met het programmeren van de SAMDaaNo21 (en andere SAMD chips). Deze handleiding gebruikt OpenOCD en gcc-arm-embedded in plaats van Atmel Studios. Atmel Studios maakt gebruik van dezelfde tools, toch werkt Atmel Studios enkel op Windows. Dit is geen optie aangezien er 3 operating systemen gebruikt worden in ons team (Windows, Mac OS, Linux Mint21). Het gebruik van open source tools zoals OpenOCD en gcc-arm-embedded maakt het een stuk makkelijker om samen de SAMDaaNo21 te programmeren.
 
 Het is ook mogelijk de SAMDaaNo21 te programmeren zonder Atmel ICE. Dit kan met een RaspberryPI.
 
-## Installatie
+### Installatie
 
 #### Mac OS
 
@@ -47,7 +49,7 @@ Als je een andere chip dan de SAMD21g16b gebruikt dan moet dit aangepast worden 
 
 #### Raspberry Pi
 
-## Verbinden
+### Verbinden
 
 #### Atmel ICE
 
@@ -63,19 +65,19 @@ Op de user guide van de Atmel Ice ([hier te vinden](https://ww1.microchip.com/do
 
 #### Raspberry Pi
 
-## Compileren
+### Compileren
 
 #### Mac OS
 
-Om op Mac OS een `.C` file te compileren naar een binaire file die geprogrammeerd kan worden op de SAMDaaNo21 moet er eerst een Makefile aangemaakt worden. 
+Om op Mac OS een `.C` file te compileren naar een binaire file die geprogrammeerd kan worden op de SAMDaaNo21 moet er eerst een Makefile aangemaakt worden.
 
 `touch Makefile`
 
 Zet de volgende code in de Makefile:
 
 ```makefile
-# vervang hier samd21g16b_flash.ld en 
-# __SAMD21G16B__ door de juiste chip als er 
+# vervang hier samd21g16b_flash.ld en
+# __SAMD21G16B__ door de juiste chip als er
 # een andere chip gebruikt wordt.
 LDSCRIPT = samd21g16b_flash.ld
 PTYPE=__SAMD21G16B__
@@ -95,9 +97,9 @@ INCLUDES= \
         sam0/utils/cmsis/samd21/include \
         sam0/utils/cmsis/samd21/source \
         thirdparty/CMSIS/Include \
-        thirdparty/CMSIS/Lib/GCC 
+        thirdparty/CMSIS/Lib/GCC
 
-OBJS = startup_samd21.o main.o 
+OBJS = startup_samd21.o main.o
 
 LDFLAGS+= -T$(LDSCRIPT) -mthumb -mcpu=cortex-m0 -Wl,--gc-sections
 CFLAGS+= -mcpu=cortex-m0 -mthumb -g
@@ -186,7 +188,7 @@ Om nu deze `main.c` te compileren hoef je enkel nog een heel simpel commando uit
 
 #### Raspberry Pi
 
-## Programmeren
+### Programmeren
 
 Als OpenOCD en gcc-arm-embedded goed geïnstalleerd zijn dan zou het programmeren van de SAMDaaNo21 overal hetzelfde moeten werken.
 
@@ -215,27 +217,27 @@ Eens deze opstelling behaald is kan de chip geprogrammeerd worden door het stapp
 4. `at91samd21 bootloader 0`
 
 5. `flash write_image [path naar de .elf file dat er gegenereerd is]`
-   
+
    - Error bij dit commando?
-     
+
      - `at91samd21 bootloader 0`
-     
+
      - `at91samd21 chip-erase`
-     
+
      - `reset`
-     
+
      - druk op de reset knop van de SAMDaaNo21 en begin opnieuw vanaf stap 1
 
 6. `flash verify_image [path naar de .elf file dat er gegenereerd is]`
-   
+
    - Error bij dit commando?
-     
+
      - `at91samd21 bootloader 0`
-     
+
      - `at91samd21 chip-erase`
-     
+
      - `reset`
-     
+
      - druk op de reset knop van de SAMDaaNo21 en begin opnieuw vanaf stap 1
 
 7. `at91samd21 bootloader 8192`

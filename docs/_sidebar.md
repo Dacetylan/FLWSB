@@ -1,4 +1,4 @@
-* Description
+* [Description](./README.md)
 
 * Schematics
 
@@ -12,23 +12,27 @@
 
   * [Connector Board](./printed-circuit-boards/connector-board.md)
 
-* Firmware
+* Enclosure
 
-  * [Metal](./metal_programming/README.md)
+  * [Enclosure considerations](./enclosure/considerations.md)
 
-  * [Arduino Core](./arduino-core/README.md)
+* Embedded Programming
 
-  * Modular I2C
+  * [Bare-Metal](./embedded-programming/bare-metal.md)
 
-  * UART
+  * [Arduino Core](./embedded-programming/arduino-core.md)
 
-  * LoRaWAN
+  * [Modular I2C](./embedded-programming/i2c.md)
+
+  * [UART](./embedded-programming/uart.md)
+
+  * [LoRaWAN](./embedded-programming/lorawan.md)
 
 * Weather Station
 
-  * [Reverse Engineering](./weerstation/Documentatie_Weerstation.md)
+  * [Reverse Engineering](./weather-station/reverse-engineering.md)
 
-  * Reading/Sending Data
+  * [Reading/Sending Data](./weather-station/data.md)
 
 * Data Formatting
 
@@ -54,11 +58,11 @@
 
 * Frontend
 
-  * Mock-up
+  * [Mockup](./frontend/mockup.md)
 
-  * Node-RED Dashboard
+  * [Node-RED Dashboard](./frontend/dashboard.md)
 
-  * Grafana
+  * [Grafana](./frontend/grafana.md)
 
 * Demo
 

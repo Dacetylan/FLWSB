@@ -1,3 +1,5 @@
+# Data Formatting
+
 ## Data Overzicht
 
 Dit onderdeel geeft een overzicht van alle data die moet worden bijgehouden. Zowel wat de data inhoud en hoe deze eruit ziet.
@@ -118,13 +120,15 @@ De studenten van de AI minor vragen volgende data:
  - Windrichting
 
 #### Data van weerstation
-Om een aantal zaken te meten zoals Windsnelheid en Windrichting wordt een bestaand weerstation gebruikt. Namelijk de Bresser 5-in-1 New. Deze voert volgende metingen uit:
+Om een aantal zaken te meten zoals Windsnelheid en Windrichting wordt een bestaand weerstation gebruikt, namelijk de Bresser 5-in-1 New. Deze voert volgende metingen uit:
  - Temperatuur (Temperature)
  - Luchtvochtigheid (Humidity)
  - Gemiddelde windsnelheid (Wind Speed)
  - Rukwindsnelheid (Wind Gust)
  - Windrichting (Direction)
  - Neerslag (Rain)
+
+Meer informatie over het seerstation in het hoofdstuk [Weather Station](../weather-station/reverse-engineering.md). 
 
 #### Data van Expansion Boards
 Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor het FLWSB ecosysteem.
