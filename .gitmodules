@@ -1,3 +1,15 @@
 [submodule "src/printed-circuit-boards/FLWSB-SAMDaaNo21"]
 	path = src/printed-circuit-boards/FLWSB-SAMDaaNo21
 	url = git@github.com:DaanDekoningKrekels/FLWSB-SAMDaaNo21.git
+[submodule "src/software/uf2-samdx1"]
+	path = src/software/uf2-samdx1
+	url = git@github.com:DaanDekoningKrekels/uf2-samdx1.git
+[submodule "src/software/ArduinoCore-samd"]
+	path = src/software/ArduinoCore-samd
+	url = git@github.com:DaanDekoningKrekels/ArduinoCore-samd.git
+[submodule "src/software/BOSSA"]
+	path = src/software/BOSSA
+	url = https://github.com/mattairtech/BOSSA
+[submodule "src/printed-circuit-boards/GenPinoutSVG"]
+	path = src/printed-circuit-boards/GenPinoutSVG
+	url = git@github.com:DaanDekoningKrekels/GenPinoutSVG.git
