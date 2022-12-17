@@ -1,6 +1,6 @@
-# Documentatie Frontend
+# Frontend
 
-### Mock up
+## Mockup
 
 Voor dat het mogelijk is om te beginnen met het ontwerpen van de frontend moet er een mock up gemaakt worden. Voor de frontend zijn er twee onderdelen. Een Sensor Registration Form en een grafische weergave van de data.
 
@@ -12,7 +12,7 @@ Voor dat het mogelijk is om te beginnen met het ontwerpen van de frontend moet e
 
 *fig. 2, Grafana wordt gebruikt voor een grafische weergave van de data*
 
-### Sensor Registration Form
+## Sensor Registration Form
 
 De eerste versie van de Sensor Registration Form werd ontworpen met Angular. Angular werd gebruik omdat dit de techniek is dat aangeleerd werd tijdens de lessen Web Frameworks.
 

@@ -1,6 +1,6 @@
-# BaaVend Backend
+# Backend
 
-## Introductie
+## Introductie BaaVend
 
 De BaaVend is de naam voor de backend van dit project.
 Het bestaat uit services, voor zowel backend als frontend, in Docker containers opgezet met Docker-Compose.

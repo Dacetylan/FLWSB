@@ -1,3 +1,5 @@
+# Data Formatting
+
 ## Data Structuur
 
 In dit onderdeel wordt bekeken hoe de data vanuit The Things Network in de backend binenkomt. Hoe de data in de database kan worden opgeslagen en hoe dit dan effectief zal gebeuren.
