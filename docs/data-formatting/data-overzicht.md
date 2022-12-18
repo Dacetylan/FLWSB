@@ -128,7 +128,7 @@ Om een aantal zaken te meten zoals Windsnelheid en Windrichting wordt een bestaa
  - Windrichting (Direction)
  - Neerslag (Rain)
 
-Meer informatie over het seerstation in het hoofdstuk [Weather Station](../weather-station/reverse-engineering.md). 
+Meer informatie over het seerstation in het hoofdstuk [Weather Station](./weather-station/reverse-engineering.md). 
 
 #### Data van Expansion Boards
 Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor het FLWSB ecosysteem.
