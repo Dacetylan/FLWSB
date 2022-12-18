@@ -12,6 +12,8 @@
 
 Docker is opgebouwd om veilig te zijn. Meer info hieroer kan teruggevonden worden in [de officële Docker documentatie](https://docs.docker.com/engine/security/).
 
+Meer info hoe Docker omgaat met user en group id's in Linux kan je vinden in het volgende artikel met onderwerp "[Understand how uid and gid work in Docker containers](https://www.elephdev.com/cDocker/294.html?ref=addtabs&lang=en)".
+
 ### Docker-Compose en GitHub
 
 Om ervoor te zorgen dat wachtworden en andere gevoelige data niet op GitHub terecht komt worden volgende voorzorgen getroffen:

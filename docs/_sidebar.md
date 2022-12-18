@@ -14,7 +14,11 @@
 
 * Enclosure
 
-  * [Enclosure considerations](./enclosure/considerations.md)
+  * [Considerations](./enclosure/considerations.md)
+
+  * [Measuring Climate Data](./enclosure/measuring-climate.md)
+
+  * [Solar Power](./enclosure/solar-power.md)
 
 * Embedded Programming
 

@@ -9,15 +9,12 @@ Dit is de [Alecto WS-4800](https://alectohome.nl/products/alecto-ws-4800-profess
 Deze werkt aan de hand van 868MHz waarmee de data van de buitensensoren naar de scherm module worden gestuurd.
 Deze zending kan onderschept worden en zo kan de data naar de backend gestuurd worden waar de data wordt bijgehouden in een database.
 
-![Weerstation Alecto WS-4800](./assets/weerstation-alecto-WS-4800.png ':size=300')
-*fig. 1, Alecto WS-4800 weerstation*
-
-![Weerstation Bresser 5-in-1](./assets/weerstation-bresser-5in1.jpg ':size=300')
-*fig. 2, Bresser 5-in-1 (New) weerstation*
+![Weerstation Alecto WS-4800](./assets/weerstation-alecto-WS-4800.png ':size=300') ![Weerstation Bresser 5-in-1](./assets/weerstation-bresser-5in1.jpg ':size=300')
+*fig. 1, Alecto WS-4800 weerstation**fig. 2, Bresser 5-in-1 (New) weerstation*
 
 ### Op voorhand:
 
-- In het hoofdstuk Data Formatting onder [Data Overzicht](../data-formatting/data-overzicht.md) staat er in detail beschreven welke data er wordt verzameld door het weerstation.
+- In het hoofdstuk Data Formatting onder [Data Overzicht](./data-formatting/data-overzicht.md) staat er in detail beschreven welke data er wordt verzameld door het weerstation.
 
 - Er is een [bestaand project](https://www.skyon.be/maak-je-weerstation-geconnecteerd-en-slim/) met hetzelfde weerstation. Dit wordt gebruikt als referentie.
 
