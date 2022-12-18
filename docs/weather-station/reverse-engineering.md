@@ -10,7 +10,8 @@ Deze werkt aan de hand van 868MHz waarmee de data van de buitensensoren naar de 
 Deze zending kan onderschept worden en zo kan de data naar de backend gestuurd worden waar de data wordt bijgehouden in een database.
 
 ![Weerstation Alecto WS-4800](./assets/weerstation-alecto-WS-4800.png ':size=300') ![Weerstation Bresser 5-in-1](./assets/weerstation-bresser-5in1.jpg ':size=300')
-*fig. 1, Alecto WS-4800 weerstation**fig. 2, Bresser 5-in-1 (New) weerstation*
+
+*fig. 1, Alecto WS-4800 weerstation*; *fig. 2, Bresser 5-in-1 (New) weerstation*
 
 ### Op voorhand:
 
