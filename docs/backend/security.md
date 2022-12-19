@@ -1,4 +1,6 @@
-# Security
+# Backend
+
+## Security
 
  In dit onderdeel worden de beveiligingsmaatregelen op een rijtje gezet en beschreven van alle onderdelen waaruit de backend is opgebouwd.
 
@@ -6,11 +8,13 @@
 
  -> [SSL](https://www.digitalocean.com/community/tutorials/how-to-use-certbot-standalone-mode-to-retrieve-let-s-encrypt-ssl-certificates-on-ubuntu-1804)
 
-## Docker
+### Docker
 
 Docker is opgebouwd om veilig te zijn. Meer info hieroer kan teruggevonden worden in [de officële Docker documentatie](https://docs.docker.com/engine/security/).
 
-## Docker-Compose en GitHub
+Meer info hoe Docker omgaat met user en group id's in Linux kan je vinden in het volgende artikel met onderwerp "[Understand how uid and gid work in Docker containers](https://www.elephdev.com/cDocker/294.html?ref=addtabs&lang=en)".
+
+### Docker-Compose en GitHub
 
 Om ervoor te zorgen dat wachtworden en andere gevoelige data niet op GitHub terecht komt worden volgende voorzorgen getroffen:
 
@@ -47,7 +51,7 @@ nodered-settings.js
 ```
 
 
-## Node-RED
+### Node-RED
 
 user authentication met gehashed wachtwoord
 ingesteld in nodered-settings.js
@@ -56,7 +60,7 @@ TLS certificaten voor HTTPS
 
 https://nodered.org/docs/user-guide/runtime/securing-node-red
 
-## TTN
+### TTN
 
 user authentication met geheim wachtwoord
 handmatig aanmaken op website TTN
@@ -65,7 +69,7 @@ TLS certificaten voor HTTPS
 https://www.thethingsindustries.com/docs/integrations/node-red/receive/#configure-mqtt-in-node
 https://www.thethingsindustries.com/docs/getting-started/ttn/addresses/#console
 
-## InfluxDb
+### InfluxDb
 
 user authentication met wachtwoord
 nitiële admin gebruiker adhv env_file
@@ -74,13 +78,13 @@ Token of API key voor toegang naar andere conatiners.
 
 TLS certificaten voor HTTPS
 
-## Mosquitto
+### Mosquitto
 
 user authentication met gehashed wachtwoord
 
 TLS certificaten voor HTTPS
 
-## Grafana
+### Grafana
 
 user authentication met wachtwoord
 nitiële admin gebruiker adhv env_file

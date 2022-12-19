@@ -1,3 +1,5 @@
+# Data Formatting
+
 ## Data Structuur
 
 In dit onderdeel wordt bekeken hoe de data vanuit The Things Network in de backend binenkomt. Hoe de data in de database kan worden opgeslagen en hoe dit dan effectief zal gebeuren.
@@ -440,5 +442,81 @@ msg.payload = [
     {
         source: "weather-station-1"
 }];
+return msg;
+```
+
+---
+
+### Weather Station data over MQTT
+
+De data van het weerstation komt via MQTT binnen in een JSON object.
+Er worden twee verschillende structuren doorgestuurd:
+
+```json
+{
+  "topic":"weatherStation",
+  "payload":
+    {
+      "time":"2022-12-16 14:53:13",
+      "model":"Bresser6in1",
+      "id":102004230,
+      "channel":0,
+      "battery_ok":1,
+      "temperature_C":22.6,
+      "humidity":21,
+      "sensor_type":1,
+      "wind_max_m_s":0,
+      "wind_avg_m_s":0,
+      "wind_dir_deg":248
+      "mic":"CRC"
+    },
+  "qos":0,
+  "retain":false,
+  "_msgid":"48936e3e111fd7d7"
+}
+```
+*Bovenstaande bevat geen `"rain_mm"`.*
+
+*Onderstaande bevat geen `"temperature_C" en "humidity"`.*
+
+```json
+{
+  "topic":"weatherStation",
+  "payload":
+    {"time":"2022-12-16 14:53:49",
+    "model":"Bresser6in1",
+    "id":102004230,
+    "channel":0,
+    "battery_ok":1,
+    "sensor_type":1,
+    "wind_max_m_s":0,
+    "wind_avg_m_s":0,
+    "wind_dir_deg":248,
+    "rain_mm":15.6,
+    "mic":"CRC"
+  },
+  "qos":0,
+  "retain":false,
+  "_msgid":"0835226af4c8083b"
+}
+```
+
+#### Herformatteren
+
+```javascript
+var tmp = msg.payload
+msg.payload = [
+	{
+		temp: tmp.temperature_C,          // buiten temperatuur, °C, float
+		humidity: tmp.humidity,           // buiten luchtvochtigheid, %, int
+		wind_speed: tmp.wind_avg_m_s,     // windsnelheid, m/s, float
+		wind_gust: tmp.wind_max_m_s,      // windsnelheid, m/s, float
+		wind_direction: tmp.wind_dir_deg, // windrichting, hoek in graden °, int
+		rain: tmp.rain_mm,                // neerslag, mm/10min, float
+		time: tmp.time					  // timestamp, YYYY-MM-DD hh:mm:ss
+	},
+	{
+		source: "weather-station-1"
+	}];
 return msg;
 ```

@@ -1,6 +1,6 @@
-# BaaVend Backend
+# Backend
 
-## Introductie
+## Introductie BaaVend
 
 De BaaVend is de naam voor de backend van dit project.
 Het bestaat uit services, voor zowel backend als frontend, in Docker containers opgezet met Docker-Compose.
@@ -207,5 +207,20 @@ Volgende commando werkt voor baavend-vis:
 sudo chown -R 104:104 ~/baavend/baavend-vis/
 sudo chown -R 472:472 ~/baavend/baavend-vis/
 ```
+
+### Mosquitto mqtt
+
+Bij de Mosquitto container is het vermoedlijk hetzelfde probleem.
+Hier is het probleem dat de config files niet geschreven zijn en er dus geen authenticatie mogelijk is.
+
+Als docker nog nooit opgestart is geweest is het (vermoedelijk) voldoende om de map `baavend-mqtt` aan te maken met de [uid 1883](https://github.com/eclipse/mosquitto/issues/1031):
+
+```bash
+mkdir ~/baavend/baavend-mqtt/
+sudo chown -R 1883:1883 ~/baavend/baavend-mqtt/
+```
+
+Als dat niet werkt moet de config files handmatig gekopiëerd worden met sudo.
+
 
 ---
