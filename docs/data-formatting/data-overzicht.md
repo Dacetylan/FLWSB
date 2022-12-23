@@ -128,7 +128,7 @@ Om een aantal zaken te meten zoals Windsnelheid en Windrichting wordt een bestaa
  - Windrichting (Direction)
  - Neerslag (Rain)
 
-Meer informatie over het seerstation in het hoofdstuk [Weather Station](./weather-station/reverse-engineering.md). 
+Meer informatie over het seerstation in het hoofdstuk [Weather Station](./weather-station/reverse-engineering.md).
 
 #### Data van Expansion Boards
 Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor het FLWSB ecosysteem.
@@ -141,6 +141,8 @@ Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor he
 
 
 ### Analyse metingen en data
+
+#### FLWSB
 
 <table style="width: 100%">
     <colgroup>
@@ -233,16 +235,20 @@ Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor he
             <i>max. 1023 = 0000 0011 1111 1111 → 10 bits = 2 bytes</i>
         </td>
     </tr>
+</table>
+
+#### Weather Station
+
+<table style="width: 100%">
+    <colgroup>
+        <col span="0" style="width: 33%;">
+        <col span="1" style="width: 33%;">
+        <col span="2" style="width: 33%;">
+    </colgroup>
     <tr>
-        <td>
-            -
-        </td>
-        <td>
-            -
-        </td>
-        <td>
-            -
-        </td>
+        <th>Grootheid (Quantity/Measurement)<br>& <i>Sensor</i></th>
+        <th>Eénheid (Unit)<br>& <i>Bereik</i></th>
+        <th>Datatype (Offset)<br> & <i>Aantal bits/bytes</i></th>
     </tr>
     <tr>
         <td>
