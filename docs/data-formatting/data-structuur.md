@@ -4,6 +4,135 @@
 
 In dit onderdeel wordt bekeken hoe de data vanuit The Things Network in de backend binenkomt. Hoe de data in de database kan worden opgeslagen en hoe dit dan effectief zal gebeuren.
 
+### LoRaWAN
+
+Om de metingen te verzenden over LoRaWAN moeten deze worden omgezet in een bitstream.
+In onderstaande tabel staat hoe deze bitstream wordt geformatteerd.
+Dit is de `payload/frm_payload` die in het MQTT bericht van TTN zit.
+
+<table style="width: 100%">
+	<colgroup>
+		<col span="1" style="width: 15%;">
+		<col span="2" style="width: 20%;">
+		<col span="3" style="width: 35%;">
+		<col span="4" style="width: 15%;">
+		<col span="5" style="width: 15%;">
+	</colgroup>
+	<tr>
+		<th>Byte nr</th>
+		<th>Name</th>
+		<th>Sensor range</th>
+		<th>On Node MCU</th>
+		<th>Reformat</th>
+	</tr>
+	<tr>
+		<td>
+			0
+		</td>
+		<td>
+			Temp
+		</td>
+		<td>
+			-40 tot 85°C
+		</td>
+		<td>
+			+40
+		</td>
+		<td>
+			-40
+		</td>
+	</tr>
+	<tr>
+		<td>
+			1-2
+		</td>
+		<td>
+			Pressure
+		</td>
+		<td>
+			300 tot 1100 hPa
+		</td>
+		<td>
+			n/a
+		</td>
+		<td>
+			n/a
+		</td>
+	</tr>
+	<tr>
+		<td>
+			3
+		</td>
+		<td>
+			Humidity
+		</td>
+		<td>
+			0 tot 100%
+		</td>
+		<td>
+			n/a
+		</td>
+		<td>
+			n/a
+		</td>
+	</tr>
+  <tr>
+		<td>
+			-
+		</td>
+		<td>
+			-
+		</td>
+		<td>
+			-
+		</td>
+		<td>
+			-
+		</td>
+		<td>
+			-
+		</td>
+	</tr>
+  <tr>
+		<td>
+			4-5
+		</td>
+		<td>
+			Wind Speed
+		</td>
+		<td>
+			0.0 tot 32.7 m/s
+		</td>
+		<td>
+			*10
+		</td>
+		<td>
+			/10
+		</td>
+	</tr>
+  <tr>
+		<td>
+			6-7
+		</td>
+		<td>
+			Ground Moisture
+		</td>
+		<td>
+			0 tot 1023
+		</td>
+		<td>
+			n/a
+		</td>
+		<td>
+			n/a
+		</td>
+	</tr>
+</table>
+
+*Note: Wind Speed en Ground Moisture zijn in het huidige PoC prototype niet aanwezig omdat de sensoren hiervoor niet ontwikkeld zijn. Enkel de BM280 voor de eerste drie metingen. Als er nog andere sensoren worden aangesloten moeten deze hier nog bij komen.*
+
+---
+
 ### The Things Network (TTN) & The Things Stack applicatie
 
 De data die ontvangen wordt via MQTT uit de TTN applicatie is een JSON object die de bitstream bevat van het FLWSB-board, maar ook nog een hoop extra informatie aangeleverd door TTN. In onderstaand code block staat de beschrijving van elk onderdeel van een uplink message.
@@ -513,7 +642,7 @@ msg.payload = [
 		wind_gust: tmp.wind_max_m_s,      // windsnelheid, m/s, float
 		wind_direction: tmp.wind_dir_deg, // windrichting, hoek in graden °, int
 		rain: tmp.rain_mm,                // neerslag, mm/10min, float
-		time: tmp.time					  // timestamp, YYYY-MM-DD hh:mm:ss
+		time: tmp.time					          // timestamp, YYYY-MM-DD hh:mm:ss
 	},
 	{
 		source: "weather-station-1"
