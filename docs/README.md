@@ -29,6 +29,6 @@ Het project bestaat uit verschillende onderdelen:
 
 ## Frontend om de metingen te kunnen weergeven
 
-  * [Mockup](./frontend/mockup.md)
-  * [Node-RED Dashboard](./frontend/dashboard.md)
-  * [Grafana](./frontend/grafana.md)
+* [Mockup](./frontend/mockup.md)
+* [Node-RED Dashboard](./frontend/dashboard.md)
+* [Grafana](./frontend/grafana.md)
