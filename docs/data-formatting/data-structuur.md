@@ -8,15 +8,16 @@ In dit onderdeel wordt bekeken hoe de data vanuit The Things Network in de backe
 
 Om de metingen te verzenden over LoRaWAN moeten deze worden omgezet in een bitstream.
 In onderstaande tabel staat hoe deze bitstream wordt geformatteerd.
-Dit is de `payload/frm_payload` die in het MQTT bericht van TTN zit.
+Dit is de `payload/uplink_message/frm_payload` die in het MQTT bericht van TTN zit.
 
 <table style="width: 100%">
 	<colgroup>
-		<col span="1" style="width: 15%;">
-		<col span="2" style="width: 20%;">
-		<col span="3" style="width: 35%;">
-		<col span="4" style="width: 15%;">
-		<col span="5" style="width: 15%;">
+		<col span="1">
+		<col span="2">
+		<col span="3">
+		<col span="4">
+		<col span="5">
+    <col span="6">
 	</colgroup>
 	<tr>
 		<th>Byte nr</th>
@@ -24,108 +25,50 @@ Dit is de `payload/frm_payload` die in het MQTT bericht van TTN zit.
 		<th>Sensor range</th>
 		<th>On Node MCU</th>
 		<th>Reformat</th>
+    <th>Db</th>
 	</tr>
 	<tr>
-		<td>
-			0
-		</td>
-		<td>
-			Temp
-		</td>
-		<td>
-			-40 tot 85°C
-		</td>
-		<td>
-			+40
-		</td>
-		<td>
-			-40
-		</td>
+		<td>0-1</td>
+		<td>Temp</td>
+		<td>-40.00 tot 85.00°C</td>
+		<td>afronden *100 +40</td>
+		<td>/10 -40</td>
+    <td>-40.0 tot 85.0°C</td>
 	</tr>
 	<tr>
-		<td>
-			1-2
-		</td>
-		<td>
-			Pressure
-		</td>
-		<td>
-			300 tot 1100 hPa
-		</td>
-		<td>
-			n/a
-		</td>
-		<td>
-			n/a
-		</td>
+		<td>2-3</td>
+    <td>Pressure</td>
+		<td>300.00 tot 1100.00 hPa</td>
+		<td>afronden *100</td>
+		<td>n/a</td>
+    <td>300 tot 1100 hPa</td>
 	</tr>
 	<tr>
-		<td>
-			3
-		</td>
-		<td>
-			Humidity
-		</td>
-		<td>
-			0 tot 100%
-		</td>
-		<td>
-			n/a
-		</td>
-		<td>
-			n/a
-		</td>
+		<td>4</td>
+		<td>Humidity</td>
+		<td>0.00 tot 100.00%</td>
+		<td>afronden *100</td>
+		<td>n/a</td>
+    <td>0 tot 100%</td>
 	</tr>
   <tr>
-		<td>
-			-
-		</td>
-		<td>
-			-
-		</td>
-		<td>
-			-
-		</td>
-		<td>
-			-
-		</td>
-		<td>
-			-
-		</td>
+    <td>-</td>
+  </tr>
+  <tr>
+		<td>5-6</td>
+		<td>Wind Speed</td>
+		<td>0.0 tot 32.7 m/s</td>
+		<td>*10</td>
+		<td>/10</td>
+    <td>0.0 tot 32.7 m/s</td>
 	</tr>
   <tr>
-		<td>
-			4-5
-		</td>
-		<td>
-			Wind Speed
-		</td>
-		<td>
-			0.0 tot 32.7 m/s
-		</td>
-		<td>
-			*10
-		</td>
-		<td>
-			/10
-		</td>
-	</tr>
-  <tr>
-		<td>
-			6-7
-		</td>
-		<td>
-			Ground Moisture
-		</td>
-		<td>
-			0 tot 1023
-		</td>
-		<td>
-			n/a
-		</td>
-		<td>
-			n/a
-		</td>
+		<td>7-8</td>
+		<td>Ground Moisture</td>
+		<td>0 tot 1023</td>
+		<td>n/a</td>
+		<td>n/a</td>
+    <td>0 tot 1023</td>
 	</tr>
 </table>
 
@@ -220,10 +163,10 @@ _Note: Deze data blijkt wel niet helemaal up-to-date. De informatie van de Ident
 
 Het meeste van deze informatie is niet nuttig voor dit project en zal dus niet worden bijgehouden. Wat wel zal bijgehouden worden is:
 
-- ```payload/device-id```: het id toegekend in The Things Stack applicatie.
-- ```payload/frm_payload```: de verzonden bitstream.
+- ```payload/device_id```: het id toegekend in The Things Stack applicatie.
+- ```payload/uplink_message/frm_payload```: de verzonden bitstream.
 - ```payload/rx_metadata/0/time```: tijd waarop de gateway het bericht ontvangen heeft.
-- ```payload/locations/frm-payload/latitude & longitude```: coördinaten van het FLWSB-board, automatisch ingesteld door TTN.
+- ```payload/locations/frm_payload/latitude & longitude```: coördinaten van het FLWSB-board, automatisch ingesteld door TTN.
 
 ```javascript
 {
@@ -575,77 +518,3 @@ return msg;
 ```
 
 ---
-
-### Weather Station data over MQTT
-
-De data van het weerstation komt via MQTT binnen in een JSON object.
-Er worden twee verschillende structuren doorgestuurd:
-
-```json
-{
-  "topic":"weatherStation",
-  "payload":
-    {
-      "time":"2022-12-16 14:53:13",
-      "model":"Bresser6in1",
-      "id":102004230,
-      "channel":0,
-      "battery_ok":1,
-      "temperature_C":22.6,
-      "humidity":21,
-      "sensor_type":1,
-      "wind_max_m_s":0,
-      "wind_avg_m_s":0,
-      "wind_dir_deg":248
-      "mic":"CRC"
-    },
-  "qos":0,
-  "retain":false,
-  "_msgid":"48936e3e111fd7d7"
-}
-```
-*Bovenstaande bevat geen `"rain_mm"`.*
-
-*Onderstaande bevat geen `"temperature_C" en "humidity"`.*
-
-```json
-{
-  "topic":"weatherStation",
-  "payload":
-    {"time":"2022-12-16 14:53:49",
-    "model":"Bresser6in1",
-    "id":102004230,
-    "channel":0,
-    "battery_ok":1,
-    "sensor_type":1,
-    "wind_max_m_s":0,
-    "wind_avg_m_s":0,
-    "wind_dir_deg":248,
-    "rain_mm":15.6,
-    "mic":"CRC"
-  },
-  "qos":0,
-  "retain":false,
-  "_msgid":"0835226af4c8083b"
-}
-```
-
-#### Herformatteren
-
-```javascript
-var tmp = msg.payload
-msg.payload = [
-	{
-		temp: tmp.temperature_C,          // buiten temperatuur, °C, float
-		humidity: tmp.humidity,           // buiten luchtvochtigheid, %, int
-		wind_speed: tmp.wind_avg_m_s,     // windsnelheid, m/s, float
-		wind_gust: tmp.wind_max_m_s,      // windsnelheid, m/s, float
-		wind_direction: tmp.wind_dir_deg, // windrichting, hoek in graden °, int
-		rain: tmp.rain_mm,                // neerslag, mm/10min, float
-		time: tmp.time					          // timestamp, YYYY-MM-DD hh:mm:ss
-	},
-	{
-		source: "weather-station-1"
-	}];
-return msg;
-```
