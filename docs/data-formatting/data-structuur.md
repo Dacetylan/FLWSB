@@ -4,7 +4,147 @@
 
 In dit onderdeel wordt bekeken hoe de data vanuit The Things Network in de backend binenkomt. Hoe de data in de database kan worden opgeslagen en hoe dit dan effectief zal gebeuren.
 
-### LoRaWAN
+### Gekozen data structuur
+
+#### bucket: sis
+
+Data persistence: never
+
+**_measurement: sensor_hardcoded**
+
+```javascript
+// FluxDb Output Node
+msg.payload = [
+  {     // fields
+        sensor_name: "BME280",
+        quantity: "temp, pressure, humidity",
+        datatype: "uint16_t, uint16_t, byte",
+				conversion: "/100 -40, 1, 1"  // 1 = no conversion
+        unit: "°C; hPa; %",
+        time: new Date().getTime()
+    },
+    {   // tags
+        board_id: "eui-0004a30b0020da72",  // devioce_id on TTN
+        sensor_id: 8
+    }
+  ];
+return msg;
+```
+
+**_measurement: sensor_user_defined**
+
+```javascript
+// FluxDb Output Node
+msg.payload = [
+    {   // fields
+        sensor_name: "TaMM-o-Meter",
+        quantity: "wind_speed",
+        datatype: "float",
+				conversion: "1",  // 1 = no conversion
+        unit: "m/s",
+        time: new Date().getTime()
+    },
+    {   // tags
+        board_id: "eui-0004a30b0020da72",  // devioce_id on TTN
+        sensor_id: 1
+    }
+];
+return msg;
+```
+
+**_measurement: board_info**
+
+```javascript
+// FluxDb Output Node
+msg.payload = [
+  {     // fields
+		board_name: "AP University PoC",
+        latitude: 51,22999030805754,
+		longitude: 4,416285765591264,
+        time: new Date().getTime()
+    },
+    {   // tags
+        board_id: "eui-0004a30b0020da72"  // devioce_id on TTN
+    }
+];
+return
+```
+
+---
+
+#### bucket: flwsb
+
+Data persistence: never
+
+**_measurement: climate_data**
+
+```javascript
+// FluxDb Output Node
+msg.payload = [
+    [{  // fields
+        temp: '85i',                        // temperatuur, °C, int
+        pressure: '1100i',                  // luchtdruk, hPa, int
+        humidity: '100i',                   // luchtvochtigheid, %, int
+        time: "2020-02-12T15:15:45.787Z"    // timestamp TTN
+    },
+    {   // tags
+        board_id: "board-1",                // device-id TTN en SIS
+        sensor: "BME280"
+    }],
+    [{  // fields
+        wind_speed: 32.7,                   // wind snelheid, m/s, float
+        time: new Date().getTime()
+    },
+    {   // tags
+        board_id: "board-1",                // device-id TTN en SIS
+        sensor: "TaMM-o-Meter"
+    }],
+    [{  // fields
+        soil_moisture: '1023i',             // grondvochtigheid, analoge spanning, int
+        time: new Date().getTime()
+    },
+    {   // tags
+        board_id: "board-1",                // device-id TTN en SIS
+        sensor: "TaMM-oisture"
+    }],
+    [{  // fields
+        latitude: 37.97155556731436,       // TTN device location latitude
+        longitude: 23.72678801175413,      // TTN device location longitude
+        time: "2020-02-12T15:15:45.787Z"   // timestamp TTN
+    },
+    {   // tags
+        board_id: "board-1"                // device-id TTN en SIS
+    }]
+];
+return msg;
+```
+
+_Note: Locatie coördinaten toevoegen aan elke datapunt of enkel in SIS?_
+
+**_measurement: weather_station**
+
+```javascript
+// FluxDb Output Node
+msg.payload = [
+  {     // fields
+        temp: 60.0,                 // buiten temperatuur, °C, float
+        humidity: '99i',            // buiten luchtvochtigheid, %, int
+        wind_speed: 3.0,            // windsnelheid, m/s, float
+        wind_gust: 6.0,             // windsnelheid, m/s, float
+        wind_direction: '360i',     // windrichting, hoek in graden °, int
+        rain: 1000.0,               // neerslag, mm/10min, float
+        time: new Date().getTime()
+    },
+    {   // tags
+        source: "weather-station-1"
+    }
+];
+return msg;
+```
+
+---
+
+### LoRaWAN Formattering
 
 Om de metingen te verzenden over LoRaWAN moeten deze worden omgezet in een bitstream.
 In onderstaande tabel staat hoe deze bitstream wordt geformatteerd.
@@ -32,7 +172,7 @@ Dit is de `payload/uplink_message/frm_payload` die in het MQTT bericht van TTN z
 		<td>Temp</td>
 		<td>-40.00 tot 85.00°C</td>
 		<td>afronden *100 +40</td>
-		<td>/10 -40</td>
+		<td>/100 -40</td>
     <td>-40.0 tot 85.0°C</td>
 	</tr>
 	<tr>
@@ -400,121 +540,5 @@ return msg;
 ```
 [Bron: Node-RED node-red-contrib-influxdb nodes documentatie.](https://flows.nodered.org/node/node-red-contrib-influxdb)
 
-
----
-
-### Gekozen data structuur
-
-#### bucket: sis
-
-Data persistence: never
-
-**_measurement: hardcoded**
-
-```javascript
-// FluxDb Output Node
-msg.payload = [
-  {
-        sensor_name: "BME280",
-        quantity: "temp, pressure, humidity",
-        datatype: "int, int, int",
-        unit: "°C; hPa; %",
-        time: new Date().getTime()
-    },
-    {
-        board_id: "board-1",  // device-id TTN en SIS
-        sensor_id: 8
-}];
-return msg;
-```
-
-**_measurement: user_defined**
-
-```javascript
-// FluxDb Output Node
-msg.payload = [
-    [{
-        sensor_name: "TaMM-o-Meter",
-        quantity: "wind_speed",
-        datatype: "float",
-        unit: "m/s",
-        time: new Date().getTime()
-    },
-    {
-        board_id: "board-1",               // device-id TTN en SIS
-        sensor_id: 1
-    }]
-];
-return msg;
-```
-
-#### bucket: flwsb
-
-Data persistence: never
-
-**_measurement: climate_data**
-
-```javascript
-// FluxDb Output Node
-msg.payload = [
-    [{
-        temp: '85i',                        // temperatuur, °C, int
-        pressure: '1100i',                  // luchtdruk, hPa, int
-        humidity: '100i',                   // luchtvochtigheid, %, int
-        time: "2020-02-12T15:15:45.787Z"    // timestamp TTN
-    },
-    {
-        board_id: "board-1",                // device-id TTN en SIS
-        sensor: "BME280"
-    }],
-    [{
-        wind_speed: 32.7,                   // wind snelheid, m/s, float
-        time: new Date().getTime()
-    },
-    {
-        board_id: "board-1",                // device-id TTN en SIS
-        sensor: "TaMM-o-Meter"
-    }],
-    [{
-        soil_moisture: '1023i',             // grondvochtigheid, analoge spanning, int
-        time: new Date().getTime()
-    },
-    {
-        board_id: "board-1",                // device-id TTN en SIS
-        sensor: "TaMM-oisture"
-    }],
-    [{
-        latitude: 37.97155556731436,       // TTN device location latitude
-        longitude: 23.72678801175413,      // TTN device location longitude
-        time: "2020-02-12T15:15:45.787Z"   // timestamp TTN
-    },
-    {
-        board_id: "board-1"                // device-id TTN en SIS
-    }]
-];
-return msg;
-```
-
-_Note: Locatie coördinaten toevoegen aan elke datapunt of enkel in SIS?_
-
-**_measurement: weather_station**
-
-```javascript
-// FluxDb Output Node
-msg.payload = [
-  {
-        temp: 60.0,                 // buiten temperatuur, °C, float
-        humidity: '99i',            // buiten luchtvochtigheid, %, int
-        wind_speed: 3.0,            // windsnelheid, m/s, float
-        wind_gust: 6.0,             // windsnelheid, m/s, float
-        wind_direction: '360i',     // windrichting, hoek in graden °, int
-        rain: 1000.0,               // neerslag, mm/10min, float
-        time: new Date().getTime()
-    },
-    {
-        source: "weather-station-1"
-}];
-return msg;
-```
 
 ---

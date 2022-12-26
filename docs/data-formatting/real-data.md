@@ -4,7 +4,31 @@
 
 ### Sensor data SAMDaaNo21 over LoRaWAN
 
+Een illustratie van hoe de data van een meting van de BME280, die temperatuur, luchtdruk en luchtvochtigheid bevat, wordt verzonden en verwerkt wordt in de backend.
+
+#### Bitstream
+
+De meting wordt opgevraagd en omgezet van een byte array naar een bitstream:
+
+```c
+// Voorbeeld code van op de SAMDaaNo21
+```
+
+```
+
+De verzonden bitstream, of toch enkel de data zelf, ziet er als volgt uit:
+```c
+0101 0110 // DEC 86
+1110 1001 // DEC 233
+1111 1111 // DEC 255
+0010 1111 // DEC 47
+0110 0100 // DEC 100
+```
+
 #### TTN Uplink message
+
+Eens ontvangen door The Things Network wordt de bitstream omgezet in een Uplink message om te verzenden over MQTT en wordt vervolgens ontvangen in Node-RED.
+Er is een hele hoop extra data aan toegevoegd, en dit ziet er als volgt uit:
 
 ```javascript
 {
@@ -156,9 +180,32 @@
 }
 ```
 
+##### Payload formatter
+
+De `decoded_payload` wordt toegevoegd als er een Payload formatter voorzien wordt in de TTN applicatie. Hier is de standaard formatter gebruikt als debugging methode. Zo kan de base64 string die in `frm_payload` zit, de verzonden bitstream, al worden gelezen als afzonderlijke bytes.
+
+Deze Payload formatter is, net zoals de code in Node-RED, JavaScript.
+De volgende code, de standaard code die gegeven wordt door TTN onder *Custom Javascript formatter* is gebruikt.
+
+```JavaScript
+function decodeUplink(input) {
+  return {
+    data: {
+      bytes: input.bytes
+    },
+    warnings: [],
+    errors: []
+  };
+}
+```
+
+Er wordt in dit project verder gekozen om geen gebruik te maken van de Payload formatter in de TTN applicatie om de controle over het formatteren in de eigen backend in Node-Red te houden. Dit geeft bnetere flexibiliteit.
+
 #### Base64
 
-Omzetting functie van Base64 naar bytes Buffer:
+De `frm_payload` bevat de bitstream die door TTN ontvangen is. Deze is echter gecodeerd als een base64 string. Om de data te kunnen formatteren moet deze eerst worden omgezet in een byte array.
+
+Omzetting functie van base64 naar bytes array, of Buffer:
 
 ```javascript
 function base64ToArrayBuffer(value) {
@@ -173,6 +220,8 @@ Links:
 - [Base64 data omzetter](https://cryptii.com/pipes/base64-to-binary)
 
 #### Formateren in Node-RED JavaScript
+
+Om de data nu te gaan schrijven naar de InfluxDb database moet deze gestructureerd worden om aan het bepaalde model te voldoen. Onderstaande code is de code in het functie blok tussen de MQTT ontvanger en het InfluxDb schrijver blok.
 
 ```javascript
 let id = msg.payload.end_device_ids.device_id;
@@ -189,25 +238,25 @@ let bitstream = base64ToArrayBuffer(msg.payload.uplink_message.frm_payload);
 node.warn(bitstream);
 
 msg.payload = [
-	[{
+	[{ // fields
 		temp: ((((bitstream[0] << 8) + bitstream[1]) /100) -40),
 		pressure: ((bitstream[2] << 8) + bitstream[3]),
 		humidity: bitstream[4],
 		time: timestamp
 	},
-	{
-		board_id: id,  // device-id TTN en SIS
+	{ // tags
+		board_id: "eui-0004a30b0020da72",  // devioce_id on TTN
 		sensor: "BME280"
 	}],
 
-	[{
+	[{ // fields
 		//latitude: location.latitude,  // TTN device location latitude
 		//longitude: location.longitude,  // TTN device location longitude
 		consumed_airtime: +(msg.payload.uplink_message.consumed_airtime.slice(0, -1)), // remove "s" and convert to number
 		time: timestamp
 	},
-	{
-		board_id: id  // device-id TTN en SIS
+	{ // tags
+		board_id: "eui-0004a30b0020da72"  // devioce_id on TTN
 	}]
 ];
 return msg;
@@ -217,7 +266,7 @@ return msg;
 
 ### Weather Station data over MQTT
 
-De data van het weerstation komt via MQTT binnen in een JSON object.
+De data van het weerstation komt via MQTT binnen in Node-Red als een JSON object.
 Er worden twee verschillende structuren doorgestuurd:
 
 ```json
@@ -269,21 +318,23 @@ Er worden twee verschillende structuren doorgestuurd:
 }
 ```
 
-#### Herformatteren
+#### Formatteren
+
+Het formatteren voor InfluxDb gebeurt aan de hand van onderstaande code.
 
 ```javascript
 var tmp = msg.payload
 msg.payload = [
-	{
+	{ // fields
 		temp: tmp.temperature_C,          // buiten temperatuur, °C, float
 		humidity: tmp.humidity,           // buiten luchtvochtigheid, %, int
 		wind_speed: tmp.wind_avg_m_s,     // windsnelheid, m/s, float
 		wind_gust: tmp.wind_max_m_s,      // windsnelheid, m/s, float
 		wind_direction: tmp.wind_dir_deg, // windrichting, hoek in graden °, int
 		rain: tmp.rain_mm,                // neerslag, mm/10min, float
-		time: tmp.time					          // timestamp, YYYY-MM-DD hh:mm:ss
+		time: tmp.time					// timestamp, YYYY-MM-DD hh:mm:ss
 	},
-	{
+	{ // tags
 		source: "weather-station-1"
 	}];
 return msg;
