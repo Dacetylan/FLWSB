@@ -19,7 +19,7 @@ msg.payload = [
         sensor_name: "BME280",
         quantity: "temp, pressure, humidity",
         datatype: "uint16_t, uint16_t, byte",
-				conversion: "/100 -40, 1, 1"  // 1 = no conversion
+		conversion: "/100 -40, 1, 1",  // 1 = no conversion
         unit: "°C; hPa; %",
         time: new Date().getTime()
     },
@@ -40,7 +40,7 @@ msg.payload = [
         sensor_name: "TaMM-o-Meter",
         quantity: "wind_speed",
         datatype: "float",
-				conversion: "1",  // 1 = no conversion
+		conversion: "1",  // 1 = no conversion
         unit: "m/s",
         time: new Date().getTime()
     },

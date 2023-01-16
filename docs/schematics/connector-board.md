@@ -1,8 +1,8 @@
 # Connector board
 
-Het connector board is een dochterbord voor de SAMDaaNo21. Het dient als tussenschakel om allerlei onderdelen te kunnen verbinden met de SAMD21 microcontroller. De focus ligt hier ook op fast prototyping en flexibiliteit. Dit wilt zeggen dat er enkel connectoren voorzien worden en geen sensoren rechtstreeks op dit bord zullen komen.
+Het connector board dient als verbindingspunt voor de SAMDaaNo21. Het is de tussenschakel om allerlei onderdelen te kunnen verbinden met de SAMD21 microcontroller. De focus ligt hier ook op fast prototyping en flexibiliteit. Dit wilt zeggen dat er enkel connectoren voorzien worden en geen sensoren rechtstreeks op dit bord zullen komen.
 
-## Schematics
+## Schema
 
 ![FLWSB Connector Board schema v1.1](./assets/FLWSB-connector-board-schema-v1.1.svg)
 
@@ -28,10 +28,6 @@ Het connector board is een dochterbord voor de SAMDaaNo21. Het dient als tussens
   - [SGP41](https://sensirion.com/products/catalog/SGP41/): TVOC en NOx met I2C op 1V8-3V3
   - [SPS30](https://sensirion.com/products/catalog/SPS30/): HVAC PM1.0, PM2.5, PM4 en PM10 met I2C en UART op 5V
   - [GY-NEO6MV2](https://www.tinytronics.nl/shop/nl/communicatie-en-signalen/draadloos/gps/modules/gy-neo6mv2-gps-module): GPS met UART 3V3 op 3V3-5V
-
-#### Behuizing
-
-Zijn specifieke vereisten.
 
 ## Blokdiagram
 
@@ -196,63 +192,3 @@ information please refer to application note ScioSense
 AN000373: CCS811 Factory test procedure.
 
 ---
-
-## Zonne-energie manager
-
-Eén van de doelen van het connector board is om continue stroom te kunnen voorzien. Dit door te kunnen schakelen tussen een oplaadbare batterij en een zonnepaneel die da batterij ook kan opladen.
-Verder moet het ook voldoende spanning en stroom kunnen voorzien. De SAMDaaNo21 beschikt reeds over een 3V3 lineaire regelaar die gevoed kan worden via een VIN pin waarop ook een 5V USB-C poort zit. De zonne-energie manager moet best 5V kunnen leveren om sensoren op 5V ook te kunnen voeden en ook de VIN van de SAMDaaNo21.
-
-Er wordt gekozen voor de DFRobot Zonne-energie Manager 5V v1.1 DFR0559.
-Deze laat toe een heroplaadbare batterij op te laden
-
-![DFROBOT-DFR0559 foto](./assets/DFROBOT-DFR0559/DFR0559-photo.jfif)
-
-### Eigenschappen
-
-- Model: DFROBOT-DFR0559
-- Solar Power Management IC: CN3165
-- Solar Input Voltage (SOLAR IN): 4.5V ~ 6V
-  - Maximum open circuit voltage < 6.5V
-- Battery Input (BAT IN): 3.7V Single cell Li-polymer/Li-ion Battery
-- Charge Current(USB/SOLAR IN):
-  - 900mA Max trickle charging
-  - constant current
-  - constant voltage three phases charging
-- Charging Cutoff Voltage (USB/SOLAR IN): 4.2V ±1%
-- Regulated Power Supply: 5V 1A
-- Voltage Regulator IC: MT3608 DC-DC Boost 5V
-- Regulated Power Supply Efficiency (3.7V BAT IN): 86% @ 50%Load
-- USB/Solar Charge Efficiency: 73% @ 3.7V 900mA BAT IN
-- Quiescent Current: <1 mA
-- Operation Temperature: -40℃ ～ 85℃
-- Dimension: 33.0mm x 63.0mm
-- Protection Functions:
-  - BAT IN: over charge/over discharge/over current/reverse connection protection
-  - 5V/USB OUT: short circuit/over current/over heat protection
-  - SOLAR IN: reverse connection protection
-- Prijs: €9,50 per stuk op [TinyTronics](https://www.tinytronics.nl/shop/nl/power/bms-en-laders/zonneladers/dfrobot-zonne-energie-manager-5v)
-- [DFRobot webshop pagina](https://www.dfrobot.com/product-1712.html)
-- [Documentatie](https://wiki.dfrobot.com/Solar_Power_Manager_5V_SKU__DFR0559)
-- [Schema](./assets/DFROBOT-DFR0559/DFR0559-schematic.pdf)
-
-### Features
-
-- Constant voltage MPPT algorithm, maximizing solar panel efficiency
-- Designed for 5V solar panel
-- Double charging mode: solar/USB charger (900mA max charge current)
-- 5V ON/OFF controllable regulated power supply for low-power applications
-- All-round protection functions
-- USB connector with ESD shell
-
-![DFROBOT-DFR0559 overzicht](./assets/DFROBOT-DFR0559/DFR0559-overview.jpg)
-
-![DFROBOT-DFR0559 connecties](./assets/DFROBOT-DFR0559/DFR0559-connections.jpg)
-
-#### ON/OFF functie
-
-Een zeer handige functie waarover de DFROBOT-DFR0559 beschikt is de mogelijkheid om de 5V output pins aan en uit te schakelen via een enable pin (EN). De USB output blijft hierbij wel nog 5V krijgen. Zo kan een MCU board ononderbroken gevoed worden via USB en via een GPIO pin de enable aansturen en de stroomvoorziening naar sensoren controleren. Via de BAT pin kan ook de batterij capaciteit uitgelezen worden met een analoge pin/ADC.
-
-Hieronder een voorbeeld uit de [documentatie](https://wiki.dfrobot.com/Solar_Power_Manager_5V_SKU__DFR0559):
-
-> This application example use the BME280 environmental sensor to record temperature, humidity and atmospheric pressure, VEML7700 ambient light sensor to record the the ambient illumination, and DS1307 RTC module to record time. Use the analog input A1 to monitor the battery voltage (equivalently the battery capacity). To achieve lower power consumption, use one Arduino digital IO pin to turn ON the power supply, read all the data from the sensors and turn them OFF. Cycle this pattern for a proper interval T to reduce the average power consumption. This can completely get rid of the quiescent power of the peripheral modules. Although single peripheral may consume little power, it can be considerable large for a number of them. This module provides users with effective methods to drive the peripheral modules into discontinuous (pulse) mode to achieve low power operation.
-![DFROBOT-DFR0559 application example](./assets/DFROBOT-DFR0559/DFR0559-application-example.png)
