@@ -1,12 +1,10 @@
  # Flexible LoRaWAN Sensor Board SAMDaaNo21
 
-
 Het FLWSB Main Board is een microcontroller bord gebaseerd op de ATSAM D21 in de vormfactor vergelijkbaar met een Arduino Nano. Het moet gemakkelijk zijn om dit bord in een breadboard te prikken en zo testen uit te voeren of schakelingen te bouwen. Het elektrisch schema van dit bord ziet er als volgt uit:
 
 ![Figuur 1: FLWSB-SAMDaaNo21 schema](./assets/FLWSB-SAMDaaNo21.svg 'Figuur 1: FLWSB-SAMDaaNo21 schema')
 
 Alle onderdelen worden verder toegelicht.
-
 
 ![Figuur 2: Blokdiagram werking SAMDaaNo21](./assets/blokdiagram.svg 'Figuur 2: Blokdiagram werking SAMDaaNo21')
 
@@ -29,7 +27,7 @@ Er zijn verschillende testpunten toegevoegd om op een gemakkelijke en toegankeli
 
 ![Figuur 3: LoRaWAN module](./assets/LoRaWAN.svg 'Figuur 3: LoRaWAN module')
 
-Er is een RN2483 module mee geimplementeerd op de printplaat. Deze is aangesloten op de UART bus van SERCOM 2.
+Er is een RN2483 module mee geïmplementeerd op de printplaat. Deze is aangesloten op de UART bus van SERCOM 2.
 
 
 
@@ -37,7 +35,7 @@ Er is een RN2483 module mee geimplementeerd op de printplaat. Deze is aangeslote
 
 ![Figuur 4: USB Interface & VIN schema](./assets/usb-vin.svg 'Figuur 4: USB Interface & VIN schema')
 
-Het schema voor de USB-interface is gebaseerd op een voorbeeld uit een Atmel handleiding. De zener diodes die zichtbaar zijn zorgen ervoor dat de kans op schade door elektrostatische ontlading (ESD) beperkt wordt. 
+Het schema voor de USB-interface is gebaseerd op een voorbeeld uit een Atmel handleiding. De zener diodes die zichtbaar zijn zorgen ervoor dat de kans op schade door elektrostatische ontlading (ESD) beperkt wordt.
 
 ![Figuur 5: USB Interface & VIN schema](./assets/usb-voorbeeld.svg 'Figuur 5: USB Interface & VIN schema')
 
@@ -68,7 +66,7 @@ De reset knop is opgebouwd zoals in de datasheet van de ATSAM D21 wordt weergege
 
 ![Figuur 7: Low Dropout Lineair Regulator schema](./assets/ldo.svg 'Figuur 7: Low Dropout Lineair Regulator schema')
 
-In dit geval wordt er een LD1117 3,3 V regelaar gebruikt. Deze regelaar kan met een vrij groot ingangsbereik (tot 15 V) een uitgangsspanning van 3,3 V leveren. 
+In dit geval wordt er een LD1117 3,3 V regelaar gebruikt. Deze regelaar kan met een vrij groot ingangsbereik (tot 15 V) een uitgangsspanning van 3,3 V leveren.
 
 `TP2` is een testpunt dat aanwezig is om op een toegankelijke manier de 3.3 V gereguleerde spanning te meten.
 
@@ -84,7 +82,7 @@ Het schema voor de ontkoppelcondensatoren en spoel voor de ATSAM D21 komt ook re
 
 ![Figuur 9:  Input / Output schema](./assets/input-output.svg 'Figuur 9:  Input / Output schema')
 
-Dit zijn alle GPIO, SERCOM en power aansluitingen die via pinheaders naar buiten worden gebracht. De SERCOM poorten zijn alvast gedefinieerd zodat onder andere de pull-up weerstanden geplaatst kunnen worden. Alle andere poorten zijn voor algemeen gebruik. In de datasheet van de ATSAM D21 onder 7. I/O Multiplexing and Considerations kunnen alle verschillende mogelijkheden van deze aansluitingen gevonden worden (AC, ADC, DAC, PTC, DAC, IO, ...). 
+Dit zijn alle GPIO, SERCOM en power aansluitingen die via pinheaders naar buiten worden gebracht. De SERCOM poorten zijn alvast gedefinieerd zodat onder andere de pull-up weerstanden geplaatst kunnen worden. Alle andere poorten zijn voor algemeen gebruik. In de datasheet van de ATSAM D21 onder 7. I/O Multiplexing and Considerations kunnen alle verschillende mogelijkheden van deze aansluitingen gevonden worden (AC, ADC, DAC, PTC, DAC, IO, ...).
 
 
 | I/O Pin | Pin      | SERCOM                  | SERCOM-ALT     | External Interrupt | ADC, DAC, AC, REF  | Peripheral Touch Controller | TC/TCC       | TCC          | COM             | Generic Clock Generator |
@@ -135,7 +133,7 @@ Dit zijn alle GPIO, SERCOM en power aansluitingen die via pinheaders naar buiten
 
 `TC4/WO[n]`, `TC6/WO[n]`: Waveform/PWM Outputs
 
-`TCC3/WO[n]`: Waveform/PWM Outputs/ Capture Inputs 
+`TCC3/WO[n]`: Waveform/PWM Outputs/ Capture Inputs
 
 `AC/CMP[n]`: AC Comparator Outputs
 
@@ -147,4 +145,3 @@ Dit zijn alle GPIO, SERCOM en power aansluitingen die via pinheaders naar buiten
 ### Bill of Materials
 
 [poc board bill of materials](./assets/ibom.html ':include :type=iframe width=100% height=1024px')
-

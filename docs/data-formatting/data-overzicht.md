@@ -162,10 +162,10 @@ Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor he
         </td>
         <td>
             <b>°C</b> = graden Celcius<br>
-            <i>-40 tot 85</i>
+            <i>-40.0 tot 85.0 (sensor res. 0.01)</i>
         </td>
         <td>
-            <b>byte</b> (+40)<br>
+            <b>byte</b> (+40 *10)<br>
             <i>0 tot 125, max. 125 = 0111 1101 → 7 bits = 1 byte</i>
         </td>
     </tr>
@@ -176,7 +176,7 @@ Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor he
         </td>
         <td>
             <b>hPa</b> = hectopascal (= 1 mbar)<br>
-            <i>300 tot 1100</i>
+            <i>300 tot 1100 (sensor res. 0.01)</i>
         </td>
         <td>
             <b>unsigned int / uint16_t</b><br>
@@ -189,7 +189,7 @@ Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor he
         </td>
         <td>
             <b>%</b> = percentage relatieve luchtvochtigheid<br>
-            <i>0 tot 100</i>
+            <i>0 tot 100 (sensor res. 0.01)</i>
         </td>
         <td>
             <b>byte</b><br>
@@ -217,7 +217,7 @@ Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor he
             <i>0.0 tot 32.7 (0 tot 12 Beaufort)</i>
         </td>
         <td>
-            <b>unsigned int / uint16_t</b> (x10)<br>
+            <b>unsigned int / uint16_t</b> (*10)<br>
             <i>00 tot 327 = 1 0100 0111 → 9 bits = 2 bytes</i>
         </td>
     </tr>
