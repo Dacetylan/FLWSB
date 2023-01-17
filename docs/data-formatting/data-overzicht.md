@@ -7,6 +7,8 @@ Dit voor het Sensor Identification System, de metingen, en extra  informatie uit
 
 ### Sensor Identification System
 
+#### Board Registratie
+
 <table style="width: 100%">
     <colgroup>
         <col span="0" style="width: 15%;">
@@ -22,44 +24,117 @@ Dit voor het Sensor Identification System, de metingen, en extra  informatie uit
     </tr>
     <tr>
         <td>
-            board-id
+            board_id
         </td>
         <td>
             string
         </td>
         <td>
-            Gekoppeld aan TTN applicatie device-id.
+            Gekoppeld aan TTN applicatie device-id (eui).
         </td>
         <td>
-            board-1
-        </td>
-    </tr>
-    <tr>
-        <td>
-            sensor-id
-        </td>
-        <td>
-            byte
-        </td>
-        <td>
-            ID voor specifieke sensor, hardcoded I2C-adres of connector.
-        </td>
-        <td>
-            8
+            "eui-0004a30b0020da72"
         </td>
     </tr>
     <tr>
         <td>
-            sensor-name
+            board_name
         </td>
         <td>
             string
         </td>
         <td>
-            Naam van de sensor, hardcoded I2C-adres of connector.
+            Op te geven door de gebruiker.
         </td>
         <td>
-            BME280
+            "samdaano21-poc"
+        </td>
+    </tr>
+    <tr>
+        <td>
+            location latitude
+        </td>
+        <td>
+            number (float)
+        </td>
+        <td>
+            Op te geven door de gebruiker.
+        </td>
+        <td>
+            -6.220360548375914
+        </td>
+    </tr>
+    <tr>
+        <td>
+            location longitude
+        </td>
+        <td>
+            number (float)
+        </td>
+        <td>
+            Op te geven door de gebruiker.
+        </td>
+        <td>
+            39.21113847179748
+        </td>
+    </tr>
+</table>
+
+#### Sensor Registratie
+
+<table style="width: 100%">
+    <colgroup>
+        <col span="0" style="width: 15%;">
+        <col span="1" style="width: 15%;">
+        <col span="2" style="width: 50%;">
+        <col span="3" style="width: 30%;">
+    </colgroup>
+    <tr>
+        <th>Naam (Name)</th>
+        <th>Datatype</th>
+        <th>Beschrijving</th>
+        <th>Voorbeeld (Example)</th>
+    </tr>
+    <tr>
+        <td>
+            board_id
+        </td>
+        <td>
+            string
+        </td>
+        <td>
+            Gekoppeld aan TTN applicatie device-id (eui).
+        </td>
+        <td>
+            "eui-0004a30b0020da72"
+        </td>
+    </tr>
+    <tr>
+        <td>
+            sensor_id
+        </td>
+        <td>
+            number (byte)
+        </td>
+        <td>
+            ID voor specifieke sensor, hardcoded I2C-adres, of connector.
+        </td>
+        <td>
+            0x08
+        </td>
+    </tr>
+    <tr>
+        <td>
+            sensor_name
+        </td>
+        <td>
+            string
+        </td>
+        <td>
+            Naam van de sensor, hardcoded I2C-adres, of connector.
+        </td>
+        <td>
+            "BME280"
         </td>
     </tr>
     <tr>
@@ -73,7 +148,7 @@ Dit voor het Sensor Identification System, de metingen, en extra  informatie uit
             Grootheid van de meting. Hardcoded of handmatig ingevoerd via Node-RED dashboard formulier.
         </td>
         <td>
-            temp
+            "temp"
         </td>
     </tr>
     <tr>
@@ -87,7 +162,21 @@ Dit voor het Sensor Identification System, de metingen, en extra  informatie uit
             Daatype waarin de meting moet worden opgeslagen in de database. Hardcoded of handmatig ingevoerd via Node-RED dashboard formulier.
         </td>
         <td>
-            int
+            "int"
+        </td>
+    </tr>
+    <tr>
+        <td>
+            conversion (omzetting)
+        </td>
+        <td>
+            string
+        </td>
+        <td>
+            Eventuele omzettingen die moeten gebeuren op de inkomende data die omgekeerd zijn gebeurd bij het formateren naar een bitstream voor verzending. Bijvoorbeeld de omzetting van geheel getal naar decimaal, of negatief bereik.
+        </td>
+        <td>
+            "/100, -40"
         </td>
     </tr>
     <tr>
@@ -131,14 +220,12 @@ Om een aantal zaken te meten zoals Windsnelheid en Windrichting wordt een bestaa
 Meer informatie over het seerstation in het hoofdstuk [Weather Station](./weather-station/reverse-engineering.md).
 
 #### Data van Expansion Boards
-Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor het FLWSB ecosysteem.
+Er was eerst gedacht ook enkele Expansion Boards, of uitbreidingsborden, te ontwikkeld voor het FLWSB ecosysteem. Deze zijn hieronder opgelijst, maar maken verder geen deel uit van de huidige iteratie.
 
  - TaMM-o-Meter (Anemometer):
     - Windsnelheid (wind tam-heid?) (gebasseerd op <a href="https://hackaday.io/project/185642-anemosens-sla-printed-anemometer">AnemoSens - SLA printed anemometer</a>)
  - TaMM-oisture (Analoge geleidingssensor):
     - Grondvochtigheid (gebasseerd op de Zanzibar Salinity sensor)
-
-
 
 ### Analyse metingen en data
 
@@ -344,7 +431,8 @@ Er worden ook enkele Expansion Boards, of uitbreidingsborden, ontwikkeld voor he
 Bij het werken via The Things Network (TTN) wordt buiten de metingen data nog een heel wat extra info verstuurd over MQTT.
 Zo wordt de id en naam van in The Things Stack applicatie meegestuurd, als ook een timestamp/date wanneer de data is ontvangen.
 Mits gekend wordt ook de locatie van het board meegestuurd.
-Onderstaande tabel geeft hiervan een overzicht.
+Een extra handige metric is de consumed airtime voor het ontvange bericht. Door deze bij te houden kunnen we de airtime monitoren zodat de maximum toegelaten airtime niet overschreiden wordt. Deze moet worden omgezet in float om te kunnen optellen. Het komt namelijk binnen als string.
+Onderstaande tabel geeft een overzicht van de nuttige informatie.
 Nog extra informatie uit de Identity Server van TTN kan opgevraagd worden via hun API.
 
 <table style="width: 100%">
@@ -362,16 +450,30 @@ Nog extra informatie uit de Identity Server van TTN kan opgevraagd worden via hu
     </tr>
     <tr>
         <td>
-            device-id
+            device id (eui)
         </td>
         <td>
             string
         </td>
         <td>
-            Payload msg and API
+            msg.payload.end_device_ids.device_id + API
         </td>
         <td>
-            eui-0004a30b0020bb1b
+            "eui-0004a30b0020da72"
+        </td>
+    </tr>
+    <tr>
+        <td>
+            consumed airtime
+        </td>
+        <td>
+            string
+        </td>
+        <td>
+            msg.payload.uplink_message.consumed_airtime
+        </td>
+        <td>
+            "0.056576s"
         </td>
     </tr>
     <tr>
@@ -385,18 +487,18 @@ Nog extra informatie uit de Identity Server van TTN kan opgevraagd worden via hu
             API
         </td>
         <td>
-            Board 7
+            "Board 7"
         </td>
     </tr>
     <tr>
         <td>
-            date
+            timestamp
         </td>
         <td>
             string ISO 8601
         </td>
         <td>
-            Payload msg
+            msg.payload.received_at
         </td>
         <td>
             YYYY-MM-DDTHH:mm:ss.sssZ, 1996-10-13T08:35:32.000Z
@@ -404,30 +506,30 @@ Nog extra informatie uit de Identity Server van TTN kan opgevraagd worden via hu
     </tr>
     <tr>
         <td>
-            latitude
+            location latitude
         </td>
         <td>
             float
         </td>
         <td>
-            Payload msg (if triangulated) and API
+            msg.payload.locations.frm_payload.latitude (if triangulated) + API
         </td>
         <td>
-            latitude: -6.220360548375914
+            -6.220360548375914
         </td>
     </tr>
     <tr>
         <td>
-            longitude
+            location longitude
         </td>
         <td>
             float
         </td>
         <td>
-            Payload msg (if triangulated) and API
+            msg.payload.locations.frm_payload.longitude + API
         </td>
         <td>
-            longitude: 39.21113847179748
+            39.21113847179748
         </td>
     </tr>
 </table>

@@ -13,7 +13,7 @@ De sensor-id kan één of twee bytes zijn. Is de eerste bit een "1" dan bestaat 
 De in dit project ontwikkelde sensoren die met I²C werken worden reeds voorzien en kunnen automatisch herkend worden. Op de FLWSB-boards gebeurd dit aan de hand van hun I²C adres die voorgeprogrammeerd zijn. Voor andere I²C sensoren worden vrije sensor-id's voorzien om aan gekoppeld te worden.
 
 De analoge sensoren, bijvoorbeeld via UART, worden herkend door op welke poort ze zijn aangesloten. Deze sensor-id's zijn dus gekoppeld aan de poort op het FLWSB-board en geven enkel deze poort aan. In de database moet voor een correcte werking aangegeven worden welke sensor op welke poort is aangesloten. Zo kan de backend uit de database opvragen over welke sensor het gaat.
-Is dit niet aangegeven dan gaat de achterliggende data verloren. (**Oplossing voor?**)
+Is dit niet aangegeven dan gaat de achterliggende data verloren.
 
 Elke sensor-id geeft dus aan welke meting data er op volgt (grootheid en eenheid, bijvoorbeeld "temperatuur" in "°C"), het datatype en dus het aantal bytes, en eventuele omzetting die moet gebeuren bij het verwerken. Hierbij wordt rekening gehouden met sensoren die meerdere metingen uitvoeren, zoals bijvoorbeeld de Bosch Sensortec BME280. Eén enkel sensor-id kan dus gevolgd worden door data van meerdere metingen die door hun lengte in bytes onderscheid kunnen worden.
 

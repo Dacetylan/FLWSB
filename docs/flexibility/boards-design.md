@@ -11,11 +11,20 @@ Om deze vraag te beantwoorden is er een modulair hardware design uitgewerkt same
 
 Om tot een flexiebel en modulair hardware systeem te komen is er gekozen om een opdeling te maken in twee boards. Een hoofd, of main, board die de microcontroller en LoRa radio module bevat, en een tweede connectie, of connector, board waar alle andere componenten op kunnen worden aangesloten.
 
-### Blokdiagram
+Om deze twee boards van voeding te voorzien, aan de hand van batterij en zonne-energie, wordt er nog een derde Solar Power Manager board aangekocht.
 
-<iframe width="600" height="600" src="https://miro.com/app/embed/uXjVPAdIy0o=/?pres=1&frameId=3458764539645645619&embedId=776892473756" frameborder="0" scrolling="no" allowfullscreen></iframe>
+In dit deel worden de ontwerp beslissingen rond deze drie boards besproken.
 
-![FLWSB Connector Board blokdiagram v1.0](./assets/connector-board-blockdiagram-v1.0.jpg)
+1. Main Board met LoRaWAN (SAMDaaNo21)
+2. Connector Board
+3. Solar Power Manager
+
+Een behuizing hoort niet tot deze iteratie van het project en er zijn dus ook geen vereisten voor opgelegt.
+In het hoofdstuk [Enclosure, of Behuizing](./enclosure/considerations.md), is wel een kijk genomen naar enkele overwegingen die in acht kunnen worden genomen. Er moet namelijk toch over nagedacht worden en rekening mee gehouden worden bij het ontwerpen.
+
+#### Blokdiagram
+
+![FLWSB Connector Board blokdiagram v1.0](./assets/boards-design-blockdiagram.jpg 'Figuur 1: Overzicht blokdiagram van de drie boards.')
 
 *Note: in het ontwerp moet rekening gehouden worden met mechanische sterkte. De SAMDaaNo21 wordt gevoed via USB kabel. Deze kan echter loskomen. Dit moet voorkomen worden door het design.*
 
@@ -24,6 +33,12 @@ Om tot een flexiebel en modulair hardware systeem te komen is er gekozen om een 
 ### Main Board met LoRaWAN (SAMDaaNo21)
 
 Het FLWSB Main Board is een microcontroller bord gebaseerd op de ATSAM D21 in de vormfactor vergelijkbaar met een Arduino Nano. Het moet gemakkelijk zijn om dit bord in een breadboard te prikken en zo testen uit te voeren of schakelingen te bouwen.
+
+De LoRa radio module zit hierop reeds geïntegreerd om zo de hoofdfunctie van het verzenden over LoRaWAN centraal te plaatsen.
+
+#### Blokdiagram
+
+![Blokdiagram werking SAMDaaNo21](./assets/blokdiagram.svg 'Figuur 2: Blokdiagram werking SAMDaaNo21.')
 
 ---
 
@@ -179,6 +194,8 @@ I<sub>max. totaal</sub> = 6mA + (250µA * 2) + 54mA + 80mA + 714µA + 1mA
 
 __I<sub>max. totaal</sub> = 142.214 mA__
 
+---
+
 #### Zonne-energie manager
 
 Eén van de doelen van het connector board is om continue stroom te kunnen voorzien. Dit door te kunnen schakelen tussen een oplaadbare batterij en een zonnepaneel die da batterij ook kan opladen.
@@ -187,7 +204,7 @@ Verder moet het ook voldoende spanning en stroom kunnen voorzien. De SAMDaaNo21 
 Er wordt gekozen voor de DFRobot Zonne-energie Manager 5V v1.1 DFR0559.
 Deze laat toe een heroplaadbare batterij op te laden
 
-![DFROBOT-DFR0559 foto](./assets/DFROBOT-DFR0559/DFR0559-photo.jfif)
+![DFROBOT-DFR0559 foto](./assets/DFROBOT-DFR0559/DFR0559-photo.jfif 'Figuur 3: foto van de DFROBOT-DFR0559.')
 
 ##### Eigenschappen
 
@@ -226,9 +243,9 @@ Deze laat toe een heroplaadbare batterij op te laden
 - All-round protection functions
 - USB connector with ESD shell
 
-![DFROBOT-DFR0559 overzicht](./assets/DFROBOT-DFR0559/DFR0559-overview.jpg)
+![DFROBOT-DFR0559 overzicht](./assets/DFROBOT-DFR0559/DFR0559-overview.jpg 'Figuur 4: DFROBOT-DFR0559 overzicht')
 
-![DFROBOT-DFR0559 connecties](./assets/DFROBOT-DFR0559/DFR0559-connections.jpg)
+![DFROBOT-DFR0559 connecties](./assets/DFROBOT-DFR0559/DFR0559-connections.jpg 'Figuur 5: DFROBOT-DFR0559 connecties')
 
 ##### ON/OFF functie
 
@@ -237,11 +254,6 @@ Een zeer handige functie waarover de DFROBOT-DFR0559 beschikt is de mogelijkheid
 Hieronder een voorbeeld uit de [documentatie](https://wiki.dfrobot.com/Solar_Power_Manager_5V_SKU__DFR0559):
 
 > This application example use the BME280 environmental sensor to record temperature, humidity and atmospheric pressure, VEML7700 ambient light sensor to record the the ambient illumination, and DS1307 RTC module to record time. Use the analog input A1 to monitor the battery voltage (equivalently the battery capacity). To achieve lower power consumption, use one Arduino digital IO pin to turn ON the power supply, read all the data from the sensors and turn them OFF. Cycle this pattern for a proper interval T to reduce the average power consumption. This can completely get rid of the quiescent power of the peripheral modules. Although single peripheral may consume little power, it can be considerable large for a number of them. This module provides users with effective methods to drive the peripheral modules into discontinuous (pulse) mode to achieve low power operation.
-![DFROBOT-DFR0559 application example](./assets/DFROBOT-DFR0559/DFR0559-application-example.png)
+![DFROBOT-DFR0559 application example](./assets/DFROBOT-DFR0559/DFR0559-application-example.png 'Figuur 6: DFROBOT-DFR0559 application example')
 
 --
-
-### Behuizing
-
-Een behuizing hoort niet tot deze iteratie van het project en er zijn dus ook geen vereisten voor opgelegt.
-In het hoofdstuk Enclosure, of Behuizing, is wel een kijk genomen naar enkele overwegingen die in acht kunnen worden genomen. Er moet namelijk toch over nagedacht worden en rekening mee gehouden worden bij het ontwerpen van de PCB's.

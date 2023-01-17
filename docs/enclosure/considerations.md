@@ -12,6 +12,7 @@ Factoren waarbij er rekening moet gehouden worden bij het plaatsen van zonne-pan
 - Oriëntatie van het zonnenpaneel
 - Afzetting van Harmattan dust
 - Afwatering van regenwater
+- Temperatuur van het zonnenpaneel
 
 Andere factoren waar rekening mee gehouden moet worden zijn algemen zaken bij het opmeten van __klimatologische data__ zoals:
 - Lucht toe voer naar sensoren voor lucht en deeltjes analyse.
@@ -19,4 +20,4 @@ Andere factoren waar rekening mee gehouden moet worden zijn algemen zaken bij he
 - Invloed van opwarmende componenten voor temperatuur metingen en dus koeling.
 - Afdekking van de elektronica tegen vocht en regen.
 
-In dit hoofdstuk worden deze vfactoren verder besproken.
+In dit hoofdstuk worden deze factoren verder besproken.
