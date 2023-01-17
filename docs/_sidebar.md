@@ -1,4 +1,18 @@
-* [Description](./README.md)
+* [Introduction](./README.md)
+
+* Flexibility
+
+  * [Boards Design](./flexibility/boards-design.md)
+
+  * [Sensor Identification System](./flexibility/sis.md)
+
+* Data Formatting
+
+  * [Data Overzicht](./data-formatting/data-overzicht.md)
+
+  * [Data Structuur](./data-formatting/data-structuur.md)
+
+  * [Real Data](./data-formatting/real-data.md)
 
 * Schematics
 
@@ -12,6 +26,14 @@
 
   * [Connector Board](./printed-circuit-boards/connector-board.md)
 
+* Embedded Programming
+
+  * [Bare-Metal](./embedded-programming/bare-metal.md)
+
+  * [Arduino Core](./embedded-programming/arduino-core.md)
+
+  * [PoC Code](./embedded-programming/poc-code.md)
+
 * Enclosure
 
   * [Considerations](./enclosure/considerations.md)
@@ -20,31 +42,11 @@
 
   * [Solar Power](./enclosure/solar-power.md)
 
-* Embedded Programming
-
-  * [Bare-Metal](./embedded-programming/bare-metal.md)
-
-  * [Arduino Core](./embedded-programming/arduino-core.md)
-
-  * [Modular I2C](./embedded-programming/i2c.md)
-
-  * [UART](./embedded-programming/uart.md)
-
-  * [LoRaWAN](./embedded-programming/lorawan.md)
-
 * Weather Station
 
   * [Reverse Engineering](./weather-station/reverse-engineering.md)
 
   * [Reading/Sending Data](./weather-station/data.md)
-
-* Data Formatting
-
-  * [Sensor Identification System](./data-formatting/sis.md)
-
-  * [Data Overzicht](./data-formatting/data-overzicht.md)
-
-  * [Data Structuur](./data-formatting/data-structuur.md)
 
 * Backend
 
@@ -61,8 +63,6 @@
   * [Testdata](./backend/testdata.md)
 
 * Frontend
-
-  * [Mockup](./frontend/mockup.md)
 
   * [Node-RED Dashboard](./frontend/dashboard.md)
 
