@@ -1,6 +1,13 @@
 # Data Formatting
 
-## Effectieve Data (Real Data)
+## Effectieve Data
+
+In het onderdeel [Data Structuur](./data-formatting/data-structure.md) is uiteengezet hoe de data er kan uitzien enkele stappen in de datastroom. Er wordt ook toegelicht hoe deze verwerkt kan worden.
+
+In dit onderdeel worden de datastromen van effectieve (real) data bekeken.
+
+1. Sensor data SAMDaaNo21 over LoRaWAN
+2. Weather Station data over MQTT
 
 ### Sensor data SAMDaaNo21 over LoRaWAN
 
@@ -262,9 +269,41 @@ msg.payload = [
 return msg;
 ```
 
+#### InfluxDb query voor visualisatie in Grafana
+
+Een query in Flux, de gespesialiseerde query taal van InfluxDb, om de data op te vragen voor visualisatie.
+De time range wordt in het dashboard van Grafana ingesteld.
+
+```flux
+from(bucket: "flwsb")
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "climate_data")
+  |> filter(fn: (r) => r["_field"] == "temp, pressure, humidity")
+  |> filter(fn: (r) => r["board_id"] == "eui-0004a30b0020da72")
+  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
+  |> yield(name: "mean")
+```
+
+Het resultaat in Grafana Dashboard:
+
+![Query resultaat visualisatie in Grafana dashboard van climate_data van de SAMDaaNo21, meer precies temperatuur, luchtdruk en luchtvochtigheid.](./assets/real-data-grafana-dashboard-climate-data-samdaano21.png 'Figuur 1: Query resultaat visualisatie in Grafana dashboard van climate_data van de SAMDaaNo21, meer precies temperatuur, luchtdruk en luchtvochtigheid.')
+
 ---
 
 ### Weather Station data over MQTT
+
+#### Weerstation
+
+Het weerstation zelf is een blackbox. Hoe de data hier juist verwerkt wordt is onbekend.
+
+#### Raspberry Pi met RTL-SDR
+
+De verwerking hier gebeurd geautomatiseerd door de gebruikte applicatie.
+Er zijn beperkte opties voor het formateren van deze data beschikbaar.
+Het betreft een open-source applicatie met repository op GitHub, maar hoe deze applicatie juist werkt is niet noodzakelijk te weten voor deze toepassing.
+Voor meer info zie [ Weather STation: Reading/Sending Data](./weather-station/data.md).
+
+#### Node-RED backend
 
 De data van het weerstation komt via MQTT binnen in Node-Red als een JSON object.
 Er worden twee verschillende structuren doorgestuurd:
@@ -318,7 +357,7 @@ Er worden twee verschillende structuren doorgestuurd:
 }
 ```
 
-#### Formatteren
+##### Formatteren
 
 Het formatteren voor InfluxDb gebeurt aan de hand van onderstaande code.
 
@@ -339,3 +378,40 @@ msg.payload = [
 	}];
 return msg;
 ```
+
+#### InfluxDb query voor visualisatie in Grafana
+
+Een query in Flux, de gespesialiseerde query taal van InfluxDb, om de data op te vragen voor visualisatie.
+De time range wordt in het dashboard van Grafana ingesteld.
+Een gemiddelde berekening in de query kan nodig zijn om het aantal datapunten die gereturned wordt door InfluxDb te beperken.
+
+Volgende query geeft alle data van een bepaald weerstation id weer:
+
+```flux
+from(bucket: "flwsb")
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "weather_station")
+  |> filter(fn: (r) => r["source"] == "weather-station-2")
+  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
+  |> yield(name: "mean")
+```
+
+Het resultaat in Grafana Dashboard:
+
+![Query resultaat visualisatie in Grafana dashboard van alle data van weather-station-2.](./assets/real-data-grafana-weather-station-all.png 'Figuur 2: Query resultaat visualisatie in Grafana dashboard van alle data van weather-station-2.')
+
+Of enkel een gespecifieërde meting visualiseren, maar van meerdere bronnen gebeurd als volgt:
+
+```flux
+from(bucket: "flwsb")
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "weather_station")
+  |> filter(fn: (r) => r["_field"] == "temp")
+  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
+  |> yield(name: "mean")
+  |> movingAverage(n: 5)
+```
+
+Het resultaat in Grafana Dashboard:
+
+![Query resultaat visualisatie in Grafana dashboard van temperatuur data van de twee weather_stations.](./assets/real-data-grafana-weather-station-temp.png 'Figuur 3: Query resultaat visualisatie in Grafana dashboard van temperatuur data van de twee weather_stations.')

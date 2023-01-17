@@ -57,10 +57,6 @@ system_stats = client.query_api().query_data_frame(org=my_org, query=query)
 print(system_stats.head())
 ```
 
-
-
-
-
 ### Python en InfluxDb
 
 InfluxDB bestaat uit buckets, die aangesproken kunnen worden met organisaties en tokens.
@@ -72,8 +68,6 @@ import influxdb_client
 from influxdb_client import InfluxDBClient
 from influxdb_client.client.write_api import SYNCHRONOUS
 ```
-
-
 
 ### Dataframes inladen
 
@@ -105,8 +99,6 @@ data[[condition1==True&&condition2==False]] --> conditionele selectie van waarde
 data.mean() --> gemiddelde van waarden in dit object, 1 van de verschillende aggregatiefuncties.
 ```
 
-
-
 ### Schrijven naar InfluxDB
 
 De tijdsgebonden kolom wordt ingesteld als index (vb. date), en er wordt een _measurement aangemaakt, die dan bestaat uit meerdere _fields. Deze _fields worden gemapt aan de kolommen van de dataframe, en bevatten data voor alle gewenste features binnen een bepaalde tijdsperiode.
@@ -122,8 +114,6 @@ data_frame.index = data_frame['date']
 
 write_api.write(bucket = bucket,record= data_frame,data_frame_measurement_name='obs',data_frame_tag_columns=columns)
 ```
-
-
 
 ### Lezen uit InfluxDB
 
