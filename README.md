@@ -1,11 +1,13 @@
 # FLSWB
 
-In deze GitHub repo zijn alle bronbestanden van dit project terug te vinden. 
+This GitHub repo contains all the source files for this project. 
 
-## Documentatie
+## Documentation
 
-In de `docs/` folder is alle documentatie terug te vinden in Markdown formaat, opgesteld voor Docsify. Deze documentatie is terug te vinden op volgende pagina: https://dacetylan.github.io/FLWSB/#/
+The `docs/` folder contains all documentation in Markdown format, prepared for Docsify. This documentation can be found on the following page: https://dacetylan.github.io/FLWSB/#/
 
-## Broncode en printplaten
+## Source code and boards
 
-In de `src/` folder zijn alle bronbestanden terug te vinden. Denk aan software die geschreven, aangepast of gebruikt is en de KiCad projecten van de ontwikkelde PCB's.
+The `src/` folder contains all source files. This is all software written, modified or used and the KiCad projects of the developed PCBs.
+
+
