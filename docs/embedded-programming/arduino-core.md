@@ -5,12 +5,12 @@
 SAMDaaNo21 toevoegen aan de Arduino IDE.
 
 
-Om de SAMDaaNo21 werkende te krijgen met een IDE zoals die van Arduino moeten we eerst een compatibele bootloader op de MCU hebben staan. Wij maken gebruik van de ATSAMD21G16B en spijtig genoeg zijn hier geen kant en klare bootloaders voor. Omdat we de printplaat zelf hebben ontworpen zijn er uiteraard ook geen volledig compatibele configuraties beschikbaar.
+Om de SAMDaaNo21 werkende te krijgen met een IDE zoals die van Arduino moeten we eerst een compatibele bootloader op de MCU hebben staan. Wij maken gebruik van de ATSAMD21G16B en spijtig genoeg zijn hier geen kant-en-klare bootloaders voor. Omdat we de printplaat zelf hebben ontworpen zijn er uiteraard ook geen volledig compatibele configuraties beschikbaar.
 
 Het toevoegen voor ondersteuning verloopt in een aantal stappen:
 
-- Bootloader aanpassen aan de [ATSAMD21G16B](https://www.microchip.com/en-us/product/ATSAMD21G16)
-- Bootloader compileren
+- Bootloader voor de [ATSAMD21G16B](https://www.microchip.com/en-us/product/ATSAMD21G16) vinden
+- Bootloader flashen
 - Een Arduino variant toevoegen voor de SAMDaaNo21
   - Linker script aanpassen
   - OpenOCD script aanpassen
@@ -18,7 +18,7 @@ Het toevoegen voor ondersteuning verloopt in een aantal stappen:
 
 Bij deze stappen hebben we ons gebaseerd op de Arduino Zero. Deze heeft echter een ATSAMD21G18A, dat is een variant met meer geheugen.
 
-Alle nodige broncode is te verkrijgen van de [ArduinoCore-samd](https://github.com/arduino/ArduinoCore-samd) GitHub repository. ([Onze fork](https://github.com/DaanDekoningKrekels/ArduinoCore-samd))
+Alle nodige broncode is te verkrijgen van de [ArduinoCore-samd](https://github.com/arduino/ArduinoCore-samd) GitHub repository. ([Onze fork specifiek voor de SAMDaaNo21](https://github.com/DaanDekoningKrekels/ArduinoCore-samd))
 
 Belangrijke mappen en bestanden:
 
@@ -90,11 +90,11 @@ In dit bestand passen we enkel de USB instellingen aan en het BOOT_DOUBLE_TAP_AD
 [...]
 ```
 
- `board_definitions.h` moet nu aangepast worden om ons nieuwe bestand te kunnen includen.
+`board_definitions.h` moet nu aangepast worden om ons nieuwe bestand te kunnen includen.
 
 Pas het volgende aan:
 
- `board_definitions.h`
+`board_definitions.h`
 
 ```c
 #if defined(BOARD_ID_samdaano21)
@@ -152,11 +152,11 @@ Er zal een `samd21_sam_ba.hex` en een `samd21_sam_ba.bin` bestand aangemaakt wor
 
 #### Problemen
 
-Het had fijn geweest moest het werk geloond hebben, maar deze bootloader hebben we niet werkende gekregen. Het lukte niet om via de Arduino IDE code te uploaden naar de SAMDaaNo21.
+Het had fijn geweest moest het werk geloond hebben, maar deze bootloader hebben we niet werkende gekregen. Het lukte niet om via de Arduino IDE code te uploaden naar de SAMDaaNo21. Via een programmer lukte het echter wel om bootloader + code te draaien.
 
-Als alternatief zijn we terechtgekomen bij de standaard bootloader die Microchip aanbriedt voor hun SAMD lijn, de SAM-BA bootloader. 
+Als alternatief zijn we terechtgekomen bij de standaard bootloader die Microchip aanbiedt voor hun SAMD lijn, de SAM-BA bootloader. 
 
-SAM-BA maakt het mogleijk om via USB te communiceren met een AT SAM microcontroller. Op deze manier is er geen externe programmer nodig!
+SAM-BA maakt het mogelijk om via USB te communiceren met een AT SAM microcontroller. Op deze manier is er geen externe programmer nodig!
 
 Wetende dat deze bootloader bestaat, is het enkel nog zoeken naar de download link... Alle verwijzingen in de volgende PDF's zien er als volgt uit:
 
@@ -201,13 +201,15 @@ De laatste link gaat rechtstreeks naar de download van de bootloader. De inhoud 
 
 Enkel de bootloader `samd21_sam_ba_both_interfaces.hex` in de map `samd21g16a` is voor ons van toepassing. Met deze bootloader werkt uploaden vanaf de Arduino IDE!
 
-Een belangrijke kanttekening: De Arduino IDE gebruikt de prigramming tool [BOSSA](https://github.com/shumatech/BOSSA) om binaries naar een SAM-BA apparaat te sturen. Deze tool onderstunt standaard de ATSAMD21G16 **niet**. Om die reden moet een [aangepaste versie van BOSSA](https://github.com/mattairtech/BOSSA) gebruikt worden, namelijk deze van Justin Mattair (mattairtech).
+Hoe je deze bootloader kan flashen kan je [hier](bootloader-flashen.md) lezen.
+
+Een belangrijke kanttekening: De Arduino IDE gebruikt de programmerings-tool [BOSSA](https://github.com/shumatech/BOSSA) om binaries naar een SAM-BA apparaat te sturen. Deze tool ondersteunt standaard de ATSAMD21G16 **niet**. Om die reden moet een [aangepaste versie van BOSSA](https://github.com/mattairtech/BOSSA) gebruikt worden, namelijk deze van Justin Mattair (mattairtech).
 
 Nu we een bootloader hebben, moet deze naar de SAMDaaNo21 geschreven worden. Zie documentatie.
 
 ## Arduino variant
 
-Wanneer de bootloader op de SAMDaaNo21 straat en je sluit de USB poort aan, zal je onder `tools`-> `port` een apparaat zien staan!
+Wanneer de bootloader op de SAMDaaNo21 straat en je sluit de USB-poort aan, zal je onder `tools`-> `port` een apparaat zien staan!
 
 We kunnen echter nog niets programmeren naar de SAMDaano21 omdat de Arduino IDE niet weet hoe het apparaat werkt. In de volgende stappen voegen we een Arduino variant toe aan de IDE.
 
@@ -229,7 +231,7 @@ In het `variant.cpp` bestand zit een grote array waarin iedere bruikbare pin def
 
 Per pin op de SAMDaaNo21 zijn er functies die toegewezen worden. Om de juiste functies toe te wijzen aan de pinnen refereer je naar de [datasheet](https://ww1.microchip.com/downloads/en/DeviceDoc/SAM-D21DA1-Family-Data-Sheet-DS40001882G.pdf) hoofdstuk 7 I/O Multiplexing and Considerations. Mogelijke functies:
 
-`WVariant.h`
+[`WVariant.h`](https://github.com/DaanDekoningKrekels/ArduinoCore-samd/blob/master/cores/arduino/WVariant.h#L201)
 
 ```c++
 /* Types used for the table below */
@@ -246,17 +248,17 @@ typedef struct _PinDescription
 } PinDescription ;
 ```
 
-Deze functies worden in `variant.cpp` op volgende manier weergegeven:
+Deze functies worden in [`variant.cpp`](https://github.com/DaanDekoningKrekels/ArduinoCore-samd/blob/master/variants/samdaano21/variant.cpp) op volgende manier weergegeven:
 
 ```c++
 { PORTA,  2, PIO_ANALOG, PIN_ATTR_ANALOG, ADC_Channel0, NOT_ON_PWM, NOT_ON_TIMER, EXTERNAL_INT_2 }, // ADC/AIN[0]
 ```
 
-PA02 is dus een analoge pin die gebruik maakt van ADC:0. Er is geen PWM mogleijkheid en geen timer, wel een externe interupt EXTINT:2.
+PA02 is dus een analoge pin die gebruik maakt van ADC:0. Er is geen PWM mogelijkheid en geen timer, wel een externe interrupt EXTINT:2.
 
-Bovenstaande lijn code staat op index 0 van de `g_APinDescription` array. In `variant.h` moet de pin daar nog worden ingesteld als analoge pin.
+Bovenstaande lijn code staat op index 0 van de `g_APinDescription` array. In [`variant.h`](https://github.com/DaanDekoningKrekels/ArduinoCore-samd/blob/master/variants/samdaano21/variant.h) moet de pin daar nog worden ingesteld als analoge pin.
 
-`variant.h`
+[`variant.h`](https://github.com/DaanDekoningKrekels/ArduinoCore-samd/blob/master/variants/samdaano21/variant.h)
 
 ```c++
 /*
@@ -284,7 +286,7 @@ Op deze manier worden de pinnen gedefinieerd voor Arduino code. Nu kan er gebrui
 
 Om gebruik van de SAMDaaNo21 gemakkelijker te maken zijn alle pinnen die omschreven zijn op de slikscreen (PCB zelf) ook voorgedefinieerd.
 
-**Let op dat `PA07` op de slikscreen staat aangegeven als `PA09`**
+**Let op dat `PA07` op de slikscreen staat aangegeven als `PA09`. Dit is een fout die in versie 2 zal worden rechtgezet.**
 
 ```c++
 #define PA02        (0ul)
@@ -329,7 +331,7 @@ Om gebruik van de SAMDaaNo21 gemakkelijker te maken zijn alle pinnen die omschre
 #define PA14        (25ul)
 ```
 
-Ook de SERCOM poorten zijn in dit bestand gefomuleerd.
+Ook de SERCOM poorten zijn in dit bestand geformuleerd.
 
 
 
@@ -337,23 +339,10 @@ Ook de SERCOM poorten zijn in dit bestand gefomuleerd.
 
 ## Bronnen
 
-Porting Arduino Zero to another samd21g variant: https://forum.arduino.cc/t/porting-arduino-zero-to-another-samd21g-variant/400138/3
-
-https://www.instructables.com/Arduino-IDE-Creating-Custom-Boards/
-
-https://hackaday.io/project/8007-hack/log/41354-docs-how-the-variant-system-works-on-arduino-zero-boards
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- S. (2016, 30 juli). Porting Arduino Zero to another samd21g variant. Arduino Forum. https://forum.arduino.cc/t/porting-arduino-zero-to-another-samd21g-variant/400138/3
+- Instructables. (2019, 15 mei). Arduino IDE: Creating Custom Boards. https://www.instructables.com/Arduino-IDE-Creating-Custom-Boards/
+- Docs: How the variant system works on Arduino Zero boards | Details | Hackaday.io. (z.d.). https://hackaday.io/project/8007-hack/log/41354-docs-how-the-variant-system-works-on-arduino-zero-boards
+- Smart | Connected | Secure | Microchip Technology. (z.d.). https://www.microchip.com/
+- H. (2021, 18 september). How to upload arduino bootloader to a custom samd21 usig Jlink mini. Arduino Forum. https://forum.arduino.cc/t/how-to-upload-arduino-bootloader-to-a-custom-samd21-usig-jlink-mini/906434/11
+- Adafruit Feather M4 Express. (2018, 11 juli). Adafruit Learning System. https://learn.adafruit.com/adafruit-feather-m4-express-atsamd51/uf2-bootloader-details
 

@@ -32,7 +32,9 @@
 
   * [Arduino Core](./embedded-programming/arduino-core.md)
 
-  * [PoC Code](./embedded-programming/poc-code.md)
+    * [Bootloader flashen](./embedded-programming/bootloader-flashen.md)
+
+  * [PoC Code (example sketches)](./embedded-programming/poc-code.md)
 
 * Enclosure
 

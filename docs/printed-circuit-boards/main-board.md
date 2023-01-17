@@ -4,9 +4,9 @@
 
 ![SAMDaaNo21](assets/SAMDaaNo21-pinout.svg)
 
-[PDF versie van de pinout diagram](./assets/SAMDaaNo21-pinout.pdf)
+[PDF versie van de pinout diagram](./assets/SAMDaaNo21-pinout.pdf ':ignore')
 
-Het FLWSB Main Board is een microcontroller bord gebaseerd op de ATSAM D21 in de vormfactor vergelijkbaar met een Arduino Nano. Het mot gemakkelijk zijn om dit bord in een breadboard te prikken en zo testen uit te voeren of schakelingen te bouwen. Het elektrisch schema is [hier](../schematic/main-board) te vinden.
+Het FLWSB Main Board is een microcontroller bord gebaseerd op de ATSAM D21 in de vormfactor vergelijkbaar met een Arduino Nano. Het moet gemakkelijk zijn om dit bord in een breadboard te prikken en zo testen uit te voeren of schakelingen te bouwen. Het elektrisch schema is [hier](../schematic/main-board) te vinden.
 
 
 
@@ -47,20 +47,20 @@ De RN2483 zit mee op de printplaat en bevindt zich aan het uiteinde. Er kan een 
 
 ## USB Interface & VIN
 
-Het bordje kan voorzien worden van stroom via de USB-C poort. Een LDO (Low Dropout regelaar) zal de spanning afkomstig van de computer reguleren naar ene stabiele 3,3 V.
+Het bordje kan voorzien worden van stroom via de USB-C poort. Een LDO (Low Dropout regelaar) zal de spanning afkomstig van de computer reguleren naar een stabiele 3,3 V.
 
 De LDO is een LD1117S33 en ondersteunt een minimale ingangsspanning van 4,3 V en een maximale van 15 V. Dat kan worden aangelegd via de VIN pin. Er is een Schottky diode voorzien om ervoor te zorgen dat de spanning van VIN niet op de USB poort komt te staan.
 
 *Let op dat je met een lineaire regelaar te maken hebt. Hoe hoger de ingangsspanning, hoe warmer de LDO zal worden!*
 
-Het is ook mogelijk om de regelaar over te slagen en rechtstreeks 3,3 V te leveren via de 3V3 pin. Dit kan handig zijn bij een situatie waarin we zo zuinig mogelijk willen zijn en een efficiëntere 3,3 V regelaar gebruiken van een andere pcb. *Belangrijk is dat deze spanning niet te hard mag afwijken van 3,3 V!*
+Het is ook mogelijk om de regelaar over te slaan en rechtstreeks 3,3 V te leveren via de 3V3 pin. Dit kan handig zijn bij een situatie waarin we zo zuinig mogelijk willen zijn en een efficiëntere 3,3 V regelaar gebruiken van een andere pcb. *Belangrijk is dat deze spanning niet te hard mag afwijken van 3,3 V!*
 
 
 ## RESET & DEBUG
 
-Als er nog geen bootloader op e ATSAMD staat of als we een bare metal installatie gebruiken zullen we gebruik moeten maken van de program en debug header. Dat zijn de 3 pinnen centraal op de printplaat voor de LoRaWAN module. De pinouut van links naar recht is: RESET, SWDIO, SWCLK. 
+Als er nog geen bootloader op de ATSAMD staat of als we een bare metal installatie gebruiken zullen we gebruik moeten maken van de program en debug header. Dat zijn de 3 pinnen centraal op de printplaat voor de LoRaWAN module. De pinout van links naar recht is: RESET, SWDIO, SWCLK. 
 
-De ATSAMD maakt gebruik van Serial Wire Debugging, dat maakt het mogelijk om via fuses in te stellen, binaries in te laden en zelfs break-points aan je code toe te voegen.
+De ATSAMD maakt gebruik van Serial Wire Debugging (SWD), dat maakt het mogelijk om via fuses in te stellen, binaries in te laden en zelfs break-points aan je code toe te voegen.
 
 ## Input / Output
 
@@ -133,5 +133,8 @@ PA12 en PA13 zijn onderdeel van de I²C bus en hebben al een pull-up weerstand v
 - Er is geen LED aanwezig
 
 ### Bill of Materials
-[poc board bill of materials](assets/bom/ibom.html ':include :type=iframe width=100% height=1024px')
+
+[Open BOM in nieuw tablad.](./assets/ibom.html ':ignore')
+
+[poc board bill of materials](./assets/ibom.html ':include :type=iframe width=100% height=1024px')
 
