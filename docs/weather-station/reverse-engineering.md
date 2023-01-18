@@ -37,15 +37,21 @@ We weten niet goed wat er mis gaat met de RTL-SDR. Hier moet meer mee gexperimen
 
 #### Met een HackRF proberen onderscheppen
 
-Met behulpt van GQRX heb ik ontdekt dat het weerstation werkt op 868.3MHz
+Met behulpt van GQRX is ontdekt dat het weerstation werkt op 868.3MHz met FM modulatie. Dit is te zien aan de twee pieken in *fig 3*. Dit is niet onlogisch. 863MHz tot 870MHz is binnen Europa vrij te gebruiken, daarom dat veel consumer technology gebruik maakt van deze frequenties. 
 
-Ik heb dan geprobeerd om dit signaal te demoduleren. Ik kreeg het signaal niet gedemoduleerd omdat ik dit [bestaande project](https://github.com/andreafabrizi/BresserWeatherCenter) aan het volgen was.
+Eens er geweten is wat de centerfrequentie is kan het signaal vervolgens gedemoduleerd worden. Om het signaal succesvol te demoduleren is er eerst gekeken naar bestaande projecten. [Dit](https://github.com/andreafabrizi/BresserWeatherCenter) project van andreafabrizi is daar een voorbeeld van. 
 
-Daar werd vermeld dat een gelijkaardig weerstation AM modulatie gebruikte. Ik had toen geprobeerd om dit signaal te demoduleren. Dat was niet gelukt.
+Tijdens het volgen van dat project werden er een aantal opmerkelijkheden ontdekt:
 
-Ik heb toen [hier](https://github.com/merbanan/rtl_433/blob/master/src/devices/bresser_5in1.c) in de comments gevonden dat het weerstation eigenlijk FSK-PCM modulatie gebruikt.
+1. In dat project staat dat er AM modulatie gebruikt wordt.
 
-Ik heb nu twee bronnen dat verschillende info geven over hetzelfde product. Ik heb toen in GQRX geprobeerd met FM demodulatie, dat was niet succesvol. Met WFM had ik het signaal wel succesvol gedemoduleerd.
+2. Wij hebben geobserveerd dat er FM modulatie aanwezig is.
+
+3. In een [tweede project](https://github.com/merbanan/rtl_433/blob/master/src/devices/bresser_5in1.c) dat gebruik maakt van andreafabrizi's project wordt vermeld dat het weerstation gebuik maakt van "FSK-PCM" modulatie.
+
+Wij hebben dus nu twee bronnen die iets compleet verschillend zeggen plus onze eigen observatie van FM modulatie op het signaal. Opmerkelijk.
+
+Voor de volgende stap is er besloten om dit FM signaal te proberen demoduleren. Aangezien we een FM signaal observeren zullen we deze ook demoduleren als FM signaal. De projecten die eerder vermeld werden zullen wij gebruiken tijdens het decoderen van het signaal, aangezien dat dit is waar de focus op ligt bij die projecten.
 
 ![GQRX spectrum analyse](./assets/GQRX-spectrum-analyse.png)
 
@@ -55,7 +61,13 @@ Ik heb nu twee bronnen dat verschillende info geven over hetzelfde product. Ik h
 
 *fig 4, WFM gedemoduleerd signaal*
 
-Nu dat ik een gedemoduleerd signaal heb is de volgende stap om dit om te zetten naar stream van bits zodat deze geanalyseerd kunnen worden.
+In *fig 3* is te zien hoe dat een spectrum analyse eruit ziet. Het is heel duidelijk dat er twee pieken zijn rond de centerfrequentie (868.3MHz). Binnen GQRX is een functie om een FM signaal te demoduleren. Door dit toe te passen hebben wij ontdekt dat het geen FM signaal is maar een WFM signaal. Na de demodulatie door gebruik te maken van GQRX is het signaal zichtbaar op *fig 4*.
+
+Merk op: in het project van andreafabrizi staat een heel gelijkaardige foto. Het signaal dat daar gedemoduleerd is ziet er heel gelijkaardig uit. Een preamble met dan de data die erna komt. Dit is goed nieuws en betekent dat we mogelijks toch gebruik kunnen maken van de twee projecten op GitHub.
+
+Voor dat we dit signaal kunnen decoderen moeten we het wel kunnen demoduleren met GNURadio  Companion. De reden hiervoor is dat GRC een python file genereerd dat op eender welk systeem uitgevoerd kan worden. Dit is natuurlijk handiger om op te schalen dan een grafisch programma.
+
+Dit bleek veel moeilijker dan verwacht. We hebben besloten om eens te kijken wat er binnenin het weerstation gebeurt om ook een  plan B te onderzoeken.
 
 #### Weerstation open maken
 
