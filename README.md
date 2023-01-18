@@ -1,13 +1,35 @@
 # FLSWB
 
-This GitHub repo contains all the source files for this project. 
+Op deze webpagina kan je alle documentatie vinden over het Flexible LoRaWAN Development Board en alle onderdelen die daarbij horen.
 
-## Documentation
+Het project bestaat uit verschillende onderdelen:
+- Printplaat met LoRaWAN verbinding
+- Weerstation dat mee is geïntegreerd
+- Backend die inkomende data verwerkt en opslaat
+- Frontend om de metingen te kunnen weergeven
 
-The `docs/` folder contains all documentation in Markdown format, prepared for Docsify. This documentation can be found on the following page: https://dacetylan.github.io/FLWSB/#/
+![FLWSB Project overzichtsdiagram.](./assets/project-overview-diagram.jpg 'Figuur 1: FLWSB Project overzichtsdiagram.')
 
-## Source code and boards
+## Printplaat met LoRaWAN verbinding
 
-The `src/` folder contains all source files. This is all software written, modified or used and the KiCad projects of the developed PCBs.
+* [Schema en bijhorende documentatie](./schematics/main-board.md)
+* [Printplaat ontwerp en bijhorende documentatie](./printed-circuit-boards/main-board.md)
+* [Connector Board schema en documentatie](./schematics/connector-board.md)
 
 
+## Weerstation dat mee is geïntegreerd
+
+* [Reverse Engineering](./weather-station/reverse-engineering.md)
+* [Reading/Sending Data](./weather-station/data.md)
+
+
+## Backend die inkomende data verwerkt en opslaat
+
+* [BaaVend](./backend/baavend.md)
+
+
+## Frontend om de metingen te kunnen weergeven
+
+* [Mockup](./frontend/mockup.md)
+* [Node-RED Dashboard](./frontend/dashboard.md)
+* [Grafana](./frontend/grafana.md)

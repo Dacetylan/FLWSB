@@ -13,6 +13,90 @@ In dit onderdeel worden de datastromen van effectieve (real) data bekeken.
 
 Een illustratie van hoe de data van een meting van de BME280, die temperatuur, luchtdruk en luchtvochtigheid bevat, wordt verzonden en verwerkt wordt in de backend.
 
+#### SIS Web Formulieren
+
+Voor er data wordt verzonden moeten zowel het board als de hierop eengesloten sensoren worden geregistreerd in het SIS, of Sensor Identification System, via een web formulier.
+
+![SIS web forms voorbeeld.](./assets/node-red-dashboard-sis-forms.png 'Figuur 1: SIS web forms voorbeeld.')
+
+Dit werkt met volgende Node-RED flow:
+
+![SIS web forms Node-RED flow.](./assets/node-red-flow-sis-form.png 'Figuur 2: SIS web forms Node-RED flow.')
+
+Dit brengt volgende msg's in Node-RED binnen:
+
+```javascript
+{
+  "payload":
+  {
+    "board_id":"eui-0004a30b0020da72",
+    "sensor_id":8,
+    "sensor_name":"BME280",
+    "nr_of_measurements":3,
+    "quantity":"temp, pressure, humidity",
+    "unit":"°C, hPa, %",
+    "range":"-40.00 85.00, 300 1100, 0 100",
+    "conversion":"/100 -40, 1, 1",
+    "datatype":"float, uint16_t, byte"
+  },
+  "socketid":"ScYUaiaHGHdfmQYWAAAT",
+  "_msgid":"804621b4d4723594"
+}
+```
+
+```javascript
+{
+  "payload":
+  {
+    "board_id":"eui-0004a30b0020da72",
+    "board_name":"samdaano21-poc",
+    "latitude":51.22999030805754,
+    "longitude":4.416285765591264
+  },
+  "socketid":"ScYUaiaHGHdfmQYWAAAT",
+  "_msgid":"a973b9015232c834"
+}
+```
+
+Met resulterende push naar de InfluxDb database:
+
+```javascript
+[
+  {
+    "sensor_name":"BME280",
+    "nr_of_measurements":3,
+    "quantity":"temp, pressure, humidity",
+    "unit":"°C, hPa, %",
+    "range":"-40.00 85.00, 300 1100, 0 100",
+    "conversion":"/100 -40, 1, 1",
+    "datatype":"float, uint16_t, byte",
+    "time":"2023-01-17T21:50:37.960Z"
+  },
+  {
+    "board_id":"eui-0004a30b0020da72",
+    "sensor_id":8
+  }
+]
+```
+
+```javascript
+[
+  {
+    "board_name":"samdaano21-poc",
+    "latitude":51.22999030805754,
+    "longitude":4.416285765591264,
+    "time":"2023-01-17T21:50:42.690Z"
+  },
+  {
+    "board_id":"eui-0004a30b0020da72"
+  }
+]
+```
+
+Het resultaat in de InfluxDb database Data Explorer web interface.
+
+![SIS data in InfluxDb Data Explorer web interface.](./assets/sis-influxdb-board-sensor.png 'Figuur 3: SIS data in InfluxDb Data Explorer web interface.')
+
 #### Bitstream
 
 De meting wordt opgevraagd en omgezet van een byte array naar een bitstream:
@@ -286,7 +370,7 @@ from(bucket: "flwsb")
 
 Het resultaat in Grafana Dashboard:
 
-![Query resultaat visualisatie in Grafana dashboard van climate_data van de SAMDaaNo21, meer precies temperatuur, luchtdruk en luchtvochtigheid.](./assets/real-data-grafana-dashboard-climate-data-samdaano21.png 'Figuur 1: Query resultaat visualisatie in Grafana dashboard van climate_data van de SAMDaaNo21, meer precies temperatuur, luchtdruk en luchtvochtigheid.')
+![Query resultaat visualisatie in Grafana dashboard van climate_data van de SAMDaaNo21, meer precies temperatuur, luchtdruk en luchtvochtigheid.](./assets/real-data-grafana-dashboard-climate-data-samdaano21.png 'Figuur 4: Query resultaat visualisatie in Grafana dashboard van climate_data van de SAMDaaNo21, meer precies temperatuur, luchtdruk en luchtvochtigheid.')
 
 ---
 
@@ -302,6 +386,53 @@ De verwerking hier gebeurd geautomatiseerd door de gebruikte applicatie.
 Er zijn beperkte opties voor het formateren van deze data beschikbaar.
 Het betreft een open-source applicatie met repository op GitHub, maar hoe deze applicatie juist werkt is niet noodzakelijk te weten voor deze toepassing.
 Voor meer info zie [ Weather STation: Reading/Sending Data](./weather-station/data.md).
+
+#### Mosquitto MQTT Broker
+
+#### SIS Web Formulier
+
+Om de juiste herkening te kunnen doen in Node-RED moet het weerstation eerst geregistreerd worden in het SIS, of Sensor Identification System.
+
+![SIS web forms voorbeeld.](./assets/node-red-dashboard-sis-forms.png 'Figuur 1: SIS web forms voorbeeld.')
+
+Dit werkt met volgende Node-RED flow:
+
+![SIS web forms Node-RED flow.](./assets/node-red-flow-sis-form.png 'Figuur 2: SIS web forms Node-RED flow.')
+
+Dit brengt volgende msg's in Node-RED binnen:
+
+```javascript
+{
+  "payload":
+  {
+    "id":-1646443428,
+    "name":"weather-station-2",
+    "latitude":51.23016015597968,
+    "longitude":4.4162325532681965
+  },
+  "socketid":"ScYUaiaHGHdfmQYWAAAT",
+  "_msgid":"474efd8c5d401103"}
+```
+
+En volgende data wordt gepushed naar de InfluxDb database:
+
+```javascript
+[
+  {
+    "name":"weather-station-2",
+    "latitude":51.23016015597968,
+    "longitude":4.4162325532681965,
+    "time":"2023-01-17T22:26:49.039Z"
+  },
+  {
+    "id":-1646443428
+  }
+]
+```
+
+Het resultaat in de InfluxDb database Data Explorer:
+
+![SIS data in InfluxDb Data Explorer web interface.](./assets/sis-influxdb-weather-station.png 'Figuur 5: SIS data in InfluxDb Data Explorer web interface.')
 
 #### Node-RED backend
 
@@ -398,7 +529,7 @@ from(bucket: "flwsb")
 
 Het resultaat in Grafana Dashboard:
 
-![Query resultaat visualisatie in Grafana dashboard van alle data van weather-station-2.](./assets/real-data-grafana-weather-station-all.png 'Figuur 2: Query resultaat visualisatie in Grafana dashboard van alle data van weather-station-2.')
+![Query resultaat visualisatie in Grafana dashboard van alle data van weather-station-2.](./assets/real-data-grafana-weather-station-all.png 'Figuur 6: Query resultaat visualisatie in Grafana dashboard van alle data van weather-station-2.')
 
 Of enkel een gespecifieërde meting visualiseren, maar van meerdere bronnen gebeurd als volgt:
 
@@ -414,4 +545,4 @@ from(bucket: "flwsb")
 
 Het resultaat in Grafana Dashboard:
 
-![Query resultaat visualisatie in Grafana dashboard van temperatuur data van de twee weather_stations.](./assets/real-data-grafana-weather-station-temp.png 'Figuur 3: Query resultaat visualisatie in Grafana dashboard van temperatuur data van de twee weather_stations.')
+![Query resultaat visualisatie in Grafana dashboard van temperatuur data van de twee weather_stations.](./assets/real-data-grafana-weather-station-temp.png 'Figuur 7: Query resultaat visualisatie in Grafana dashboard van temperatuur data van de twee weather_stations.')
