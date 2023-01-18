@@ -4,7 +4,7 @@ Het programmeren van de SAMDaaNo21 kan gelukkig heel gemakkelijk door gebruik te
 
 ## Voorbeeldcode
 
-We hebben verschillende "[Example Sketches](https://github.com/DaanDekoningKrekels/ArduinoCore-samd/tree/master/libraries/SAMDaaNo21/examples)" gemaakt die het duidleijk weergeven hoe je kan werken met de SAMDaaNo21 en hoe je de werking kan nagaan.
+We hebben verschillende "[Example Sketches](https://github.com/DaanDekoningKrekels/ArduinoCore-samd/tree/master/libraries/SAMDaaNo21/examples)" gemaakt die het duidelijk weergeven hoe je kan werken met de SAMDaaNo21 en hoe je de werking kan nagaan.
 
 1. Stel de SAMDaaNo21 (Native USB Port) in als actief board. Via `Tools` -> `Board` -> `FLWSB ...` -> `SAMDaaNo21 (Native USB Port)`. 
 2. Selecteer een van de voorbeelden via: `File` -> `Examples` -> `SAMDaaNo21` -> `...`.
@@ -14,9 +14,9 @@ We hebben verschillende "[Example Sketches](https://github.com/DaanDekoningKreke
 
 [Broncode](https://github.com/DaanDekoningKrekels/ArduinoCore-samd/blob/master/libraries/SAMDaaNo21/examples/SAMDaaNo21-UART-test/SAMDaaNo21-UART-test.ino)
 
-Deze code kan gebruikt worden om alle toegankelijke UART interfaces die de SAMDaaNo21 kan aanbeiden te testen.
+Deze code kan gebruikt worden om alle toegankelijke UART-interfaces die de SAMDaaNo21 kan aanbieden te testen.
 
-Iedere kwart seconde zal er naat een andere UART een bericht worden verzonden.
+Iedere kwart seconde zal er naar een andere UART een bericht worden verzonden.
 
 `SerialUSB` is een alias van `Serial`.
 
@@ -33,7 +33,7 @@ Deze code kan gebruikt worden om de I2C verbinding van de SAMDaaNo21 te testen.
 
 Sluit een oscilloscoop aan en zet het trigger type op I2C of gebruik een andere MCU om de berichten te ontvangen. 
 
-De SerialUSB is ingebruik voor extra informatie over de verloop.
+De SerialUSB is in gebruik voor extra informatie over het verloop van de code.
 
 Het signaal is aanwezig op de S4CDA en S4SCL pinnen. 
 Een pull-up weerstand is aanwezig aan de onderkant van de printplaat.
@@ -54,13 +54,16 @@ Alles dat `SerialLoRa` ontvangt wordt doorgestuurd naar `SerialUSB`.
 
 Gebruikte bibliotheek: https://github.com/adafruit/Adafruit_BME280_Library
 
-Deze code toont de werking van een BME28 en zet de temperatuur, luchtvochtigheid en luchtdruk om naar een array om gemakkelijk door te sturen via LoRaWAN. 
+Deze code toont de werking van een BME280 en zet de temperatuur, luchtvochtigheid en luchtdruk om naar een array om gemakkelijk door te sturen via LoRaWAN. 
 
 
-### Proof-of-Concept Code
+### BME280 LoRa SIS
 
-### BME280
+[Broncode](https://github.com/DaanDekoningKrekels/ArduinoCore-samd/blob/master/libraries/SAMDaaNo21/examples/BME280-LoRa-SIS/BME280-LoRa-SIS.ino)
 
-### Bitstream
+Bibliotheek 1: https://github.com/jpmeijers/RN2483-Arduino-Library
+Bibliotheek 2: https://github.com/adafruit/Adafruit_BME280_Library
 
-### LoRaWAN
+Deze code toont de werking van een BME280 en LoRaWAN. Het zet de temperatuur, luchtvochtigheid en luchtdruk om naar een array en verstuurt deze data via LoRaWAN.  
+
+

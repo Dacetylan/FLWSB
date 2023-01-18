@@ -9,7 +9,7 @@ Om deze vraag te beantwoorden is er een modulair hardware design uitgewerkt same
 
 ## Boards Design
 
-Om tot een flexiebel en modulair hardware systeem te komen is er gekozen om een opdeling te maken in twee boards. Een hoofd, of main, board die de microcontroller en LoRa radio module bevat, en een tweede connectie, of connector, board waar alle andere componenten op kunnen worden aangesloten.
+Om tot een flexibel en modulair hardware systeem te komen is er gekozen om een opdeling te maken in twee boards. Een hoofd, of main, board die de microcontroller en LoRa radio module bevat, en een tweede connectie, of connector, board waar alle andere componenten op kunnen worden aangesloten.
 
 Om deze twee boards van voeding te voorzien, aan de hand van batterij en zonne-energie, wordt er nog een derde Solar Power Manager board aangekocht.
 
@@ -19,7 +19,7 @@ In dit deel worden de ontwerp beslissingen rond deze drie boards besproken.
 2. Connector Board
 3. Solar Power Manager
 
-Een behuizing hoort niet tot deze iteratie van het project en er zijn dus ook geen vereisten voor opgelegt.
+Een behuizing hoort niet tot deze iteratie van het project en er zijn dus ook geen vereisten voor opgelegd.
 In het hoofdstuk [Enclosure, of Behuizing](./enclosure/considerations.md), is wel een kijk genomen naar enkele overwegingen die in acht kunnen worden genomen. Er moet namelijk toch over nagedacht worden en rekening mee gehouden worden bij het ontwerpen.
 
 #### Blokdiagram
@@ -38,7 +38,7 @@ De LoRa radio module zit hierop reeds geïntegreerd om zo de hoofdfunctie van he
 
 #### Blokdiagram
 
-![Blokdiagram werking SAMDaaNo21](./assets/blokdiagram.svg 'Figuur 2: Blokdiagram werking SAMDaaNo21.')
+![Blokdiagram werking SAMDaaNo21](../schematics/assets/blokdiagram.svg 'Figuur 2: Blokdiagram werking SAMDaaNo21.')
 
 ---
 
@@ -51,7 +51,7 @@ Het connector board dient als verbindingspunt voor de SAMDaaNo21. Het is de tuss
 ##### Te connecteren onderdelen
 
 - SAMDaaNo21 moederbord
-- Zonne-energie (Solar Power) manager voor continu gebruik tussen batterij en zonnenpaneel.
+- Zonne-energie (Solar Power) manager voor continu gebruik tussen batterij en zonnepaneel.
 - Sensoren:
   - [CCS811](https://www.sciosense.com/products/environmental-sensors/ccs811/): TVOC sensor met I2C op 1V8-3V3
   - [SDS011](https://www.tinytronics.nl/shop/nl/sensoren/lucht/stof/nova-sds011-hoge-precisie-laser-stofsensor): fijnstof sensor met UART 3V3 op 5V
@@ -204,7 +204,7 @@ Verder moet het ook voldoende spanning en stroom kunnen voorzien. De SAMDaaNo21 
 Er wordt gekozen voor de DFRobot Zonne-energie Manager 5V v1.1 DFR0559.
 Deze laat toe een heroplaadbare batterij op te laden
 
-![DFROBOT-DFR0559 foto](./assets/DFROBOT-DFR0559/DFR0559-photo.jfif 'Figuur 3: foto van de DFROBOT-DFR0559.')
+![DFROBOT-DFR0559 foto](./assets/DFROBOT-DFR0559/DFR0559-photo.jfif 'Figuur 3: Foto van de DFROBOT-DFR0559.')
 
 ##### Eigenschappen
 
