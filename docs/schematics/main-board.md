@@ -142,6 +142,8 @@ Dit zijn alle GPIO, SERCOM en power aansluitingen die via pinheaders naar buiten
 `GCLK_IO[n]`: Generic Clock (source clock or generic clock generator output)
 
 
-### Bill of Materials
+## Bill of Materials
+
+[Open BOM in nieuw tablad.](/schematics/assets/ibom.html  ':ignore')
 
 [poc board bill of materials](./assets/ibom.html ':include :type=iframe width=100% height=1024px')

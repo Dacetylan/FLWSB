@@ -76,7 +76,6 @@ In dit bestand passen we enkel de USB instellingen aan en het BOOT_DOUBLE_TAP_AD
 #define USB_VID_LOW    0xEB
 #define USB_PID_HIGH   0x24     // Generic HID device
 #define USB_PID_LOW    0x02
-
 /*
  * If BOOT_DOUBLE_TAP_ADDRESS is defined the bootloader is started by
  * quickly tapping two times on the reset button.
@@ -196,7 +195,6 @@ De laatste link gaat rechtstreeks naar de download van de bootloader. De inhoud 
 │   ├── samd21j17a
 │   └── samd21j18a
 └── sam-ba_monitor.zip
-
 ```
 
 Enkel de bootloader `samd21_sam_ba_both_interfaces.hex` in de map `samd21g16a` is voor ons van toepassing. Met deze bootloader werkt uploaden vanaf de Arduino IDE!
@@ -233,7 +231,7 @@ Per pin op de SAMDaaNo21 zijn er functies die toegewezen worden. Om de juiste fu
 
 [`WVariant.h`](https://github.com/DaanDekoningKrekels/ArduinoCore-samd/blob/master/cores/arduino/WVariant.h#L201)
 
-```c++
+```cpp
 /* Types used for the table below */
 typedef struct _PinDescription
 {
@@ -250,7 +248,7 @@ typedef struct _PinDescription
 
 Deze functies worden in [`variant.cpp`](https://github.com/DaanDekoningKrekels/ArduinoCore-samd/blob/master/variants/samdaano21/variant.cpp) op volgende manier weergegeven:
 
-```c++
+```cpp
 { PORTA,  2, PIO_ANALOG, PIN_ATTR_ANALOG, ADC_Channel0, NOT_ON_PWM, NOT_ON_TIMER, EXTERNAL_INT_2 }, // ADC/AIN[0]
 ```
 
@@ -260,7 +258,7 @@ Bovenstaande lijn code staat op index 0 van de `g_APinDescription` array. In [`v
 
 [`variant.h`](https://github.com/DaanDekoningKrekels/ArduinoCore-samd/blob/master/variants/samdaano21/variant.h)
 
-```c++
+```cpp
 /*
  * Analog pins
  */
@@ -288,7 +286,7 @@ Om gebruik van de SAMDaaNo21 gemakkelijker te maken zijn alle pinnen die omschre
 
 **Let op dat `PA07` op de slikscreen staat aangegeven als `PA09`. Dit is een fout die in versie 2 zal worden rechtgezet.**
 
-```c++
+```cpp
 #define PA02        (0ul)
 #define PA03        (1ul)
 #define PB08        (2ul)

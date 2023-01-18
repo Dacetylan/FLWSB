@@ -47,7 +47,14 @@ Als je een andere chip dan de SAMD21g16b gebruikt dan moet dit aangepast worden 
 
 #### Linux
 
+Als je de Arduino IDE geïnstalleerd hebt, is het gemakkelijk om deze OpenOCD te gebruiken. De Linux binary is te vinden in: `/home/username/.arduino15/packages/arduino/tools/openocd/0.10.0-arduino7/bin/openocd`.
+
+
 #### Raspberry Pi
+
+In [deze](https://lupyuen.github.io/articles/openocd-on-raspberry-pi-better-with-swd-on-spi) stappen wordt uitgelegd hoe de SPI-interface van de Raspberry Pi 4 gebruikt kan worden als SWD-programmer.
+
+Om dit te laten werken moet een aangepaste versie van OpenOCD geïnstalleerd worden.
 
 ### Verbinden
 
@@ -64,6 +71,10 @@ Op de user guide van de Atmel Ice ([hier te vinden](https://ww1.microchip.com/do
 | GND                  | GND        |
 
 #### Raspberry Pi
+
+Volg de pinout diagram beschreven in de figuur.
+
+![RPi pinout diagram SWD](assets/rpi-swd-pinout.png 'RPi pinout diagram SWD')
 
 ### Compileren
 
@@ -186,7 +197,11 @@ Om nu deze `main.c` te compileren hoef je enkel nog een heel simpel commando uit
 
 #### Linux
 
+Idem als bij MacOS.
+
 #### Raspberry Pi
+
+Idem als bij MacOS.
 
 ### Programmeren
 
