@@ -44,7 +44,9 @@ De UF2 bootloader van Adafruit is BOSSA compatible, wat wil zeggen dat deze ook 
 
 ### Arduino Core voor SAMD21 CPU
 
-Hiervoor speelt alles zich af in de [./bootloaders/](https://github.com/DaanDekoningKrekels/ArduinoCore-samd/tree/master/bootloaders) folder van de GitHub repo.
+Hiervoor speelt alles zich af in een vroegere versie van de [./bootloaders/](https://github.com/DaanDekoningKrekels/ArduinoCore-samd/tree/d43b5cc60e3d2cf1adc67d0252b6663a6e49250b/bootloaders/samdaano21) folder van de GitHub repo. 
+
+In de meest recente versie zal er enkel de Microchip bootloader te vinden zijn en de bestanden om deze te flashen. 
 
 Folder van de Arduino Zero `zero/` gedupliceerd en hernoemd naar `samdaano21/`.
 
@@ -217,8 +219,8 @@ Hiervoor speelt het meeste zich af in de ./variants/ folder van de GitHub repo, 
 | ---------------------------------------------- | ------------------------------------------------------------ |
 | boards.txt                                     | Bestand met definities en instellingen voor Arduino borden weer te geven in de Arduino IDE onder `tools`-> `board: xxx` |
 | variants/samdaano21/                           |                                                              |
-| variant.h                                      | Bestand waar alle pin-namen die via de Arduino IDE aanspreekbaar zijn worden gedefinieerd. |
-| variant.cpp                                    | Bestand waar alle beschikbare pinnen en hun functies in één array worden samengebracht. |
+| [variant.h](https://github.com/DaanDekoningKrekels/ArduinoCore-samd/blob/master/variants/samdaano21/variant.h)                                      | Bestand waar alle pin-namen die via de Arduino IDE aanspreekbaar zijn worden gedefinieerd. |
+| [variant.cpp](https://github.com/DaanDekoningKrekels/ArduinoCore-samd/blob/master/variants/samdaano21/variant.cpp)                                    | Bestand waar alle beschikbare pinnen en hun functies in één array worden samengebracht. |
 | openocd_scripts/samdaano21.cfg                 | OpenOCD script om te communiceren met de MCU.                |
 | linker_scripts/gcc/flash_with_bootloader.ld    | Linker script dat wederom de geheugen regio's weergeeft, ditmaal met een offset van 8kb om de bootloader niet te overschrijven. |
 | linker_scripts/gcc/flash_without_bootloader.ld | Linker script dat wederom de geheugen regio's weergeeft.     |
@@ -332,6 +334,10 @@ Om gebruik van de SAMDaaNo21 gemakkelijker te maken zijn alle pinnen die omschre
 Ook de SERCOM poorten zijn in dit bestand geformuleerd.
 
 
+## Uitbreidingen
+
+- In het `Tools` menu van de Arduino-IDE kunnen nog instellingen worden toegevoegd zoals kloksnelheid.
+- Echte release maken zodat de boards via de Board Manager geïnstalleerd worden zoals bij de ESP32.
 
 
 

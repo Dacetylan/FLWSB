@@ -72,12 +72,29 @@ PA12 en PA13 zijn onderdeel van de I²C bus en hebben al een pull-up weerstand v
 
 ## Toekomstige verbeteringen
 
-- Momenteel zijn er geen mounting holes aanwezig, dat vonden we momenteel nog niet prioritair.
-  - Mouning holes of inkepingen aan de randen van de printplaat zijn dus nog mogelijk.
-- De impedantie van het pad naar de antenne aansluiting is niet theoretisch berekend. dit is iets waar in een volgende versie over kan worden nagedacht
-- Er is geen LED aanwezig
+- Momenteel zijn er geen mounting holes aanwezig, dat vonden we  nog niet prioritair.
+  - Mouning holes of inkepingen aan de randen van de printplaat zijn dus nog mogelijk en kunnen ook zeker van pas komen.
+- De impedantie van het pad naar de antenne-aansluiting is niet theoretisch berekend. Dit is iets waar in een volgende versie over kan worden nagedacht.
+- Er is geen LED aanwezig.
+- Op het silkscreen staat een fout, `PA07` staat op het silkscreen als `PA09`. 
+- Het schema bevat een fout die de LoRaWAN module onbruikbaar maakt. RX en TX van de UART-verbinding moeten omgewisseld worden.
 
-### Bill of Materials
+
+### Tijdelijke oplossing LoRaWAN module
+
+Een UART-verbinding heeft een TX (transmit) en RX (receive) aansluiting nodig. Logischerwijze zal je dus, bij een verbinding tussen twee apparaten, RX en TX met elkaar verbinden. Bij het ontwerpen van dit schema is door onoplettendheid TX met TX verbonden en RX met RX verbonden.
+
+De PINMUX van de ATSAM D21 kan iedere SERCOM pin als RX instellen, maar niet iedere pin als TX schakelen. Dit maakt het onmogelijk om de oplossing geheel softwarematig te zoeken. Enkel PAD0 en PAD2 van een SERCOM poort kan je instellen als TX.
+
+Wij hebben `PA8` (`S2TX` op het silkscreen) ingesteld als RX omdat deze verbonden is met de TX van de LoRaWAN module. `PA09` (`S2RX` op het silkscreen) hebben we hoog impedant gezet (`INPUT`) en kortgesloten met `PA10`. `PA10` is PAD2 van SERCOM2 dus kan ingesteld worden als nieuwe TX.
+
+Het resultaat is dat we nu het baantje naar de RESET pin van de LoRaWAN module moeten onderbreken, omdat `PA10` verbonden is met deze pin. Die onderbreking is het gemakkelijkste te maken met een mesje of platte schroevendraaier net op de plek waar deze richting het pad van de module gaat.
+
+De aanpassingen van deze pinnen is gemaakt in de ArduinoCore dus er hoeft in de code niets gewijzigd te worden.
+
+Er is geen manier meer om de module te resetten vanaf de MCU, moest dat nodig zijn, dan kan er een kabeltje gesoldeerd worden naar een van de vrije GPIO pinnen.
+
+## Bill of Materials
 
 [Open BOM in nieuw tablad.](/printed-circuit-boards/assets/ibom.html ':ignore')
 
