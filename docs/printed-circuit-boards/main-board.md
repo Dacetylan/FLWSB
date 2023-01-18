@@ -69,61 +69,6 @@ Dit zijn alle GPIO, SERCOM en power aansluitingen die via pinheaders naar buiten
 PA12 en PA13 zijn onderdeel van de I²C bus en hebben al een pull-up weerstand van 4,7 K voorzien. *Bij het plaatsen van nog externe pull-up weerstanden zullen zij in parallel staan en zal de weerstandswaarde te laag worden.*
 
 
-| I/O Pin | Pin      | SERCOM                  | SERCOM-ALT     | External Interrupt | ADC, DAC, AC, REF  | Peripheral Touch Controller | TC/TCC       | TCC          | COM             | Generic Clock Generator |
-| ------- | -------- | ----------------------- | -------------- | ------------------ | ------------------ | --------------------------- | ------------ | ------------ | --------------- | ----------------------- |
-| GND     | PowerPin | Ground Reference        |                | EXTINT:2           | ADC:0<br/>VOUT       |                             |              |              |                 |                         |
-| PA02    | 3        |                         |                | EXTINT:3           | ADC:1<br/>VREFA      | Y:0                         |              | TCC3/<br/>WO:0 |                 |                         |
-| PA03    | 4        |                         |                | EXTINT:8           | ADC:2              | Y:1                         |              | TCC3/<br/>WO:1 |                 |                         |
-| PB08    | 7        |                         | SCOM4/<br/>PAD:0 | EXTINT:9           | ADC:3              | Y:14                        | TC4/<br/>WO:0  | TCC3/<br/>WO:6 |                 |                         |
-| PB09    | 8        |                         | SCOM4/<br/>PAD:1 | EXTINT:4           | ADC:4<br/>AC:0 VREFB | Y:15                        | TC4/<br/>WO:1  | TCC3/<br/>WO:7 |                 |                         |
-| PA04    | 9        |                         | SCOM0/<br/>PAD:0 | EXTINT:5           | ADC:5<br/>AC:1       | Y:2                         | TCC0/<br/>WO:0 | TCC3/<br/>WO:2 |                 |                         |
-| PA05    | 10       |                         | SCOM0/<br/>PAD:1 | EXTINT:6           | ADC:6<br/>AC:2       | Y:3                         | TCC0/<br/>WO:1 | TCC3/<br/>WO:3 |                 |                         |
-| PA06    | 11       |                         | SCOM0/<br/>PAD:2 | EXTINT:7           | ADC:7<br/>AC:3       | Y:4                         | TCC1/<br/>WO:0 | TCC3/<br/>WO:4 |                 |                         |
-| PA07    | 12       |                         | SCOM0/<br/>PAD:3 | NMI                | ADC:16             | Y:5                         | TCC1/<br/>WO:1 | TCC3/<br/>WO:5 | I2S/<br/>SD:0     |                         |
-| PA08    | 13       | SCOM0/<br/>PAD:0          | SCOM2/<br/>PAD:0 | EXTINT:9           | ADC:17             | X:0                         | TCC0/<br/>WO:0 | TCC1/<br/>WO:2 | I2S/<br/>SD:1     |                         |
-| PA09    | 14       | SCOM0/<br/>PAD:1          | SCOM2/<br/>PAD:1 | EXTINT:10          | ADC:18             | X:1                         | TCC0/<br/>WO:1 | TCC1/<br/>WO:3 | I2S/<br/>MCK:0    |                         |
-| PA10    | 15       | SCOM0/<br/>PAD:2          | SCOM2/<br/>PAD:2 | EXTINT:11          | ADC:19             | X:2                         | TCC1/<br/>WO:0 | TCC0/<br/>WO:2 | I2S/<br/>SCK:0    | GCLK:4                  |
-| PA11    | 16       | SCOM0/<br/>PAD:3          | SCOM2/<br/>PAD:3 | EXTINT:12          | AC:0               | X:3                         | TCC1/<br/>WO:1 | TCC0/<br/>WO:3 | I2S/<br/>FS:0     | GCLK:5                  |
-| PA12    | 21       | SCOM2/<br/>PAD:0          | SCOM4/<br/>PAD:0 | EXTINT:13          | AC:1               |                             | TCC2/<br/>WO:0 | TCC0/<br/>WO:6 |                 |                         |
-| PA13    | 22       | SCOM2/<br/>PAD:1          | SCOM4/<br/>PAD:1 |                    |                    |                             | TCC2/<br/>WO:1 | TCC0/<br/>WO:7 |                 |                         |
-| VIN     | PowerPin | LDL1117S33 4.3 V - 15 V |                |                    |                    |                             |              |              |                 |                         |
-| 3V3     | PowerPin | 3.3V LDO output         |                |                    |                    |                             |              |              |                 |                         |
-| GND     | PowerPin | Ground Reference        |                |                    |                    |                             |              |              |                 |                         |
-| PB03    | 48       |                         | SCOM5/<br/>PAD:1 | EXTINT:3           | ADC:11             | Y:9                         | TC6/<br/>WO:1  | TCC3/<br/>WO:3 |                 |                         |
-| PB22    | 37       |                         | SCOM5/<br/>PAD:2 | EXTINT:6           |                    |                             | TC7/<br/>WO:0  | TCC3/<br/>WO:0 |                 | GCLK:0                  |
-| PA23    | 32       | SCOM3/<br/>PAD:1          | SCOM5/<br/>PAD:1 | EXTINT:7           |                    | X:11                        | TC4/<br/>WO:0  | TCC0/<br/>WO:5 | USB/<br/>SOF 1KhZ | GCLK:7                  |
-| PA22    | 31       | SCOM3/<br/>PAD:0          | SCOM5/<br/>PAD:0 | EXTINT:6           |                    | X:10                        | TC4/<br/>WO:1  | TCC0/<br/>WO:4 |                 | GCLK:6                  |
-| PA21    | 30       | SCOM5/<br/>PAD:3          | SCOM3/<br/>PAD:3 | EXTINT:5           |                    | X:9                         | TC7/<br/>WO:1  | TCC0/<br/>WO:7 | I2S/<br/>FS:0     | GCLK:5                  |
-| PA20    | 29       | SCOM5/<br/>PAD:2          | SCOM3/<br/>PAD:2 | EXTINT:4           |                    | X:8                         | TC7/<br/>WO:0  | TCC0/<br/>WO:6 | I2S/<br/>SCK:0    | GCLK:4                  |
-| PA19    | 28       | SCOM1/<br/>PAD:3          | SCOM3/<br/>PAD:3 | EXTINT:3           | AC:1               | X:7                         | TC3/<br/>WO:1  | TCC0/<br/>WO:3 | I2S/<br/>SD:0     |                         |
-| PA18    | 27       | SCOM1/<br/>PAD:2          | SCOM3/<br/>PAD:2 | EXTINT:2           | AC:0               | X:6                         | TC3/<br/>WO:0  | TCC0/<br/>WO:2 |                 |                         |
-| PA17    | 26       | SCOM1/<br/>PAD:1          | SCOM3/<br/>PAD:1 | EXTINT:1           |                    | X:5                         | TCC2/<br/>WO:1 | TCC0/<br/>WO:7 |                 | GCLK:3                  |
-| PA16    | 25       | SCOM1/<br/>PAD:0          | SCOM3/<br/>PAD:0 | EXTINT:0           |                    | X:4                         | TCC2/<br/>WO:0 | TCC0/<br/>WO:6 |                 | GCLK:2                  |
-| PA15    | 24       | SCOM2/<br/>PAD:3          | SCOM4/<br/>PAD:3 | EXTINT:15          |                    |                             | TC3/<br/>WO:1  | TCC0/<br/>WO:5 |                 | GCLK:1                  |
-| PA14    | 23       | SCOM2/<br/>PAD:2          | SCOM4/<br/>PAD:2 | EXTINT:14          |                    |                             | TC3/<br/>WO:0  | TCC0/<br/>WO:4 |                 | GCLK:0                  |
-
-
-### Legende
-
-`SERCOM`: Serial Communication, keuze tussen: USART, I²C, SPI of SMBus
-
-`EXTINT[n]`: External Interrupts
-
-`AIN[n]`: ADC Analog Inputs
-
-`X[n]`, `Y[n]`: Peripheral Touch Controller - PTC Input
-
-`TC4/WO[n]`, `TC6/WO[n]`: Waveform/PWM Outputs
-
-`TCC3/WO[n]`: Waveform/PWM Outputs/ Capture Inputs 
-
-`AC/CMP[n]`: AC Comparator Outputs
-
-`I2S/FS[n]`: Inter-IC Sound Controller, I²S Word Select or TDM Frame Sync
-
-`GCLK_IO[n]`: Generic Clock (source clock or generic clock generator output)
-
-
 
 ## Toekomstige verbeteringen
 
@@ -134,7 +79,7 @@ PA12 en PA13 zijn onderdeel van de I²C bus en hebben al een pull-up weerstand v
 
 ### Bill of Materials
 
-[Open BOM in nieuw tablad.](./assets/ibom.html ':ignore')
+[Open BOM in nieuw tablad.](/printed-circuit-boards/assets/ibom.html ':ignore')
 
 [poc board bill of materials](./assets/ibom.html ':include :type=iframe width=100% height=1024px')
 

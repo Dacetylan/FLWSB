@@ -15,9 +15,13 @@ We hebben verschillende "[Example Sketches](https://github.com/DaanDekoningKreke
 [Broncode](https://github.com/DaanDekoningKrekels/ArduinoCore-samd/blob/master/libraries/SAMDaaNo21/examples/SAMDaaNo21-UART-test/SAMDaaNo21-UART-test.ino)
 
 Deze code kan gebruikt worden om alle toegankelijke UART interfaces die de SAMDaaNo21 kan aanbeiden te testen.
+
 Iedere kwart seconde zal er naat een andere UART een bericht worden verzonden.
+
 `SerialUSB` is een alias van `Serial`.
+
 `SerialLoRa` is een alias van `Serial2`.
+
 Je kan in principe kiezen welke je gebruikt of ze door elkaar gebruiken.
 
 
@@ -26,8 +30,11 @@ Je kan in principe kiezen welke je gebruikt of ze door elkaar gebruiken.
 [Broncode](https://github.com/DaanDekoningKrekels/ArduinoCore-samd/blob/master/libraries/SAMDaaNo21/examples/SAMDaaNo21-master_writer/SAMDaaNo21-master_writer.ino)
 
 Deze code kan gebruikt worden om de I2C verbinding van de SAMDaaNo21 te testen.
+
 Sluit een oscilloscoop aan en zet het trigger type op I2C of gebruik een andere MCU om de berichten te ontvangen. 
+
 De SerialUSB is ingebruik voor extra informatie over de verloop.
+
 Het signaal is aanwezig op de S4CDA en S4SCL pinnen. 
 Een pull-up weerstand is aanwezig aan de onderkant van de printplaat.
 
@@ -36,12 +43,16 @@ Een pull-up weerstand is aanwezig aan de onderkant van de printplaat.
 [Broncode](https://github.com/DaanDekoningKrekels/ArduinoCore-samd/tree/master/libraries/SAMDaaNo21/examples/SAMDaaNo21-LoRa-Module-Serial-passthrough)
 
 Deze code kan gebruikt worden om via de computer commando's te sturen naar de RN2483 LoRaWAN module.
+
 Alles dat `SerialUSB` ontvangt wordt doorgestuurd naar `SerialLoRa`.
+
 Alles dat `SerialLoRa` ontvangt wordt doorgestuurd naar `SerialUSB`.
 
 ### BME280 Wire LoRa formatting
 
 [Broncode](https://github.com/DaanDekoningKrekels/ArduinoCore-samd/blob/master/libraries/SAMDaaNo21/examples/BME280-Wire-LoRa-formatting/BME280-Wire-LoRa-formatting.ino)
+
+Gebruikte bibliotheek: https://github.com/adafruit/Adafruit_BME280_Library
 
 Deze code toont de werking van een BME28 en zet de temperatuur, luchtvochtigheid en luchtdruk om naar een array om gemakkelijk door te sturen via LoRaWAN. 
 
