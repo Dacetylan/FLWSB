@@ -8,6 +8,7 @@ Het project bestaat uit verschillende onderdelen:
 - Backend die inkomende data verwerkt en opslaat
 - Frontend om de metingen te kunnen weergeven
 
+![FLWSB Project overzichtsdiagram.](./assets/project-overview-diagram.jpg 'Figuur 1: FLWSB Project overzichtsdiagram.')
 
 ## Printplaat met LoRaWAN verbinding
 

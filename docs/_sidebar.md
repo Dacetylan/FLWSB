@@ -54,6 +54,8 @@
 
   * [BaaVend](backend/baavend.md)
 
+  * [Linux VM](backend/linux-vm.md)
+  
   * [Node-RED](backend/nodered.md)
 
   * [InfluxDb](backend/influxdb.md)

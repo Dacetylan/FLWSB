@@ -2,6 +2,14 @@
 
 ## Zonne-energie
 
+In dit onderdeel wordt onderzocht waar er moet op gelet worden bij ontwerpen met zonne-energie.
+
+1. Voeding met zonnepanelen
+2. Zonne-energie in Sub-Sahara Afrika
+3. Temperatuur van het zonnenpaneel
+
+---
+
 ### Voeding met zonnepanelen
 
 Voor dit project wordt er gebruik gemaakt van [kleine zonnepanelen van 110x80mm die elk 5V 200mA kunnen leveren](https://www.tinytronics.nl/shop/nl/power/zonne-energie/zonnepanelen/zonnepaneel-5v-200ma-110x80mm).
@@ -36,6 +44,8 @@ __In totaal wordt er dus 345mAh vereist.
 Op lange termijn moet er echter ook nog rekening gehouden worden met de degredatie van de zonnecellen. [Voor monokristallijne (zwarte) zonnepanelen bedraagt dit tussen de 19% tot 23%](https://zonnepanelenenergie.be/perc) over 25 jaar, afgerond 20%. Dan is er nog slechts 288mAh over. Er zal echter nooit het maximale stroomverbruik plaatsvinden voor een volledig uur. Dat zal slechts enkele seconden of minuten zijn, dus twee panelen zouden nog steeds ruim voldoende moeten zijn.
 
 > 360mAh * 80% = 288mAh
+
+---
 
 ### Zonne-energie in Sub-Sahara Afrika
 
@@ -139,3 +149,15 @@ __Oriëntatie Ghana = Zuiden (S)__
 ![Kumasi, Ghana latitude longitude](./assets/location-ghana-kumasi.png)
 
 *Fig. [Kumasi, Ghana latitude longitude](https://latitudelongitude.org/gh/kumasi/)*
+
+---
+
+### Temperatuur van het zonnenpaneel
+
+Al is het geen cruciaal punt, de temperatuur van een zonnepaneel heeft invloed op het rendement.
+Zowel hoeveel stroom er geproduceerd wordt, als op de levensduur van het paneel.
+Er kan gekeken worden naar manieren hoe het paneel gekoeld kan worden, zowel passief als actief.
+
+Onderstaand filmpje is een experiment rond actieve koeling van groot zonnepaneel:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Mt9qLRN7JvA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
