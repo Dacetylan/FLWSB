@@ -24,8 +24,6 @@
 
   * [Main Board with LoRaWAN](./printed-circuit-boards/main-board.md)
 
-  * [Connector Board](./printed-circuit-boards/connector-board.md)
-
 * Embedded Programming
 
   * [Bare-Metal](./embedded-programming/bare-metal.md)
@@ -53,7 +51,7 @@
   * [BaaVend](./backend/baavend.md)
 
   * [Linux VM](./backend/linux-vm.md)
-  
+
   * [Node-RED](./backend/nodered.md)
 
   * [InfluxDb](./backend/influxdb.md)
