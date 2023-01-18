@@ -1,10 +1,10 @@
  # Flexible LoRaWAN Sensor Board SAMDaaNo21
 
+![SAMDaaNo21 Horizontaal](assets/SAMDaaNo21-horizontaal.JPG 'Figuur 1: SAMDaaNo21 printplaat op breadboard')
 
+![SAMDaaNo21](assets/SAMDaaNo21-pinout.svg 'Figuur 2: Pinout diagram SAMDaaNo21')
 
-![SAMDaaNo21](assets/SAMDaaNo21-pinout.svg)
-
-[PDF versie van de pinout diagram](./assets/SAMDaaNo21-pinout.pdf ':ignore')
+[PDF versie van de pinout diagram](/printed-circuit-boards/assets/SAMDaaNo21-pinout.pdf ':ignore')
 
 Het FLWSB Main Board is een microcontroller bord gebaseerd op de ATSAM D21 in de vormfactor vergelijkbaar met een Arduino Nano. Het moet gemakkelijk zijn om dit bord in een breadboard te prikken en zo testen uit te voeren of schakelingen te bouwen. Het elektrisch schema is [hier](../schematic/main-board) te vinden.
 
@@ -22,14 +22,14 @@ Tutorial: [How to import into KiCad V6 & later?](https://support.snapeda.com/en/
 
 [SAMDaaNo21 bibliotheek bestanden](https://github.com/Dacetylan/FLWSB/tree/SAMDaaNo21/src/printed-circuit-boards/FLWSB-SAMDaaNo21-KiCad-lib)
 
-![LWSB-SAMDaaNo21-v1-symbol](assets/FLWSB-SAMDaaNo21-v1-symbol.svg 'SAMDaaNo21 symbol')
-![LWSB-SAMDaaNo21-v1-footprint](assets/FLWSB-SAMDaaNo21-v1-footprint.svg 'SAMDaaNo21 footprint')
+![FLWSB-SAMDaaNo21-v1-symbol](assets/FLWSB-SAMDaaNo21-v1-symbol.svg 'Figuur 3: SAMDaaNo21 KiCad symbol')
+![FLWSB-SAMDaaNo21-v1-footprint](assets/FLWSB-SAMDaaNo21-v1-footprint.svg 'Figuur 4: SAMDaaNo21 KiCad footprint')
 
 ## Testpunten
 
 Er zijn verschillende testpunten toegevoegd om op een gemakkelijke en toegankelijke manier verschillende parameters op het bord te kunnen meten.
 
-Er is gekozen voor through hole testpunten zodat het gemakkelijk is om deze met een probe te meten. Alle testpunten zijn te vinden nabij de USB poort.
+Er is gekozen voor through hole testpunten zodat het gemakkelijk is om deze met een probe te meten. Alle testpunten zijn te vinden nabij de USB-poort.
 
 | Testpunt nummer | Verbinding                                                   |
 | --------------- | ------------------------------------------------------------ |
@@ -49,7 +49,7 @@ De RN2483 zit mee op de printplaat en bevindt zich aan het uiteinde. Er kan een 
 
 Het bordje kan voorzien worden van stroom via de USB-C poort. Een LDO (Low Dropout regelaar) zal de spanning afkomstig van de computer reguleren naar een stabiele 3,3 V.
 
-De LDO is een LD1117S33 en ondersteunt een minimale ingangsspanning van 4,3 V en een maximale van 15 V. Dat kan worden aangelegd via de VIN pin. Er is een Schottky diode voorzien om ervoor te zorgen dat de spanning van VIN niet op de USB poort komt te staan.
+De LDO is een LD1117S33 en ondersteunt een minimale ingangsspanning van 4,3 V en een maximale van 15 V. Dat kan worden aangelegd via de VIN pin. Er is een Schottky diode voorzien om ervoor te zorgen dat de spanning van VIN niet op de USB-poort komt te staan.
 
 *Let op dat je met een lineaire regelaar te maken hebt. Hoe hoger de ingangsspanning, hoe warmer de LDO zal worden!*
 

@@ -24,7 +24,7 @@ Belangrijke mappen en bestanden:
 
 | Naam         | Beschrijving                                                 |
 | ------------ | ------------------------------------------------------------ |
-| bootloaders/ | Map met broncode voor alle type Arduino's.                   |
+| bootloaders/ | Map met bootloader broncode voor alle type Arduino's.                   |
 | variants/    | Map met broncode voor alle verschillende varianten van Arduino's om compatibel te zijn met de Arduino bibliotheken. |
 | boards.txt   | Bestand met definities en instellingen voor Arduino borden weer te geven in de Arduino IDE onder `tools`-> `board: xxx` |
 
@@ -44,11 +44,11 @@ De UF2 bootloader van Adafruit is BOSSA compatible, wat wil zeggen dat deze ook 
 
 ### Arduino Core voor SAMD21 CPU
 
-Hiervoor speelt alles zich af in een vroegere versie van de [./bootloaders/](https://github.com/DaanDekoningKrekels/ArduinoCore-samd/tree/d43b5cc60e3d2cf1adc67d0252b6663a6e49250b/bootloaders/samdaano21) folder van de GitHub repo. 
+Hiervoor speelt alles zich af in een vroegere versie van de [./bootloaders/](https://github.com/DaanDekoningKrekels/ArduinoCore-samd/tree/d43b5cc60e3d2cf1adc67d0252b6663a6e49250b/bootloaders/samdaano21) folder op de GitHub repo. 
 
 In de meest recente versie zal er enkel de Microchip bootloader te vinden zijn en de bestanden om deze te flashen. 
 
-Folder van de Arduino Zero `zero/` gedupliceerd en hernoemd naar `samdaano21/`.
+We hebben de folder van de Arduino Zero `zero/` gedupliceerd en hernoemd naar `samdaano21/`.
 
 Belangrijke bestanden:
 
@@ -57,14 +57,14 @@ Belangrijke bestanden:
 | Makefile                       | Beschrijft alle instellingen voor de compiler.               |
 | board_definitions.h            | Lijst de verschillende borden op.                            |
 | board_definitions_samdaano21.h | Bestand gebaseerd op board_definitions_zero.h, specifiek voor de SAMDaaNo21. Bevat instellingen voor de bootloader zoals USB VID, PID en CPU frequentie. |
-| bootloader_samd21x16.ld        | Bestand gebaseerd op bootloader_samd21x18.ld, is een linker script waar onder andere de geheugen regios in worden beschreven. |
+| bootloader_samd21x16.ld        | Bestand gebaseerd op bootloader_samd21x18.ld, is een linker script waar onder andere de geheugen regio's in worden beschreven. |
 
 
 #### Board definitions
 
 We dupliceren `board_definitions_zero.h` en hernoemen de kopie naar `board_definitions_samdaano21.h`. 
 
-In dit bestand passen we enkel de USB instellingen aan en het BOOT_DOUBLE_TAP_ADDRESS. Dat adres is afhankelijk van de hoeveelheid ram. Op het moment dat er dubbel gedrukt wordt op de RESET knop, zal de bootloader in de laatste 4 bytes van het geheugen uitvoeren. Het adres is dus de totale RAM - 4 bytes. $8\text{kb} - 4\text{b} = 0\text{x}2000 - 0\text{x}4 = 0\text{x}1FFC$
+In dit bestand passen we enkel de USB-instellingen aan en het `BOOT_DOUBLE_TAP_ADDRESS`. Dat adres is afhankelijk van de hoeveelheid ram. Op het moment dat er dubbel gedrukt wordt op de RESET knop, zal de bootloader in de laatste 4 bytes van het geheugen uitvoeren. Het adres is dus de totale RAM - 4 bytes. $8\text{kb} - 4\text{b} = 0\text{x}2000 - 0\text{x}4 = 0\text{x}1FFC$
 
 `board_definitions_samdaano21.h`
 
@@ -129,7 +129,7 @@ MEMORY
 
 #### Makefile
 
-De makefile geeft de compiler de juiste instructies om de bootloader te kunnen samenstellen. Hier passen we het BOARD_ID aan, de verwijzing naar het LD_SCRIPT en veranderen bij compiler options de MCU van G18A naar G16A.
+De makefile geeft de compiler de juiste instructies om de bootloader te kunnen samenstellen. Hier passen we het `BOARD_ID` aan, de verwijzing naar het `LD_SCRIPT` en veranderen bij compiler options de MCU van G18A naar G16A.
 
 `Makefile`
 
@@ -205,15 +205,15 @@ Hoe je deze bootloader kan flashen kan je [hier](bootloader-flashen.md) lezen.
 
 Een belangrijke kanttekening: De Arduino IDE gebruikt de programmerings-tool [BOSSA](https://github.com/shumatech/BOSSA) om binaries naar een SAM-BA apparaat te sturen. Deze tool ondersteunt standaard de ATSAMD21G16 **niet**. Om die reden moet een [aangepaste versie van BOSSA](https://github.com/mattairtech/BOSSA) gebruikt worden, namelijk deze van Justin Mattair (mattairtech).
 
-Nu we een bootloader hebben, moet deze naar de SAMDaaNo21 geschreven worden. Zie documentatie.
+Nu we een bootloader hebben, moet deze naar de SAMDaaNo21 geschreven worden. Zie documentatie in het volgende hoofdstuk.
 
 ## Arduino variant
 
 Wanneer de bootloader op de SAMDaaNo21 straat en je sluit de USB-poort aan, zal je onder `tools`-> `port` een apparaat zien staan!
 
-We kunnen echter nog niets programmeren naar de SAMDaano21 omdat de Arduino IDE niet weet hoe het apparaat werkt. In de volgende stappen voegen we een Arduino variant toe aan de IDE.
+We kunnen echter nog niets programmeren naar de SAMDaaNo21 omdat de Arduino IDE niet weet hoe het apparaat werkt. In de volgende stappen voegen we een Arduino variant toe aan de IDE.
 
-Hiervoor speelt het meeste zich af in de ./variants/ folder van de GitHub repo, `boards.txt` passen we ook aan.
+Hiervoor speelt het meeste zich af in de `./variants/` folder van de GitHub repo, `boards.txt` passen we ook aan.
 
 | Naam                                           | Beschrijving                                                 |
 | ---------------------------------------------- | ------------------------------------------------------------ |
@@ -264,7 +264,7 @@ Bovenstaande lijn code staat op index 0 van de `g_APinDescription` array. In [`v
 /*
  * Analog pins
  */
-#define PIN_A0               (0ul)
+#define PIN_A0               (0ul) // Index 0 van eerdere voorbeeldcode
 #define PIN_A1               (1ul)
 #define PIN_A2               (2ul)
 #define PIN_A3               (3ul)
@@ -336,7 +336,7 @@ Ook de SERCOM poorten zijn in dit bestand geformuleerd.
 
 ## Uitbreidingen
 
-- In het `Tools` menu van de Arduino-IDE kunnen nog instellingen worden toegevoegd zoals kloksnelheid.
+- In het `Tools` menu van de Arduino IDE kunnen nog instellingen worden toegevoegd zoals kloksnelheid.
 - Echte release maken zodat de boards via de Board Manager geïnstalleerd worden zoals bij de ESP32.
 
 

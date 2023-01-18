@@ -74,7 +74,7 @@ Op de user guide van de Atmel Ice ([hier te vinden](https://ww1.microchip.com/do
 
 Volg de pinout diagram beschreven in de figuur.
 
-![RPi pinout diagram SWD](assets/rpi-swd-pinout.png 'RPi pinout diagram SWD')
+![RPi pinout diagram SWD](assets/rpi-swd-pinout.png 'Figuur 1: RPi pinout diagram SWD')
 
 ### Compileren
 

@@ -1,6 +1,6 @@
 # OpenOCD script voor SAM D21
 
-In de repository met de ArduinoCore voor de SAMDaaNo21 is ook een script te vinden voor het flashen van de correcte bootloader.
+In de [repository met de ArduinoCore](https://github.com/DaanDekoningKrekels/ArduinoCore-samd/tree/master/bootloaders/samdaano21) voor de SAMDaaNo21 is ook een script te vinden voor het flashen van de correcte bootloader.
 
 Het OpenOCD script "`program-bootloader.cfg`", te vinden in deze directory bevat de nodige stappen om de correcte bootloader, afkomstig van MICROCHIP/ATMEL te flashen.
 
@@ -12,7 +12,7 @@ Voor het flashen heb je een aantal dingen nodig.
 - SAMDaaNo21 met ATSAMD21G16 MCU
 
 Stappen:
-1. Sluit de SAMDaaNo21 aan op je computer via de Atmel-ICE zoals bij het hoofdstuk [SAMDaaNo21 Bare-Metal Programmatie](https://dacetylan.github.io/FLWSB/#/./embedded-programming/bare-metal?id=programmeren). 
+1. Sluit de SAMDaaNo21 aan op je computer via de Atmel-ICE zoals bij het hoofdstuk [SAMDaaNo21 Bare-Metal Programmatie](bare-metal.md#programmeren). 
 2. Navigeer naar deze folder 
 3. Voer dit commando uit: `openocd -f program-bootloader.cfg`.
    - Met de `-f` parameter selecteren we het aangepaste script als configuratiebestand.
