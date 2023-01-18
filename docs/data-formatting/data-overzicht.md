@@ -120,7 +120,7 @@ Dit voor het Sensor Identification System, de metingen, en extra  informatie uit
             ID voor specifieke sensor, hardcoded I2C-adres, of connector.
         </td>
         <td>
-            0x08
+            8
         </td>
     </tr>
     <tr>
@@ -139,6 +139,20 @@ Dit voor het Sensor Identification System, de metingen, en extra  informatie uit
     </tr>
     <tr>
         <td>
+            nr_of_measurements
+        </td>
+        <td>
+            number (int)
+        </td>
+        <td>
+            De hoeveelheid metingen de sensor uitvoert.
+        </td>
+        <td>
+            3
+        </td>
+    </tr>
+    <tr>
+        <td>
             quantity
         </td>
         <td>
@@ -153,16 +167,30 @@ Dit voor het Sensor Identification System, de metingen, en extra  informatie uit
     </tr>
     <tr>
         <td>
-            datatype
+            unit
         </td>
         <td>
             string
         </td>
         <td>
-            Daatype waarin de meting moet worden opgeslagen in de database. Hardcoded of handmatig ingevoerd via Node-RED dashboard formulier.
+            Eénheid van de meting. Hardcoded of handmatig ingevoerd via Node-RED dashboard formulier.
         </td>
         <td>
-            "int"
+            °C
+        </td>
+    </tr>
+    <tr>
+        <td>
+            range
+        </td>
+        <td>
+            string
+        </td>
+        <td>
+            De range, of bereik, van de meting(en).
+        </td>
+        <td>
+            -40.00 85.00
         </td>
     </tr>
     <tr>
@@ -181,16 +209,16 @@ Dit voor het Sensor Identification System, de metingen, en extra  informatie uit
     </tr>
     <tr>
         <td>
-            unit
+            datatype
         </td>
         <td>
             string
         </td>
         <td>
-            Eénheid van de meting. Hardcoded of handmatig ingevoerd via Node-RED dashboard formulier.
+            Daatype waarin de meting moet worden opgeslagen in de database. Hardcoded of handmatig ingevoerd via Node-RED dashboard formulier.
         </td>
         <td>
-            °C
+            "int"
         </td>
     </tr>
 </table>
@@ -249,10 +277,10 @@ Er was eerst gedacht ook enkele Expansion Boards, of uitbreidingsborden, te ontw
         </td>
         <td>
             <b>°C</b> = graden Celcius<br>
-            <i>-40.0 tot 85.0 (sensor res. 0.01)</i>
+            <i>-40.00 tot 85.00 (sensor res. 0.01)</i>
         </td>
         <td>
-            <b>byte</b> (+40 *10)<br>
+            <b>byte</b> (+40 *100)<br>
             <i>0 tot 125, max. 125 = 0111 1101 → 7 bits = 1 byte</i>
         </td>
     </tr>
