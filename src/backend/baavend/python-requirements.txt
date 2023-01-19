@@ -1,8 +1,0 @@
-six
-pytest
-numpy
-cython
-pandas
-influxdb
-influxdb_client
-pyarrow

@@ -16,6 +16,11 @@ Er is ook samengewerkt met de AI studenten om testdata te voorzien, voor het AI 
 
 De frontend bestaat uit [Node-RED Dashboard](./frontend/dashboard.md) en [Grafana](./frontend/grafana.md). De werking hiervan wordt in het [Frontend](./frontend/dashboard.md) hoofdstuk beschreven.
 
+Een voorbeeld van de volledige weg die data aflegd in deze backend kan gevonden worden in het onderdeel [Real Data](data-formatting/real-data.md).
+
+1. Architectuur
+2. Connectiviteit
+
 ---
 
 ## Architectuur
