@@ -241,3 +241,7 @@ GRAFANA_INFLUX_PASSWORD=<password>
 
 Is er geen admin via environment variables ingesteld ken bij het voor eerst ingelogd worden met de default admin user, wachtwoord: admin.
 Vervolgens kan een nieuw wachtwoord opgegeven worden en kan de username admin aangepast worden in de instellingen.
+
+#### Link met InfluxDB
+
+Voor het linken tussen Grafana en InfluxDb kan de authenticatie gebeuren via username en wachtwoord. Dit is enkel niet aangeraden. In plaats hiervan is het veel veiliger om gebruik te maken van een Token, of API key, aan te maken in de InfluxDb web interface.
