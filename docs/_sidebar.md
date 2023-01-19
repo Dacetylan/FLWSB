@@ -1,4 +1,4 @@
-* [Introduction](README.md)
+* __[Introduction](README.md)__
 
 * Flexibility
 
@@ -70,10 +70,10 @@
 
   * [Grafana](frontend/grafana.md)
 
-* [Future Iterations](future-iterations/improvements.md)
+* __[Future Iterations](future-iterations/improvements.md)__
 
 * Demo
 
-  * FLWSB
+  * [FLWSB](demo/flwsb-demo.md)
 
-  * Weather Station
+  * [Weather Station](demo/weather-station-demo.md)
