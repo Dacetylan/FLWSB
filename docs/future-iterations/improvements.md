@@ -1,21 +1,24 @@
 # Toekomstige Iteraties
 
-## Mogelijk verbeteringen en uitbreidingen
+## Mogelijke verbeteringen en uitbreidingen
 
 In dit onderdeel wordt er bekeken wat er nog kan komen aan verbeteringen en uitbreidingen in volgende iteraties van het project.
 
 ### SAMDaaNo21
 
-- Mounting holes / inkepingen - Nano Every stijl
-- Impedantie antenne baan
-- Geen LED aanwezig
-- Fout op silkscreen
-- Fout met verbinding LoRaWAN module (RX/TX)
+- Momenteel zijn er geen mounting holes aanwezig, dat vonden we nog niet prioritair.
+  - Mouning holes of inkepingen aan de randen van de printplaat zijn dus nog mogelijk en kunnen ook zeker van pas komen.
+  - Een printplaat in de stijl van de Arduino Nano Every lijkt ons ook interessant. Dan zouden er geen componenten op de onderkant kunnen staan en zorgen we voor rat-bites aan de zijkant van de printplaat. Op deze manier kan de PCB gebruikt worden als SMD-component.
+- De impedantie van het pad naar de antenne-aansluiting is niet theoretisch berekend. Dit is iets waar in een volgende versie over kan worden nagedacht.
+- Er is geen LED aanwezig.
+- Op het silkscreen staat een fout, `PA07` staat op het silkscreen als `PA09`. 
+- Het schema bevat een fout die de LoRaWAN module onbruikbaar maakt. RX en TX van de UART-verbinding moeten omgewisseld worden.
+
 
 ### Arduino Core
 
-- Instellingen via ‘Tools’ menu
-- Releases te installeren via Board Manager
+- In het `Tools` menu van de Arduino IDE kunnen nog instellingen worden toegevoegd zoals kloksnelheid.
+- Echte release maken zodat de boards via de Board Manager geïnstalleerd worden zoals bij de ESP32.
 
 ### Connector Board en Behuizing
 
