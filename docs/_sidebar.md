@@ -1,4 +1,4 @@
-* [Introduction](README.md)
+* __[Introduction](README.md)__
 
 * Flexibility
 
@@ -23,8 +23,6 @@
 * PCB
 
   * [Main Board with LoRaWAN](printed-circuit-boards/main-board.md)
-
-  * [Connector Board](printed-circuit-boards/connector-board.md)
 
 * Embedded Programming
 
@@ -55,7 +53,7 @@
   * [BaaVend](backend/baavend.md)
 
   * [Linux VM](backend/linux-vm.md)
-  
+
   * [Node-RED](backend/nodered.md)
 
   * [InfluxDb](backend/influxdb.md)
@@ -72,8 +70,10 @@
 
   * [Grafana](frontend/grafana.md)
 
+* __[Future Iterations](future-iterations/improvements.md)__
+
 * Demo
 
-  * FLWSB
+  * [FLWSB](demo/flwsb-demo.md)
 
-  * Weather Station
+  * [Weather Station](demo/weather-station-demo.md)

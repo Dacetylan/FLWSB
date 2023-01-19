@@ -9,33 +9,124 @@ In dit onderdeel worden de datastromen van effectieve (real) data bekeken.
 1. Sensor data SAMDaaNo21 over LoRaWAN
 2. Weather Station data over MQTT
 
+![FLWSB Project overzichtsdiagram.](./assets/project-overview-diagram.jpg 'Figuur 1: FLWSB Project overzichtsdiagram.')
+
+---
+
 ### Sensor data SAMDaaNo21 over LoRaWAN
 
 Een illustratie van hoe de data van een meting van de BME280, die temperatuur, luchtdruk en luchtvochtigheid bevat, wordt verzonden en verwerkt wordt in de backend.
 
+#### SIS Web Formulieren
+
+Voor er data wordt verzonden moeten zowel het board als de hierop eengesloten sensoren worden geregistreerd in het SIS, of Sensor Identification System, via een web formulier.
+
+![SIS web forms voorbeeld.](./assets/node-red-dashboard-sis-forms.png 'Figuur 2: SIS web forms voorbeeld.')
+
+Dit werkt met volgende Node-RED flow:
+
+![SIS web forms Node-RED flow.](./assets/node-red-flow-sis-form.png 'Figuur 3: SIS web forms Node-RED flow.')
+
+Dit brengt volgende msg's in Node-RED binnen:
+
+```javascript
+{
+  "payload":
+  {
+    "board_id":"eui-0004a30b0020da72",
+    "sensor_id":8,
+    "sensor_name":"BME280",
+    "nr_of_measurements":3,
+    "quantity":"temp, pressure, humidity",
+    "unit":"°C, hPa, %",
+    "range":"-40.00 85.00, 300 1100, 0 100",
+    "conversion":"/100 -40, 1, 1",
+    "datatype":"float, uint16_t, byte"
+  },
+  "socketid":"ScYUaiaHGHdfmQYWAAAT",
+  "_msgid":"804621b4d4723594"
+}
+```
+
+```javascript
+{
+  "payload":
+  {
+    "board_id":"eui-0004a30b0020da72",
+    "board_name":"samdaano21-poc",
+    "latitude":51.22999030805754,
+    "longitude":4.416285765591264
+  },
+  "socketid":"ScYUaiaHGHdfmQYWAAAT",
+  "_msgid":"a973b9015232c834"
+}
+```
+
+Met resulterende push naar de InfluxDb database:
+
+```javascript
+[
+  {
+    "sensor_name":"BME280",
+    "nr_of_measurements":3,
+    "quantity":"temp, pressure, humidity",
+    "unit":"°C, hPa, %",
+    "range":"-40.00 85.00, 300 1100, 0 100",
+    "conversion":"/100 -40, 1, 1",
+    "datatype":"float, uint16_t, byte",
+    "time":"2023-01-17T21:50:37.960Z"
+  },
+  {
+    "board_id":"eui-0004a30b0020da72",
+    "sensor_id":8
+  }
+]
+```
+
+```javascript
+[
+  {
+    "board_name":"samdaano21-poc",
+    "latitude":51.22999030805754,
+    "longitude":4.416285765591264,
+    "time":"2023-01-17T21:50:42.690Z"
+  },
+  {
+    "board_id":"eui-0004a30b0020da72"
+  }
+]
+```
+
+Het resultaat in de InfluxDb database Data Explorer web interface.
+
+![SIS data in InfluxDb Data Explorer web interface.](./assets/sis-influxdb-board-sensor.png 'Figuur 4: SIS data in InfluxDb Data Explorer web interface.')
+
 #### Bitstream
 
-De meting wordt opgevraagd en omgezet van een byte array naar een bitstream:
-
-```c
-// Voorbeeld code van op de SAMDaaNo21
-```
-
-```
+De meting wordt opgevraagd en omgezet van een byte array naar een bitstream.
+Dit is vrij uitgebreide en complexe code terug te vinden in het onderdeel [PoC Code (example sketches)](embedded-programming/poc-code.md).
 
 De verzonden bitstream, of toch enkel de data zelf, ziet er als volgt uit:
+
 ```c
-0101 0110 // DEC 86
-1110 1001 // DEC 233
-1111 1111 // DEC 255
-0010 1111 // DEC 47
-0110 0100 // DEC 100
+00001000
+00010111
+11010100
+00000011
+11101001
+00110000
 ```
+
+Dit representeerd volgende bytes array: `[8,23,212,3,233,48]`.
 
 #### TTN Uplink message
 
 Eens ontvangen door The Things Network wordt de bitstream omgezet in een Uplink message om te verzenden over MQTT en wordt vervolgens ontvangen in Node-RED.
-Er is een hele hoop extra data aan toegevoegd, en dit ziet er als volgt uit:
+
+De bitstream wordt omgezet naar `CBfUA+kw` in [Base64 (RFC 3548, RFC 4648)](https://cryptii.com/pipes/base64-to-binary) codering. Deze komt terecht in `msg.payload.uplink_message.frm_payload`.
+
+Er is verder een hele hoop extra data aan toegevoegd.
+Onderstaande code is het volledige msg object. Hierbij representeerd `data` de `msg.payload`.
 
 ```javascript
 {
@@ -78,14 +169,15 @@ Er is een hele hoop extra data aan toegevoegd, en dit ziet er als volgt uit:
       "session_key_id": "AYU/6AGa+vh+WfbYP5XQGA==",
       "f_port": 1,
       "f_cnt": 33,
-      "frm_payload": "Vun/L2Q=",
+      "frm_payload": "CBfUA+kw",
       "decoded_payload": {
         "bytes": [
-          86,
+          8,
+          23,
+          212,
+          3,
           233,
-          255,
-          47,
-          100
+          48
         ]
       },
       "rx_metadata": [
@@ -206,6 +298,8 @@ function decodeUplink(input) {
 }
 ```
 
+![TTN FLWSB applicatie default payload formatter.](./assets/ttn-flwsb-app-payload-formatter.png 'Figuur 5: TTN FLWSB applicatie default payload formatter.')
+
 Er wordt in dit project verder gekozen om geen gebruik te maken van de Payload formatter in de TTN applicatie om de controle over het formatteren in de eigen backend in Node-Red te houden. Dit geeft bnetere flexibiliteit.
 
 #### Base64
@@ -228,46 +322,145 @@ Links:
 
 #### Formateren in Node-RED JavaScript
 
-Om de data nu te gaan schrijven naar de InfluxDb database moet deze gestructureerd worden om aan het bepaalde model te voldoen. Onderstaande code is de code in het functie blok tussen de MQTT ontvanger en het InfluxDb schrijver blok.
+Om de data nu te gaan schrijven naar de InfluxDb database moet deze gestructureerd worden om aan het bepaalde model te voldoen.
+
+![Node-RED ttn-sis-flwsb flow.](./assets/node-red-flow-ttn-sis-flwsb.png 'Figuur 6: Node-RED ttn-sis-flwsb flow.')
+
+Eerst gebeurt er een query naar de `sis` bucket inde InfluxDb database voor de nodige informatie.
 
 ```javascript
-let id = msg.payload.end_device_ids.device_id;
-//var location = msg.payload.locations.frm_payload;
-let timestamp = new Date(msg.payload.received_at);  // timestamp TTN
+const board_id = msg.payload.end_device_ids.device_id;
 
+// Flux query
+msg.query = `from(bucket: "sis")
+  |> range(start: -100y, stop: now())
+  |> filter(fn: (r) => r["_measurement"] == "sensor" or r["_measurement"] == "board")
+  |> filter(fn: (r) => r["board_id"] == "${board_id}")
+  |> filter(fn: (r) => r["_field"] == "board_name" or r["_field"] == "latitude" or r["_field"] == "longitude" or r["_field"] == "conversion" or r["_field"] == "nr_of_measurements" or r["_field"] == "quantity" or r["_field"] == "sensor_name" or r["_field"] == "datatype")
+  |> aggregateWindow(every: 1y, fn: last, createEmpty: false)
+  |> yield(name: "last")`
+
+return msg;
+```
+
+Vervolgens wordt de `ttn` data geformatteerd aan de hand van deze `sis` query.
+
+```javascript
+const ttn = msg.payload[0]; // TTN MQTT msg
+const sis = msg.payload[1]; // SIS query result msg
+
+// ID & Timestamp from TTN msg
+const id = ttn.end_device_ids.device_id;
+const timestamp = new Date(ttn.received_at);  // timestamp TTN
+
+// Board info from SIS query
+const board_name = (sis.find(obj => obj._field == "board_name"))["_value"];
+const latitude = (sis.find(obj => obj._field == "latitude"))["_value"];
+const longitude = (sis.find(obj => obj._field == "longitude"))["_value"];
+// node.warn(`location: ${latitude}, ${longitude}`);  // Debug info
+
+// Bitstream
 function base64ToArrayBuffer(value) {
 	var load = value.replace(/\s+/g, '');  // remove any whitespace
 	value = Buffer.from(load, 'base64');
 	return value;
 }
 
-let bitstream = base64ToArrayBuffer(msg.payload.uplink_message.frm_payload);
-node.warn(bitstream);
+const bitstream = base64ToArrayBuffer(ttn.uplink_message.frm_payload);
+node.warn(bitstream); // Debug info
 
+// Sensor ID
+const sensor_id = bitstream[0]; // Only for signle byte ID's
+node.warn(`sensor_id: ${sensor_id}`); // Debug info
+
+// Sensor info from SIS query by Sensor ID
+const sensor_name = (sis.find(obj => obj._field == "sensor_name" && obj.sensor_id == sensor_id))["_value"];
+const nr_of_measurements = (sis.find(obj => obj._field == "nr_of_measurements" && obj.sensor_id == sensor_id))["_value"];
+const datatype = (sis.find(obj => obj._field == "datatype" && obj.sensor_id == sensor_id))["_value"];
+const quantity = (sis.find(obj => obj._field == "quantity" && obj.sensor_id == sensor_id))["_value"];
+const conversion = (sis.find(obj => obj._field == "conversion" && obj.sensor_id == sensor_id))["_value"];
+
+// Formatting the payload for InfluxDb push
 msg.payload = [
-	[{ // fields
-		temp: ((((bitstream[0] << 8) + bitstream[1]) /100) -40),
-		pressure: ((bitstream[2] << 8) + bitstream[3]),
-		humidity: bitstream[4],
+	[{
+		latitude: latitude,
+		longitude: longitude,
+		consumed_airtime: +(ttn.uplink_message.consumed_airtime.slice(0, -1)), // remove "s" and convert to number
 		time: timestamp
 	},
-	{ // tags
-		board_id: "eui-0004a30b0020da72",  // devioce_id on TTN
-		sensor: "BME280"
-	}],
-
-	[{ // fields
-		//latitude: location.latitude,  // TTN device location latitude
-		//longitude: location.longitude,  // TTN device location longitude
-		consumed_airtime: +(msg.payload.uplink_message.consumed_airtime.slice(0, -1)), // remove "s" and convert to number
-		time: timestamp
-	},
-	{ // tags
-		board_id: "eui-0004a30b0020da72"  // devioce_id on TTN
+	{
+		board_id: id,  // device-id TTN en SIS
+		board_name: board_name,
 	}]
 ];
+
+let sensor_data = [
+	{
+		// temp: ((((bitstream[1] << 8) + bitstream[2]) / 100) - 40),
+		// pressure: ((bitstream[3] << 8) + bitstream[4]),
+		// humidity: bitstream[5],
+		time: timestamp
+	},
+	{
+		board_id: id,  // device-id TTN en SIS
+		sensor_id: sensor_id,
+		sensor_name: sensor_name,
+	}
+];
+
+if (nr_of_measurements > 1) {
+	// Sensor info for multiple measurements to Arrays
+	const quantities = quantity.split(", ");
+	node.warn(`quantities: ${quantities}`); // Debug info
+	const conversions = conversion.split(", ");
+	node.warn(`conversions: ${conversions}`); // Debug info
+	const datatypes = datatype.split(", ");
+	node.warn(`datatypes: ${datatypes}`); // Debug info
+
+	// Define iteration length
+	let length = nr_of_measurements;
+	for (let i = 1; i < length; i++) { // Skip the first byte(s) of the bitstream, the sensor_id.
+		node.warn(datatypes[i]);
+		if (!(datatypes[i] == "byte")) {
+			length++;
+		}
+	}
+	node.warn(`length: ${length}`); // Debug info
+
+	// Values array
+	let values = [];
+	for (let i = 1; i < length; i++) { // Skip the first byte(s) of the bitstream, the sensor_id.
+		node.warn(datatypes[i]);
+		if (datatypes[i] == "byte") {
+			values[i] = bitstream[i];
+		}
+		else {
+			values.push((bitstream[i] << 8) + bitstream[i + 1]);
+			i++;
+		}
+	}
+
+	// Quantities and Measurement data to key value pairs
+	for (let i = 0; i < nr_of_measurements; i++) {
+		sensor_data[0][`${quantities[i]}`] = values[i];
+	}
+}
+else {
+	if (datatype == "byte") {
+		sensor_data[0][`${quantity}`] = bitstream[1];
+	}
+	else {
+		sensor_data[0][`${quantity}`] = (bitstream[1] << 8) + bitstream[2];
+	}
+}
+
+node.warn(sensor_data[0]); // Debug info
+msg.payload.push(sensor_data);
+
 return msg;
 ```
+
+*Conversions, of omzettingen, zijn nog niet geïmplementeerd in deze code.*
 
 #### InfluxDb query voor visualisatie in Grafana
 
@@ -286,7 +479,7 @@ from(bucket: "flwsb")
 
 Het resultaat in Grafana Dashboard:
 
-![Query resultaat visualisatie in Grafana dashboard van climate_data van de SAMDaaNo21, meer precies temperatuur, luchtdruk en luchtvochtigheid.](./assets/real-data-grafana-dashboard-climate-data-samdaano21.png 'Figuur 1: Query resultaat visualisatie in Grafana dashboard van climate_data van de SAMDaaNo21, meer precies temperatuur, luchtdruk en luchtvochtigheid.')
+![Query resultaat visualisatie in Grafana dashboard van climate_data van de SAMDaaNo21, meer precies temperatuur, luchtdruk en luchtvochtigheid.](./assets/real-data-grafana-dashboard-climate-data-samdaano21.png 'Figuur 7: Query resultaat visualisatie in Grafana dashboard van climate_data van de SAMDaaNo21, meer precies temperatuur, luchtdruk en luchtvochtigheid.')
 
 ---
 
@@ -302,6 +495,53 @@ De verwerking hier gebeurd geautomatiseerd door de gebruikte applicatie.
 Er zijn beperkte opties voor het formateren van deze data beschikbaar.
 Het betreft een open-source applicatie met repository op GitHub, maar hoe deze applicatie juist werkt is niet noodzakelijk te weten voor deze toepassing.
 Voor meer info zie [ Weather STation: Reading/Sending Data](./weather-station/data.md).
+
+#### Mosquitto MQTT Broker
+
+#### SIS Web Formulier
+
+Om de juiste herkening te kunnen doen in Node-RED moet het weerstation eerst geregistreerd worden in het SIS, of Sensor Identification System.
+
+![SIS web forms voorbeeld.](./assets/node-red-dashboard-sis-forms.png 'Figuur 2: SIS web forms voorbeeld.')
+
+Dit werkt met volgende Node-RED flow:
+
+![SIS web forms Node-RED flow.](./assets/node-red-flow-sis-form.png 'Figuur 3: SIS web forms Node-RED flow.')
+
+Dit brengt volgende msg's in Node-RED binnen:
+
+```javascript
+{
+  "payload":
+  {
+    "id":-1646443428,
+    "name":"weather-station-2",
+    "latitude":51.23016015597968,
+    "longitude":4.4162325532681965
+  },
+  "socketid":"ScYUaiaHGHdfmQYWAAAT",
+  "_msgid":"474efd8c5d401103"}
+```
+
+En volgende data wordt gepushed naar de InfluxDb database:
+
+```javascript
+[
+  {
+    "name":"weather-station-2",
+    "latitude":51.23016015597968,
+    "longitude":4.4162325532681965,
+    "time":"2023-01-17T22:26:49.039Z"
+  },
+  {
+    "id":-1646443428
+  }
+]
+```
+
+Het resultaat in de InfluxDb database Data Explorer:
+
+![SIS data in InfluxDb Data Explorer web interface.](./assets/sis-influxdb-weather-station.png 'Figuur 8: SIS data in InfluxDb Data Explorer web interface.')
 
 #### Node-RED backend
 
@@ -359,23 +599,45 @@ Er worden twee verschillende structuren doorgestuurd:
 
 ##### Formatteren
 
-Het formatteren voor InfluxDb gebeurt aan de hand van onderstaande code.
+Het formatteren voor InfluxDb gebeurt in twee stappen.
+
+![Node-RED weather-station-sis flow.](./assets/node-red-flow-weather-station-sis.png 'Figuur 9: Node-RED weather-station-sis flow.')
+
+Eerst wordt de nodige SIS informatie opgevraagd via een Flux query:
 
 ```javascript
-var tmp = msg.payload
+msg.query = `from(bucket: "sis")
+  |> range(start: -100y, stop: now())
+  |> filter(fn: (r) => r["_measurement"] == "weather-station")
+  |> filter(fn: (r) => r["_field"] == "name")
+  |> aggregateWindow(every: 1y, fn: last, createEmpty: false)
+  |> yield(name: "last")`
+
+return msg;
+```
+
+Vervolgens gebeurt de data formatting voor de push naar de InfluxDb database:
+
+```javascript
+let mqtt = msg.payload[0];
+let sis = msg.payload[1];
+
+let source_id = (sis.find(obj => obj.id == mqtt.id))["_value"];
+
 msg.payload = [
-	{ // fields
-		temp: tmp.temperature_C,          // buiten temperatuur, °C, float
-		humidity: tmp.humidity,           // buiten luchtvochtigheid, %, int
-		wind_speed: tmp.wind_avg_m_s,     // windsnelheid, m/s, float
-		wind_gust: tmp.wind_max_m_s,      // windsnelheid, m/s, float
-		wind_direction: tmp.wind_dir_deg, // windrichting, hoek in graden °, int
-		rain: tmp.rain_mm,                // neerslag, mm/10min, float
-		time: tmp.time					// timestamp, YYYY-MM-DD hh:mm:ss
+	{
+		temp: mqtt.temperature_C,          // buiten temperatuur, °C, float
+		humidity: mqtt.humidity,           // buiten luchtvochtigheid, %, int
+		wind_speed: mqtt.wind_avg_m_s,     // windsnelheid, m/s, float
+		wind_gust: mqtt.wind_max_m_s,      // windsnelheid, m/s, float
+		wind_direction: mqtt.wind_dir_deg, // windrichting, hoek in graden °, int
+		rain: mqtt.rain_mm,                // neerslag, mm/10min, float
+		time: new Date(mqtt.time)		  // timestamp, YYYY-MM-DD hh:mm:ss
 	},
-	{ // tags
-		source: "weather-station-1"
+	{
+		source: source_id
 	}];
+
 return msg;
 ```
 
@@ -398,7 +660,7 @@ from(bucket: "flwsb")
 
 Het resultaat in Grafana Dashboard:
 
-![Query resultaat visualisatie in Grafana dashboard van alle data van weather-station-2.](./assets/real-data-grafana-weather-station-all.png 'Figuur 2: Query resultaat visualisatie in Grafana dashboard van alle data van weather-station-2.')
+![Query resultaat visualisatie in Grafana dashboard van alle data van weather-station-2.](./assets/real-data-grafana-weather-station-all.png 'Figuur 6: Query resultaat visualisatie in Grafana dashboard van alle data van weather-station-2.')
 
 Of enkel een gespecifieërde meting visualiseren, maar van meerdere bronnen gebeurd als volgt:
 
@@ -414,4 +676,4 @@ from(bucket: "flwsb")
 
 Het resultaat in Grafana Dashboard:
 
-![Query resultaat visualisatie in Grafana dashboard van temperatuur data van de twee weather_stations.](./assets/real-data-grafana-weather-station-temp.png 'Figuur 3: Query resultaat visualisatie in Grafana dashboard van temperatuur data van de twee weather_stations.')
+![Query resultaat visualisatie in Grafana dashboard van temperatuur data van de twee weather_stations.](./assets/real-data-grafana-weather-station-temp.png 'Figuur 7: Query resultaat visualisatie in Grafana dashboard van temperatuur data van de twee weather_stations.')

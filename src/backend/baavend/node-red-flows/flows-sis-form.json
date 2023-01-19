@@ -1,0 +1,550 @@
+[
+    {
+        "id": "25e707b9e505301b",
+        "type": "tab",
+        "label": "sis-form",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "ccd90bc36d1b3954",
+        "type": "ui_form",
+        "z": "25e707b9e505301b",
+        "name": "Board reg",
+        "label": "",
+        "group": "7b635a347ea0d3df",
+        "order": 0,
+        "width": "0",
+        "height": "0",
+        "options": [
+            {
+                "label": "Board ID (eui)",
+                "value": "board_id",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Board Name",
+                "value": "board_name",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Location latitude",
+                "value": "latitude",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Location longitude",
+                "value": "longitude",
+                "type": "number",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "board_id": "",
+            "board_name": "",
+            "latitude": "",
+            "longitude": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic=board",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 120,
+        "y": 80,
+        "wires": [
+            [
+                "c1aa9da22ce27c6c",
+                "a1defd5febc4e068"
+            ]
+        ]
+    },
+    {
+        "id": "a1defd5febc4e068",
+        "type": "function",
+        "z": "25e707b9e505301b",
+        "name": "Data Formatting Board reg",
+        "func": "var form = msg.payload\n\nmsg.payload = [\n    {\n        board_name: form.board_name,\n        latitude: form.latitude,\n        longitude: form.longitude,\n        time: new Date()\n    },\n    {\n        board_id: form.board_id,\n    }\n];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 80,
+        "wires": [
+            [
+                "44cb586a79c70d1f",
+                "67c30780c95cd428"
+            ]
+        ]
+    },
+    {
+        "id": "c1aa9da22ce27c6c",
+        "type": "debug",
+        "z": "25e707b9e505301b",
+        "name": "Debug Board reg Form",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 400,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "44cb586a79c70d1f",
+        "type": "debug",
+        "z": "25e707b9e505301b",
+        "name": "Debug InfluxDb push",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 740,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "cc16f6d578b580a7",
+        "type": "ui_form",
+        "z": "25e707b9e505301b",
+        "name": "Sensor reg",
+        "label": "",
+        "group": "9c83ea62b28f11e0",
+        "order": 0,
+        "width": "6",
+        "height": "12",
+        "options": [
+            {
+                "label": "Board ID (eui)",
+                "value": "board_id",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Sensor ID (I2C addrs)",
+                "value": "sensor_id",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Sensor Name",
+                "value": "sensor_name",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "The number of measurements",
+                "value": "nr_of_measurements",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Quantity(-ies)",
+                "value": "quantity",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Unit(s)",
+                "value": "unit",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Range",
+                "value": "range",
+                "type": "text",
+                "required": false,
+                "rows": null
+            },
+            {
+                "label": "Conversion(s)",
+                "value": "conversion",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Datatype(s)",
+                "value": "datatype",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "board_id": "",
+            "sensor_id": "",
+            "sensor_name": "",
+            "nr_of_measurements": "",
+            "quantity": "",
+            "unit": "",
+            "range": "",
+            "conversion": "",
+            "datatype": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic=sensor",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 130,
+        "y": 200,
+        "wires": [
+            [
+                "dd241544415aafb5",
+                "a8b8745a5f2b3318"
+            ]
+        ]
+    },
+    {
+        "id": "dd241544415aafb5",
+        "type": "debug",
+        "z": "25e707b9e505301b",
+        "name": "Debug Sensor reg Form",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 410,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "a8b8745a5f2b3318",
+        "type": "function",
+        "z": "25e707b9e505301b",
+        "name": "Data Formatting Sensor reg",
+        "func": "var form = msg.payload\n\nmsg.payload = [\n    {\n        sensor_name: form.sensor_name,\n        nr_of_measurements: form.nr_of_measurements,\n        quantity: form.quantity,\n        unit: form.unit,\n        range: form.range,\n        conversion: form.conversion,\n        datatype: form.datatype,\n        time: new Date()\n    },\n    {\n        board_id: form.board_id,\n        sensor_id: form.sensor_id,\n    }\n];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 200,
+        "wires": [
+            [
+                "3f647c19c2397fd3",
+                "a529335b10433a8c"
+            ]
+        ]
+    },
+    {
+        "id": "e306839c70afbf24",
+        "type": "ui_form",
+        "z": "25e707b9e505301b",
+        "name": "Weather Station reg",
+        "label": "",
+        "group": "1937d022fe7753c7",
+        "order": 0,
+        "width": "0",
+        "height": "0",
+        "options": [
+            {
+                "label": "Weather Station ID",
+                "value": "id",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Weather Station Name",
+                "value": "name",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Location latitude",
+                "value": "latitude",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Location longitude",
+                "value": "longitude",
+                "type": "number",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "id": "",
+            "name": "",
+            "latitude": "",
+            "longitude": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic=weather-station",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 160,
+        "y": 320,
+        "wires": [
+            [
+                "75e44dba2fca0734",
+                "49693f99badfb191"
+            ]
+        ]
+    },
+    {
+        "id": "49693f99badfb191",
+        "type": "function",
+        "z": "25e707b9e505301b",
+        "name": "Data Formatting Weather Station reg",
+        "func": "var form = msg.payload\n\nmsg.payload = [\n    {\n        name: form.name,\n        latitude: form.latitude,\n        longitude: form.longitude,\n        time: new Date()\n    },\n    {\n        id: form.id,\n    }\n];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 320,
+        "wires": [
+            [
+                "48d4513b80d4c204",
+                "d69d675ca82f9f8e"
+            ]
+        ]
+    },
+    {
+        "id": "75e44dba2fca0734",
+        "type": "debug",
+        "z": "25e707b9e505301b",
+        "name": "Debug Board reg Form",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 400,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "67c30780c95cd428",
+        "type": "influxdb out",
+        "z": "25e707b9e505301b",
+        "influxdb": "f8d7a87b47e3f24c",
+        "name": "InfluxDb: baavend-db, org: ap, bucket: sis, measurement: board",
+        "measurement": "board",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "ap",
+        "bucket": "sis",
+        "x": 870,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "3f647c19c2397fd3",
+        "type": "influxdb out",
+        "z": "25e707b9e505301b",
+        "influxdb": "f8d7a87b47e3f24c",
+        "name": "InfluxDb: baavend-db, org: ap, bucket: sis, measurement: sensor",
+        "measurement": "sensor",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "ap",
+        "bucket": "sis",
+        "x": 870,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "a529335b10433a8c",
+        "type": "debug",
+        "z": "25e707b9e505301b",
+        "name": "Debug InfluxDb push",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 740,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "48d4513b80d4c204",
+        "type": "influxdb out",
+        "z": "25e707b9e505301b",
+        "influxdb": "f8d7a87b47e3f24c",
+        "name": "InfluxDb: baavend-db, org: ap, bucket: sis, measurement: weather-station",
+        "measurement": "weather-station",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "ap",
+        "bucket": "sis",
+        "x": 900,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "d69d675ca82f9f8e",
+        "type": "debug",
+        "z": "25e707b9e505301b",
+        "name": "Debug InfluxDb push",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 740,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "7ea46e9fe05546e0",
+        "type": "comment",
+        "z": "25e707b9e505301b",
+        "name": "Step 1. Web Forms",
+        "info": "",
+        "x": 130,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "fdfdfcce630fcdf8",
+        "type": "comment",
+        "z": "25e707b9e505301b",
+        "name": "Step 2. Data Formatting",
+        "info": "",
+        "x": 380,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "913a82269e5b6e95",
+        "type": "comment",
+        "z": "25e707b9e505301b",
+        "name": "Step 3. Push to InfluxDb database",
+        "info": "",
+        "x": 760,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "7b635a347ea0d3df",
+        "type": "ui_group",
+        "name": "Board Registration",
+        "tab": "886221706737a3e1",
+        "order": 4,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "9c83ea62b28f11e0",
+        "type": "ui_group",
+        "name": "Sensor Registration",
+        "tab": "886221706737a3e1",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "1937d022fe7753c7",
+        "type": "ui_group",
+        "name": "Weather Station Registration",
+        "tab": "886221706737a3e1",
+        "order": 4,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "f8d7a87b47e3f24c",
+        "type": "influxdb",
+        "hostname": "127.0.0.1",
+        "port": "8086",
+        "protocol": "http",
+        "database": "database",
+        "name": "baavend-db",
+        "usetls": false,
+        "tls": "d50d0c9f.31e858",
+        "influxdbVersion": "2.0",
+        "url": "http://influx:8086",
+        "rejectUnauthorized": true
+    },
+    {
+        "id": "886221706737a3e1",
+        "type": "ui_tab",
+        "name": "[SIS] Sensor Identification System",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "d50d0c9f.31e858",
+        "type": "tls-config",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "",
+        "servername": "",
+        "verifyservercert": false
+    }
+]

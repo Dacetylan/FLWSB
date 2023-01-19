@@ -1,0 +1,138 @@
+version: "3"
+services:
+    nodered:
+        depends_on:
+            - influxdb
+            - mosquitto
+        build:
+          context: .
+          dockerfile: Dockerfile-nodered
+        container_name: baavend-red #you can give another name here
+        networks:
+            - net
+        ports:
+            - 8880:1880
+        links:
+           - "influxdb:db"  # the container influxdb is reachable as the hostnames "influxdb" and "db" through this container.
+        environment:
+            - TZ=Europe/Brussels
+            # - FLOWS=./flows.json
+        volumes:
+            - ./baavend-red:/data
+            - ./nodered-flows.json:/data/flows.json:rw
+            - ./nodered-flows_cred.json:/data/flows_cred.json:rw
+            - ./nodered-settings.js:/data/settings.js:ro
+        restart: on-failure:10
+                
+    influxdb:
+        image: influxdb:latest
+        # build:
+          # context: .
+          # dockerfile: Dockerfile-influxdb
+        container_name: baavend-db
+        networks:
+            - net
+        ports:
+            - 8086:8086   # https://localhost:8086
+        volumes:
+            # Mount for influxdb data directory and configuration
+            - influxdb2:/var/lib/influxdb2:rw
+            - influxdb2:/etc/influxdb2:rw
+            # - influxdb2:/docker-entrypoint-initdb.d:rw
+            - ./baavend-db/data:/var/lib/influxdb2:rw
+            - ./baavend-db/config:/etc/influxdb2:rw
+            # - ./entrypoint.sh:/docker-entrypoint-initdb.d/entrypoint.sh
+            # - ./influxdb-ssl/influxdb-selfsigned.crt:/etc/ssl/influxdb-selfsigned.crt:rw
+            # - ./influxdb-ssl/influxdb-selfsigned.key:/etc/ssl/influxdb-selfsigned.key:rw
+        env_file:
+            - influxdb.env
+        restart: on-failure:1
+        
+    python:
+        depends_on:
+            - influxdb
+        build:
+          context: .
+          dockerfile: Dockerfile-python
+        container_name: baavend-py
+        networks:
+            - net
+        ports:
+            - 8000:8000
+        links:
+           - "influxdb:db"  # the container influxdb is reachable as the hostnames "influxdb" and "db" through this container.
+        volumes:
+            - ./baavend-py/data:/home:rw
+        env_file:
+            - python.env
+        stdin_open: true
+        tty: true
+        entrypoint:
+            - bash
+        command:
+            - ls
+            - python3 testdata-populate.py
+        # restart: on-failure:10
+        profiles:
+            - dev
+ 
+    mosquitto:
+        image: eclipse-mosquitto:latest
+        container_name: baavend-mqtt
+        networks:
+            - net
+        ports:
+            - 1883:1883
+            - 9001:9001
+        volumes:
+            - ./baavend-mqtt/config/:/mosquitto/config/:rw
+            - ./mosquitto.conf:/mosquitto/config/mosquitto.conf:rw
+            - ./mosquitto-password.txt:/mosquitto/config/password.txt:rw
+            - ./baavend-mqtt/log/:/mosquitto/log/
+            - ./baavend-mqtt/data:/mosquitto/data/
+        restart: on-failure:10
+         
+    grafana:
+        depends_on:
+          - nodered
+          - influxdb
+        image: grafana/grafana:latest
+        # build:
+          # context: .
+          # dockerfile: Dockerfile-grafana
+        container_name: baavend-vis
+        networks:
+            - net
+        ports:
+          - 3000:3000
+        links:
+            - "nodered:api"  # http://api:1880/flwsb-api/v1/
+            - "influxdb"     # http://influxdb:8086
+        env_file:
+            - grafana.env
+        volumes:
+          - ./baavend-vis/provisioning/datasources:/etc/grafana/provisioning/datasources
+          - ./baavend-vis:/var/lib/grafana
+        restart: on-failure:10
+        
+volumes:
+  influxdb2:
+
+networks:
+   net:
+   
+        
+# start command:                    docker-compose up -d
+# start command with image rebuild: docker-compose up -d --build
+# see running conatiners:           docker container ls
+# attach to container:              docker-compose exec -it <container-name> bash (of sh ipv bash)
+# stop & rm cmd:                    docker-compose down
+# -d = --detached
+
+# docker system prune   # clear cache
+
+# When encountering port error:
+#   Error response from daemon: Ports are not available: exposing port TCP 0.0.0.0:1884 -> 0.0.0.0:0: listen tcp 0.0.0.0:1884: bind: An attempt was made to access a socket in a way forbidden by its access permissions.
+# If your port is not in use, check with: nestat -aon
+# Your port ended up in the port exclusion range for some reason, viewable with command: netsh int ipv4 show excludedportrange protocol=tcp
+# To reset use command: netsh int ipv4 set dynamic tcp start=49152 num=16384

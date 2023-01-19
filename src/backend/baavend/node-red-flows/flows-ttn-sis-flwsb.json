@@ -1,0 +1,419 @@
+[
+    {
+        "id": "d03d06af82d1718e",
+        "type": "tab",
+        "label": "ttn-sis-flwsb",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "151fd00d431caa29",
+        "type": "mqtt in",
+        "z": "d03d06af82d1718e",
+        "name": "",
+        "topic": "v3/flwsb@ttn/devices/eui-0004a30b0020da72/up",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "c589162d2aafde08",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 240,
+        "y": 80,
+        "wires": [
+            [
+                "92881eec98883254",
+                "cdc3c5d562e15d6c"
+            ]
+        ]
+    },
+    {
+        "id": "92881eec98883254",
+        "type": "debug",
+        "z": "d03d06af82d1718e",
+        "name": "Debug TTN msg",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "9e22e33786704205",
+        "type": "function",
+        "z": "d03d06af82d1718e",
+        "name": "Data Formatting",
+        "func": "const ttn = msg.payload[0]; // TTN MQTT msg\nconst sis = msg.payload[1]; // SIS query result msg\n\n// ID & Timestamp from TTN msg\nconst id = ttn.end_device_ids.device_id;\nconst timestamp = new Date(ttn.received_at);  // timestamp TTN\n\n// Board info from SIS query\nconst board_name = (sis.find(obj => obj._field == \"board_name\"))[\"_value\"];\nconst latitude = (sis.find(obj => obj._field == \"latitude\"))[\"_value\"];\nconst longitude = (sis.find(obj => obj._field == \"longitude\"))[\"_value\"];\n// node.warn(`location: ${latitude}, ${longitude}`);  // Debug info\n\n// Bitstream\nfunction base64ToArrayBuffer(value) {\n\tvar load = value.replace(/\\s+/g, '');  // remove any whitespace\n\tvalue = Buffer.from(load, 'base64');\n\treturn value;\n}\n\nconst bitstream = base64ToArrayBuffer(ttn.uplink_message.frm_payload);\nnode.warn(bitstream); // Debug info\n\n// Sensor ID\nconst sensor_id = bitstream[0]; // Only for signle byte ID's\nnode.warn(`sensor_id: ${sensor_id}`); // Debug info\n\n// Sensor info from SIS query by Sensor ID\nconst sensor_name = (sis.find(obj => obj._field == \"sensor_name\" && obj.sensor_id == sensor_id))[\"_value\"];\nconst nr_of_measurements = (sis.find(obj => obj._field == \"nr_of_measurements\" && obj.sensor_id == sensor_id))[\"_value\"];\nconst datatype = (sis.find(obj => obj._field == \"datatype\" && obj.sensor_id == sensor_id))[\"_value\"];\nconst quantity = (sis.find(obj => obj._field == \"quantity\" && obj.sensor_id == sensor_id))[\"_value\"];\nconst conversion = (sis.find(obj => obj._field == \"conversion\" && obj.sensor_id == sensor_id))[\"_value\"];\n\n// Formatting the payload for InfluxDb push\nmsg.payload = [\n\t[{\n\t\tlatitude: latitude,\n\t\tlongitude: longitude,\n\t\tconsumed_airtime: +(ttn.uplink_message.consumed_airtime.slice(0, -1)), // remove \"s\" and convert to number\n\t\ttime: timestamp\n\t},\n\t{\n\t\tboard_id: id,  // device-id TTN en SIS\n\t\tboard_name: board_name,\n\t}]\n];\n\nlet sensor_data = [\n\t{\n\t\t// temp: ((((bitstream[1] << 8) + bitstream[2]) / 100) - 40),\n\t\t// pressure: ((bitstream[3] << 8) + bitstream[4]),\n\t\t// humidity: bitstream[5],\n\t\ttime: timestamp\n\t},\n\t{\n\t\tboard_id: id,  // device-id TTN en SIS\n\t\tsensor_id: sensor_id,\n\t\tsensor_name: sensor_name,\n\t}\n];\n\nif (nr_of_measurements > 1) {\n\t// Sensor info for multiple measurements to Arrays\n\tconst quantities = quantity.split(\", \");\n\tnode.warn(`quantities: ${quantities}`); // Debug info\n\tconst conversions = conversion.split(\", \");\n\tnode.warn(`conversions: ${conversions}`); // Debug info\n\tconst datatypes = datatype.split(\", \");\n\tnode.warn(`datatypes: ${datatypes}`); // Debug info\n\n\t// Define iteration length\n\tlet length = nr_of_measurements;\n\tfor (let i = 1; i < length; i++) { // Skip the first byte(s) of the bitstream, the sensor_id.\n\t\tnode.warn(datatypes[i]);\n\t\tif (!(datatypes[i] == \"byte\")) {\n\t\t\tlength++;\n\t\t}\n\t}\n\tnode.warn(`length: ${length}`); // Debug info\n\n\t// Values array\n\tlet values = [];\n\tfor (let i = 1; i < length; i++) { // Skip the first byte(s) of the bitstream, the sensor_id.\n\t\tnode.warn(datatypes[i]);\n\t\tif (datatypes[i] == \"byte\") {\n\t\t\tvalues[i] = bitstream[i];\n\t\t}\n\t\telse {\n\t\t\tvalues.push((bitstream[i] << 8) + bitstream[i + 1]);\n\t\t\ti++;\n\t\t}\n\t}\n\n\t// Quantities and Measurement data to key value pairs\n\tfor (let i = 0; i < nr_of_measurements; i++) {\n\t\tsensor_data[0][`${quantities[i]}`] = values[i];\n\t}\n\n\t//sensor_data[0][\"test\"] = ((bitstream[3] << 8) + bitstream[4]),\n}\nelse {\n\tif (datatype == \"byte\") {\n\t\tsensor_data[0][`${quantity}`] = bitstream[1];\n\t}\n\telse {\n\t\tsensor_data[0][`${quantity}`] = (bitstream[1] << 8) + bitstream[2];\n\t}\n}\n\nnode.warn(sensor_data[0]); // Debug info\nmsg.payload.push(sensor_data);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 420,
+        "wires": [
+            [
+                "5a8f248d95079cb4",
+                "669fad0bd9c4421b",
+                "df0dd691c566d163"
+            ]
+        ]
+    },
+    {
+        "id": "df0dd691c566d163",
+        "type": "influxdb out",
+        "z": "d03d06af82d1718e",
+        "influxdb": "f8d7a87b47e3f24c",
+        "name": "InfluxDb: baavend-db, org: ap, bucket: flwsb, measurement: climate_data",
+        "measurement": "climate_data",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "ap",
+        "bucket": "flwsb",
+        "x": 780,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "5a8f248d95079cb4",
+        "type": "debug",
+        "z": "d03d06af82d1718e",
+        "name": "Debug measurements only",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload.0.0",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "f02008c5b16c8c19",
+        "type": "influxdb in",
+        "z": "d03d06af82d1718e",
+        "influxdb": "f8d7a87b47e3f24c",
+        "name": "",
+        "query": "",
+        "rawOutput": false,
+        "precision": "",
+        "retentionPolicy": "",
+        "org": "ap",
+        "x": 420,
+        "y": 260,
+        "wires": [
+            [
+                "772f38a4b942238b",
+                "36f87558b5d885e0"
+            ]
+        ]
+    },
+    {
+        "id": "154876db86b6a254",
+        "type": "function",
+        "z": "d03d06af82d1718e",
+        "name": "InfluxDb Query",
+        "func": "const board_id = msg.payload.end_device_ids.device_id;\n\n// Flux query\nmsg.query = `from(bucket: \"sis\")\n  |> range(start: -100y, stop: now())\n  |> filter(fn: (r) => r[\"_measurement\"] == \"sensor\" or r[\"_measurement\"] == \"board\")\n  |> filter(fn: (r) => r[\"board_id\"] == \"${board_id}\")\n  |> filter(fn: (r) => r[\"_field\"] == \"board_name\" or r[\"_field\"] == \"latitude\" or r[\"_field\"] == \"longitude\" or r[\"_field\"] == \"conversion\" or r[\"_field\"] == \"nr_of_measurements\" or r[\"_field\"] == \"quantity\" or r[\"_field\"] == \"sensor_name\" or r[\"_field\"] == \"datatype\")\n  |> aggregateWindow(every: 1y, fn: last, createEmpty: false)\n  |> yield(name: \"last\")`\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 220,
+        "y": 260,
+        "wires": [
+            [
+                "f02008c5b16c8c19"
+            ]
+        ]
+    },
+    {
+        "id": "772f38a4b942238b",
+        "type": "debug",
+        "z": "d03d06af82d1718e",
+        "name": "Debug InfluxDb Query result",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "60a094c65b3b90a7",
+        "type": "inject",
+        "z": "d03d06af82d1718e",
+        "name": "Inject TTN test data",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"@type\":\"type.googleapis.com/ttn.lorawan.v3.ApplicationUp\",\"end_device_ids\":{\"device_id\":\"eui-0004a30b0020da72\",\"application_ids\":{\"application_id\":\"flwsb\"},\"dev_eui\":\"0004A30B0020DA72\",\"join_eui\":\"0004A30B0020DA72\",\"dev_addr\":\"260B386C\"},\"correlation_ids\":[\"as:up:01GMZYQEFJ9WFPS1RANANBJK6A\",\"ns:uplink:01GMZYQE8VDPC2WR4K8R9C359Q\",\"pba:conn:up:01GM367NPGXHWVSHN6JFKFKPVR\",\"pba:uplink:01GMZYQE8RVEDGBZC7S9ZJ7RJZ\",\"rpc:/ttn.lorawan.v3.GsNs/HandleUplink:01GMZYQE8VN437T3PHHFFF16ZN\",\"rpc:/ttn.lorawan.v3.NsAs/HandleUplink:01GMZYQEFH6D3MQKT445TBD0ET\"],\"received_at\":\"2022-12-23T16:58:11.314080290Z\",\"uplink_message\":{\"session_key_id\":\"AYU/6AGa+vh+WfbYP5XQGA==\",\"f_port\":1,\"f_cnt\":33,\"frm_payload\":\"CBfUA+kw\",\"decoded_payload\":{\"bytes\":[8,23,212,3,233,48]},\"rx_metadata\":[{\"gateway_ids\":{\"gateway_id\":\"packetbroker\"},\"packet_broker\":{\"message_id\":\"01GMZYQE8RVEDGBZC7S9ZJ7RJZ\",\"forwarder_net_id\":\"000013\",\"forwarder_tenant_id\":\"ttnv2\",\"forwarder_cluster_id\":\"ttn-v2-legacy-eu\",\"forwarder_gateway_eui\":\"7276FF0000062E94\",\"forwarder_gateway_id\":\"eui-7276ff0000062e94\",\"home_network_net_id\":\"000013\",\"home_network_tenant_id\":\"ttn\",\"home_network_cluster_id\":\"eu1.cloud.thethings.network\"},\"time\":\"2022-12-23T16:58:09.998443Z\",\"fine_timestamp\":\"955291031\",\"rssi\":-111,\"signal_rssi\":-113,\"channel_rssi\":-111,\"snr\":1,\"frequency_offset\":\"4464\",\"location\":{\"latitude\":51.22994085,\"longitude\":4.41383496,\"altitude\":30},\"uplink_token\":\"eyJnIjoiWlhsS2FHSkhZMmxQYVVwQ1RWUkpORkl3VGs1VE1XTnBURU5LYkdKdFRXbFBhVXBDVFZSSk5GSXdUazVKYVhkcFlWaFphVTlwU25Oa2F6RkRWakJzYWxJelNtOVBWVnBMVFRJMWRFbHBkMmxrUjBadVNXcHZhVmRYZUZkV1ZGRXlVWHBWTVZKck1IUlZVekV3WWxjMVdFMVhiRmxSVTBvNUxqUlRUMWg1YkU1R01HZG5Ra1EwVnpsTmF6WnJUMEV1TVdnMU9IaGtjMWRNVjFNNU5FSmhTQzVVTW5ONFIxSllWMmxwWlV4NVZYaGpaMGs0UVZSaU9HbFZORGhaZWt4UGNWbEVaRlY2Tlc5SGVrSnBMVU5rYXpJMGRGQkxaVVpMYWpVMWRXNU5Tbk14UTBOd2NpMVRkbTFoT0Y5SGRFTmxTVXRIUzBWNFR6Rm9jMlExVTBoT05HTm1UV3BOV2xFNE5tZGlWRE4zUkZWSWFWTndlazQyYlZkclgyZzFaak5ZUkVablQzVXpUWFZaYlRKMlVqWTNkSEV0UXpBMFNVUnplVFZ5VkVrd1NtdGlWM0JxVkd4RFIwZE1iRnBZZW1OVkxrTklhMVk0V0hCbGRHcEJTa1JpVFRGaVJsaFpSbEU9IiwiYSI6eyJmbmlkIjoiMDAwMDEzIiwiZnRpZCI6InR0bnYyIiwiZmNpZCI6InR0bi12Mi1sZWdhY3ktZXUifX0=\",\"received_at\":\"2022-12-23T16:58:11.093770044Z\"},{\"gateway_ids\":{\"gateway_id\":\"packetbroker\"},\"packet_broker\":{\"message_id\":\"01GMZYQE8RVEDGBZC7S9ZJ7RJZ\",\"forwarder_net_id\":\"000013\",\"forwarder_tenant_id\":\"ttnv2\",\"forwarder_cluster_id\":\"ttn-v2-legacy-eu\",\"forwarder_gateway_eui\":\"7276FF0000062E94\",\"forwarder_gateway_id\":\"eui-7276ff0000062e94\",\"home_network_net_id\":\"000013\",\"home_network_tenant_id\":\"ttn\",\"home_network_cluster_id\":\"eu1.cloud.thethings.network\"},\"antenna_index\":1,\"time\":\"2022-12-23T16:58:09.998443Z\",\"rssi\":-112,\"signal_rssi\":-117,\"channel_rssi\":-112,\"rssi_standard_deviation\":1,\"snr\":-4,\"frequency_offset\":\"4457\",\"uplink_token\":\"eyJnIjoiWlhsS2FHSkhZMmxQYVVwQ1RWUkpORkl3VGs1VE1XTnBURU5LYkdKdFRXbFBhVXBDVFZSSk5GSXdUazVKYVhkcFlWaFphVTlwU25Oa2F6RkRWakJzYWxJelNtOVBWVnBMVFRJMWRFbHBkMmxrUjBadVNXcHZhVmRYZUZkV1ZGRXlVWHBWTVZKck1IUlZVekV3WWxjMVdFMVhiRmxSVTBvNUxqUlRUMWg1YkU1R01HZG5Ra1EwVnpsTmF6WnJUMEV1TVdnMU9IaGtjMWRNVjFNNU5FSmhTQzVVTW5ONFIxSllWMmxwWlV4NVZYaGpaMGs0UVZSaU9HbFZORGhaZWt4UGNWbEVaRlY2Tlc5SGVrSnBMVU5rYXpJMGRGQkxaVVpMYWpVMWRXNU5Tbk14UTBOd2NpMVRkbTFoT0Y5SGRFTmxTVXRIUzBWNFR6Rm9jMlExVTBoT05HTm1UV3BOV2xFNE5tZGlWRE4zUkZWSWFWTndlazQyYlZkclgyZzFaak5ZUkVablQzVXpUWFZaYlRKMlVqWTNkSEV0UXpBMFNVUnplVFZ5VkVrd1NtdGlWM0JxVkd4RFIwZE1iRnBZZW1OVkxrTklhMVk0V0hCbGRHcEJTa1JpVFRGaVJsaFpSbEU9IiwiYSI6eyJmbmlkIjoiMDAwMDEzIiwiZnRpZCI6InR0bnYyIiwiZmNpZCI6InR0bi12Mi1sZWdhY3ktZXUifX0=\",\"received_at\":\"2022-12-23T16:58:11.093770044Z\"}],\"settings\":{\"data_rate\":{\"lora\":{\"bandwidth\":125000,\"spreading_factor\":7,\"coding_rate\":\"4/5\"}},\"frequency\":\"867100000\"},\"received_at\":\"2022-12-23T16:58:11.099382830Z\",\"consumed_airtime\":\"0.051456s\",\"network_ids\":{\"net_id\":\"000013\",\"tenant_id\":\"ttn\",\"cluster_id\":\"eu1\",\"cluster_address\":\"eu1.cloud.thethings.network\"}}}",
+        "payloadType": "json",
+        "x": 170,
+        "y": 140,
+        "wires": [
+            [
+                "cdc3c5d562e15d6c",
+                "92881eec98883254"
+            ]
+        ]
+    },
+    {
+        "id": "078945e4506a75ad",
+        "type": "join",
+        "z": "d03d06af82d1718e",
+        "name": "",
+        "mode": "custom",
+        "build": "array",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "2",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 190,
+        "y": 420,
+        "wires": [
+            [
+                "e8d41a31d60b8008",
+                "9e22e33786704205"
+            ]
+        ]
+    },
+    {
+        "id": "e8d41a31d60b8008",
+        "type": "debug",
+        "z": "d03d06af82d1718e",
+        "name": "Debug Join result",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 370,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "cdc3c5d562e15d6c",
+        "type": "link out",
+        "z": "d03d06af82d1718e",
+        "name": "[ttn-sis-flwsb] TTN msg out",
+        "mode": "link",
+        "links": [
+            "51924ef22e27d5eb",
+            "d50fffa2683b20be"
+        ],
+        "x": 475,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "51924ef22e27d5eb",
+        "type": "link in",
+        "z": "d03d06af82d1718e",
+        "name": "[ttn-sis-flwsb] TTN msg in Query",
+        "links": [
+            "cdc3c5d562e15d6c"
+        ],
+        "x": 75,
+        "y": 260,
+        "wires": [
+            [
+                "154876db86b6a254"
+            ]
+        ]
+    },
+    {
+        "id": "d50fffa2683b20be",
+        "type": "link in",
+        "z": "d03d06af82d1718e",
+        "name": "[ttn-sis-flwsb] TTN msg in Join",
+        "links": [
+            "cdc3c5d562e15d6c"
+        ],
+        "x": 75,
+        "y": 420,
+        "wires": [
+            [
+                "078945e4506a75ad"
+            ]
+        ]
+    },
+    {
+        "id": "36f87558b5d885e0",
+        "type": "link out",
+        "z": "d03d06af82d1718e",
+        "name": "[ttn-sis-flwsb] Query msg out",
+        "mode": "link",
+        "links": [
+            "0db883d0340e27a7"
+        ],
+        "x": 575,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "0db883d0340e27a7",
+        "type": "link in",
+        "z": "d03d06af82d1718e",
+        "name": "[ttn-sis-flwsb] Query msg in",
+        "links": [
+            "36f87558b5d885e0"
+        ],
+        "x": 75,
+        "y": 460,
+        "wires": [
+            [
+                "078945e4506a75ad"
+            ]
+        ]
+    },
+    {
+        "id": "90010826df190d03",
+        "type": "comment",
+        "z": "d03d06af82d1718e",
+        "name": "Step 1. TTN MQTT msg",
+        "info": "",
+        "x": 140,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "13295339c56a8b2f",
+        "type": "comment",
+        "z": "d03d06af82d1718e",
+        "name": "Step 2. Query SIS from database",
+        "info": "",
+        "x": 170,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "5f22a9b13079c98d",
+        "type": "comment",
+        "z": "d03d06af82d1718e",
+        "name": "Step 3. Join MQTT and Query result msg's + Data Formatting + Push to database",
+        "info": "",
+        "x": 320,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "eb1568ccbbd672c3",
+        "type": "comment",
+        "z": "d03d06af82d1718e",
+        "name": "Improvements",
+        "info": "Now each node added to the TTN application needs to be manually added with a MQTT node.\nThis is due to how the TTN topics work.\nThere needs to be a way to improve this or automating the process.",
+        "x": 110,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "669fad0bd9c4421b",
+        "type": "debug",
+        "z": "d03d06af82d1718e",
+        "name": "Debug InfluxDb push",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "c589162d2aafde08",
+        "type": "mqtt-broker",
+        "name": "FLWSB",
+        "broker": "eu1.cloud.thethings.network",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "f8d7a87b47e3f24c",
+        "type": "influxdb",
+        "hostname": "127.0.0.1",
+        "port": "8086",
+        "protocol": "http",
+        "database": "database",
+        "name": "baavend-db",
+        "usetls": false,
+        "tls": "d50d0c9f.31e858",
+        "influxdbVersion": "2.0",
+        "url": "http://influx:8086",
+        "rejectUnauthorized": true
+    },
+    {
+        "id": "d50d0c9f.31e858",
+        "type": "tls-config",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "",
+        "servername": "",
+        "verifyservercert": false
+    }
+]
