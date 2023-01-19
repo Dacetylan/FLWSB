@@ -2,6 +2,8 @@
 
 ## Mosquitto MQTT Broker
 
+De Mosquitto MQTT Broker dient als tussenschakel om MQTT berichten te ontvangen van de applicatie voor de weerstations, en deze vervolgens in Node-RED te kunnen binnenhalen.
+
 ### Logging
 
 #### Log file
