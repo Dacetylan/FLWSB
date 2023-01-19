@@ -70,10 +70,11 @@ PA12 en PA13 zijn onderdeel van de I²C bus en hebben al een pull-up weerstand v
 
 
 
-## Toekomstige verbeteringen
+## Mogelijke verbeteringen en uitbreidingen
 
 - Momenteel zijn er geen mounting holes aanwezig, dat vonden we  nog niet prioritair.
   - Mouning holes of inkepingen aan de randen van de printplaat zijn dus nog mogelijk en kunnen ook zeker van pas komen.
+  - Een printplaat in de stijl van de Arduino Nano Every lijkt ons ook interessant. Dan zouden er geen componenten op de onderkant kunnen staan en zorgen we voor rat-bites aan de zijkant van de printplaat. Op deze manier kan de PCB gebruikt worden als SMD-component.
 - De impedantie van het pad naar de antenne-aansluiting is niet theoretisch berekend. Dit is iets waar in een volgende versie over kan worden nagedacht.
 - Er is geen LED aanwezig.
 - Op het silkscreen staat een fout, `PA07` staat op het silkscreen als `PA09`. 
