@@ -1,0 +1,1270 @@
+[
+    {
+        "id": "d6e8fd642de0dfea",
+        "type": "tab",
+        "label": "ttn-flwsb",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "4b157610de495e14",
+        "type": "tab",
+        "label": "sis-form",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "51b93144aa17da42",
+        "type": "tab",
+        "label": "mosquitto-mqtt",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "4ddab131d0aa03b7",
+        "type": "tab",
+        "label": "ttn-mqtt-to-mongodb",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "538450966493d319",
+        "type": "tab",
+        "label": "rest-web-api",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "340899c6.d3b816",
+        "type": "tab",
+        "label": "eg.: Airkey API Test",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "1b74f3faa1d61e81",
+        "type": "tab",
+        "label": "eg.: web page and socket",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "7e3ea74ffe02df56",
+        "type": "tab",
+        "label": "weather-station",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "fbd418f980fe56b6",
+        "type": "mqtt-broker",
+        "name": "TTN Node-RED",
+        "broker": "eu1.cloud.thethings.network",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "e4102cbc620b75cf",
+        "type": "mongodb",
+        "hostname": "mongodb",
+        "topology": "direct",
+        "connectOptions": "",
+        "port": "27017",
+        "db": "flwsb",
+        "name": "baavend-db"
+    },
+    {
+        "id": "d53b76223f0a289b",
+        "type": "mqtt-broker",
+        "name": "Tamm Testing",
+        "broker": "eu1.cloud.thethings.network",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "b94939c85db08c04",
+        "type": "mqtt-broker",
+        "name": "Zanzibar",
+        "broker": "eu1.cloud.thethings.network",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "6bb176ae02eba776",
+        "type": "mqtt-broker",
+        "name": "baavend-mqtt",
+        "broker": "baavend-mqtt",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "5",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "c589162d2aafde08",
+        "type": "mqtt-broker",
+        "name": "FLWSB",
+        "broker": "eu1.cloud.thethings.network",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "bba2cc5f.445d3",
+        "type": "mongodb",
+        "hostname": "127.13.155.130",
+        "port": "27017",
+        "db": "sb",
+        "name": "sb"
+    },
+    {
+        "id": "985ecbc7.67a138",
+        "type": "websocket-listener",
+        "z": "538450966493d319",
+        "path": "/ws/simple",
+        "wholemsg": "false"
+    },
+    {
+        "id": "d50d0c9f.31e858",
+        "type": "tls-config",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "",
+        "servername": "",
+        "verifyservercert": false
+    },
+    {
+        "id": "562ec1085cc9dbf1",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "10.10.10.60",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "f8d7a87b47e3f24c",
+        "type": "influxdb",
+        "hostname": "127.0.0.1",
+        "port": "8086",
+        "protocol": "http",
+        "database": "database",
+        "name": "baavend-time-db",
+        "usetls": false,
+        "tls": "d50d0c9f.31e858",
+        "influxdbVersion": "2.0",
+        "url": "http://influx:8086",
+        "rejectUnauthorized": true
+    },
+    {
+        "id": "e09843ff2cf1bc08",
+        "type": "mqtt in",
+        "z": "d6e8fd642de0dfea",
+        "name": "flwsb test up",
+        "topic": "v3/flwsb@ttn/devices/device-test/up",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "c589162d2aafde08",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 100,
+        "wires": [
+            [
+                "495c7d6d23e6cbbf",
+                "8afb7b0637da391c"
+            ]
+        ]
+    },
+    {
+        "id": "495c7d6d23e6cbbf",
+        "type": "debug",
+        "z": "d6e8fd642de0dfea",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 310,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "8afb7b0637da391c",
+        "type": "function",
+        "z": "d6e8fd642de0dfea",
+        "name": "Data Formatting",
+        "func": "/*var data = \n{\n    id: msg.payload.end_device_ids.device_id,\n\tname: \"Node 1\",\n\tdatetime: msg.payload.received_at,\n\tlatitude: msg.payload.uplink_message.locations[\"frm-payload\"].latitude,\n\tlongitude: msg.payload.uplink_message.locations[\"frm-payload\"].longitude\n}\ndata = Object.assign(data, msg.payload.uplink_message.decoded_payload);\n\nmsg = data;*/\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 220,
+        "wires": [
+            [
+                "f546dd07e312c414",
+                "ffa5581edde1b8c8"
+            ]
+        ]
+    },
+    {
+        "id": "f546dd07e312c414",
+        "type": "debug",
+        "z": "d6e8fd642de0dfea",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 550,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "7b9822d1a68b6dfa",
+        "type": "inject",
+        "z": "d6e8fd642de0dfea",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 400,
+        "wires": [
+            [
+                "4bbb700978709fe6"
+            ]
+        ]
+    },
+    {
+        "id": "4bbb700978709fe6",
+        "type": "function",
+        "z": "d6e8fd642de0dfea",
+        "name": "Fields and Tags example",
+        "func": "msg.payload = [{\n    intValue: '10i',\n    numValue: 12,\n    randomValue: Math.random()*10,\n    strValue: \"message2\"\n},\n{\n    tag1:\"board1\",\n    tag2:\"bme280\"\n}];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 400,
+        "wires": [
+            [
+                "6fa05380811290f2"
+            ]
+        ]
+    },
+    {
+        "id": "6fa05380811290f2",
+        "type": "influxdb out",
+        "z": "d6e8fd642de0dfea",
+        "influxdb": "f8d7a87b47e3f24c",
+        "name": "baavend-time-db, org: ap, bucket: test",
+        "measurement": "test",
+        "precision": "ms",
+        "retentionPolicy": "",
+        "database": "test",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "ap",
+        "bucket": "test",
+        "x": 650,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "3f1e58bbd3b0e052",
+        "type": "influxdb batch",
+        "z": "d6e8fd642de0dfea",
+        "influxdb": "f8d7a87b47e3f24c",
+        "precision": "",
+        "retentionPolicy": "",
+        "name": "baavend-time-db, org: ap, bucket: test-bacth",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "ap",
+        "bucket": "test-batch",
+        "x": 670,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "9e3b4025b84a96fc",
+        "type": "inject",
+        "z": "d6e8fd642de0dfea",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 460,
+        "wires": [
+            [
+                "c7ae0572c33ae4b0"
+            ]
+        ]
+    },
+    {
+        "id": "c7ae0572c33ae4b0",
+        "type": "function",
+        "z": "d6e8fd642de0dfea",
+        "name": "Batch example",
+        "func": "msg.payload = [\n    {\n        measurement: \"weather_sensor\",\n        fields: {\n            temp: 5.5,\n            light: 678,\n            humidity: 51\n        },\n        tags: {\n            location: \"garden\"\n        },\n        timestamp: new Date()\n    },\n    {\n        measurement: \"alarm_sensor\",\n        fields: {\n            proximity: 999,\n            temp: 19.5\n        },\n        tags: {\n            location: \"home\"\n        },\n        timestamp: new Date()\n    }\n];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 460,
+        "wires": [
+            [
+                "3f1e58bbd3b0e052"
+            ]
+        ]
+    },
+    {
+        "id": "ffa5581edde1b8c8",
+        "type": "influxdb batch",
+        "z": "d6e8fd642de0dfea",
+        "influxdb": "f8d7a87b47e3f24c",
+        "precision": "",
+        "retentionPolicy": "",
+        "name": "baavend-time-db, org: ap, bucket: flwsb",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "ap",
+        "bucket": "flwsb",
+        "x": 660,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "ecaec1df512d97d1",
+        "type": "influxdb batch",
+        "z": "4b157610de495e14",
+        "influxdb": "f8d7a87b47e3f24c",
+        "precision": "",
+        "retentionPolicy": "",
+        "name": "baavend-time-db, org: ap, bucket: flwsb",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "ap",
+        "bucket": "sis",
+        "x": 520,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "54e936773e36ed87",
+        "type": "mqtt out",
+        "z": "51b93144aa17da42",
+        "name": "",
+        "topic": "/testTopic",
+        "qos": "2",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "6bb176ae02eba776",
+        "x": 540,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "33c891fe54226419",
+        "type": "inject",
+        "z": "51b93144aa17da42",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "test",
+        "payloadType": "str",
+        "x": 130,
+        "y": 220,
+        "wires": [
+            [
+                "8059237e966aec2f"
+            ]
+        ]
+    },
+    {
+        "id": "8059237e966aec2f",
+        "type": "function",
+        "z": "51b93144aa17da42",
+        "name": "",
+        "func": "return {\n  \"payload\": {\n    \"downlinks\": [{\n      \"f_port\": 15,\n      \"frm_payload\": msg.payload.toString(\"base64\"),\n      \"priority\": \"NORMAL\"\n    }]\n  }\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 220,
+        "wires": [
+            [
+                "54e936773e36ed87",
+                "b937ff65d0d054d6"
+            ]
+        ]
+    },
+    {
+        "id": "b937ff65d0d054d6",
+        "type": "debug",
+        "z": "51b93144aa17da42",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 550,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "d58c01d8852cf041",
+        "type": "mqtt in",
+        "z": "51b93144aa17da42",
+        "name": "",
+        "topic": "/testTopic",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "6bb176ae02eba776",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 140,
+        "y": 100,
+        "wires": [
+            [
+                "494fdfbb0220b018"
+            ]
+        ]
+    },
+    {
+        "id": "494fdfbb0220b018",
+        "type": "debug",
+        "z": "51b93144aa17da42",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 340,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "8de286cb81916356",
+        "type": "mqtt in",
+        "z": "4ddab131d0aa03b7",
+        "name": "flwsb test up",
+        "topic": "v3/flwsb@ttn/devices/device-test/up",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "c589162d2aafde08",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 100,
+        "wires": [
+            [
+                "f9044be7388e6b3e",
+                "bfb46609060d5623",
+                "d8bfd801f0065d09"
+            ]
+        ]
+    },
+    {
+        "id": "f9044be7388e6b3e",
+        "type": "debug",
+        "z": "4ddab131d0aa03b7",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 310,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "bfb46609060d5623",
+        "type": "debug",
+        "z": "4ddab131d0aa03b7",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload.uplink_message.locations.frm-payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 450,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "d8bfd801f0065d09",
+        "type": "function",
+        "z": "4ddab131d0aa03b7",
+        "name": "Data Formatting",
+        "func": "/*var data = \n{\n    id: msg.payload.end_device_ids.device_id,\n\tname: \"Node 1\",\n\tdatetime: msg.payload.received_at,\n\tlatitude: msg.payload.uplink_message.locations[\"frm-payload\"].latitude,\n\tlongitude: msg.payload.uplink_message.locations[\"frm-payload\"].longitude\n}\ndata = Object.assign(data, msg.payload.uplink_message.decoded_payload);\n\nmsg = data;*/\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 220,
+        "wires": [
+            [
+                "a29284a856817f3d",
+                "f5c8659895b0ec22"
+            ]
+        ]
+    },
+    {
+        "id": "a29284a856817f3d",
+        "type": "debug",
+        "z": "4ddab131d0aa03b7",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 530,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "f5c8659895b0ec22",
+        "type": "mongodb out",
+        "z": "4ddab131d0aa03b7",
+        "mongodb": "e4102cbc620b75cf",
+        "name": "",
+        "collection": "ttn-test",
+        "payonly": false,
+        "upsert": false,
+        "multi": false,
+        "operation": "store",
+        "x": 570,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "f0a7965a26eee036",
+        "type": "inject",
+        "z": "4ddab131d0aa03b7",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "test",
+        "payloadType": "str",
+        "x": 150,
+        "y": 400,
+        "wires": [
+            [
+                "6646ea379fcc04ae"
+            ]
+        ]
+    },
+    {
+        "id": "6646ea379fcc04ae",
+        "type": "mongodb out",
+        "z": "4ddab131d0aa03b7",
+        "mongodb": "e4102cbc620b75cf",
+        "name": "",
+        "collection": "inject-test",
+        "payonly": false,
+        "upsert": false,
+        "multi": false,
+        "operation": "insert",
+        "x": 360,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "48fe0e1fd0fdcc44",
+        "type": "http in",
+        "z": "538450966493d319",
+        "name": "",
+        "url": "/flwsb-api/v1/",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 170,
+        "y": 100,
+        "wires": [
+            [
+                "f96a2e6ce7e734c5",
+                "46dba0479947ec39"
+            ]
+        ]
+    },
+    {
+        "id": "f96a2e6ce7e734c5",
+        "type": "function",
+        "z": "538450966493d319",
+        "name": "",
+        "func": "//msg.statusCode = \"200\"\nmsg.payload = \"Test connection succes\"\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 100,
+        "wires": [
+            [
+                "eaaa8fd25aef9632",
+                "42b87342b0b95382"
+            ]
+        ]
+    },
+    {
+        "id": "eaaa8fd25aef9632",
+        "type": "http response",
+        "z": "538450966493d319",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 600,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "42b87342b0b95382",
+        "type": "debug",
+        "z": "538450966493d319",
+        "name": "response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "699168d391b036d4",
+        "type": "http in",
+        "z": "538450966493d319",
+        "name": "",
+        "url": "/flwsb-api/v1/search",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 190,
+        "y": 280,
+        "wires": [
+            [
+                "59b14e4f4619a1ee"
+            ]
+        ]
+    },
+    {
+        "id": "59b14e4f4619a1ee",
+        "type": "mongodb in",
+        "z": "538450966493d319",
+        "mongodb": "e4102cbc620b75cf",
+        "name": "",
+        "collection": "inject-test",
+        "operation": "find",
+        "x": 460,
+        "y": 280,
+        "wires": [
+            [
+                "d9cd58ec19d3d3a0"
+            ]
+        ]
+    },
+    {
+        "id": "d9cd58ec19d3d3a0",
+        "type": "function",
+        "z": "538450966493d319",
+        "name": "",
+        "func": "/*var data = msg.payload\nvar latest = msg.payload[data.length-1]\nmsg.payload = latest*/\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 280,
+        "wires": [
+            [
+                "b323ff7d22c8a27e",
+                "d76820b10e59c45f"
+            ]
+        ]
+    },
+    {
+        "id": "b323ff7d22c8a27e",
+        "type": "http response",
+        "z": "538450966493d319",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 840,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "d76820b10e59c45f",
+        "type": "debug",
+        "z": "538450966493d319",
+        "name": "response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "a14710bfbcdc5bc8",
+        "type": "http in",
+        "z": "538450966493d319",
+        "name": "",
+        "url": "/flwsb-api/v1/query",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 180,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "caf94a20ca0190f0",
+        "type": "http in",
+        "z": "538450966493d319",
+        "name": "",
+        "url": "/flwsb-api/v1/annotations",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 210,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0a45a981da22ce1e",
+        "type": "http in",
+        "z": "538450966493d319",
+        "name": "",
+        "url": "/flwsb-api/v1/tag-keys",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 190,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1f4d3c8419022305",
+        "type": "http in",
+        "z": "538450966493d319",
+        "name": "",
+        "url": "/flwsb-api/v1/tag-values",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 200,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e3d4feb7ecdbec33",
+        "type": "http in",
+        "z": "538450966493d319",
+        "name": "",
+        "url": "/flwsb-api/v1/test",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 180,
+        "y": 680,
+        "wires": [
+            [
+                "d263442c71aaae6f"
+            ]
+        ]
+    },
+    {
+        "id": "d263442c71aaae6f",
+        "type": "mongodb in",
+        "z": "538450966493d319",
+        "mongodb": "e4102cbc620b75cf",
+        "name": "",
+        "collection": "inject-test",
+        "operation": "find",
+        "x": 440,
+        "y": 680,
+        "wires": [
+            [
+                "ba607d38f3def63f"
+            ]
+        ]
+    },
+    {
+        "id": "ba607d38f3def63f",
+        "type": "function",
+        "z": "538450966493d319",
+        "name": "",
+        "func": "var data = msg.payload\nvar latest = msg.payload[data.length-1]\nmsg.payload = latest\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 680,
+        "y": 680,
+        "wires": [
+            [
+                "394101e4c9f3de0e",
+                "43a3909449e5228c"
+            ]
+        ]
+    },
+    {
+        "id": "394101e4c9f3de0e",
+        "type": "http response",
+        "z": "538450966493d319",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 850,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "43a3909449e5228c",
+        "type": "debug",
+        "z": "538450966493d319",
+        "name": "response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 860,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "46dba0479947ec39",
+        "type": "debug",
+        "z": "538450966493d319",
+        "name": "request",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 380,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "49a54f77.b8319",
+        "type": "function",
+        "z": "340899c6.d3b816",
+        "name": "set payload and headers",
+        "func": "msg.headers = {};\nmsg.headers['x-api-key'] = 'xxx';\nmsg.headers['Content-Type'] = 'application/json';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 100,
+        "wires": [
+            [
+                "dec76f59.1b076"
+            ]
+        ]
+    },
+    {
+        "id": "32f4730e.9bad8c",
+        "type": "inject",
+        "z": "340899c6.d3b816",
+        "name": "",
+        "props": [
+            {
+                "p": "payload",
+                "v": "",
+                "vt": "date"
+            },
+            {
+                "p": "topic",
+                "v": "",
+                "vt": "string"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 100,
+        "wires": [
+            [
+                "49a54f77.b8319"
+            ]
+        ]
+    },
+    {
+        "id": "404fc276.fd378c",
+        "type": "debug",
+        "z": "340899c6.d3b816",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 810,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "dec76f59.1b076",
+        "type": "http request",
+        "z": "340899c6.d3b816",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "/v1/customer",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 610,
+        "y": 100,
+        "wires": [
+            [
+                "404fc276.fd378c"
+            ]
+        ]
+    },
+    {
+        "id": "e3e4522e.1c1bb",
+        "type": "inject",
+        "z": "1b74f3faa1d61e81",
+        "name": "Tick every 5 secs",
+        "repeat": "5",
+        "crontab": "",
+        "once": false,
+        "topic": "test",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 160,
+        "wires": [
+            [
+                "45dbf990.ba2408"
+            ]
+        ]
+    },
+    {
+        "id": "50da04b3.af25fc",
+        "type": "websocket out",
+        "z": "1b74f3faa1d61e81",
+        "name": "",
+        "server": "985ecbc7.67a138",
+        "client": "",
+        "x": 640,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "42a28745.bd5d78",
+        "type": "http response",
+        "z": "1b74f3faa1d61e81",
+        "name": "",
+        "x": 610,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "1787be40.e87842",
+        "type": "http in",
+        "z": "1b74f3faa1d61e81",
+        "name": "",
+        "url": "/simple",
+        "method": "get",
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 100,
+        "wires": [
+            [
+                "1857548e.e7a8ab"
+            ]
+        ]
+    },
+    {
+        "id": "1857548e.e7a8ab",
+        "type": "template",
+        "z": "1b74f3faa1d61e81",
+        "name": "Simple Web Page",
+        "field": "payload",
+        "format": "html",
+        "template": "<!DOCTYPE HTML>\n<html>\n    <head>\n    <title>Simple Live Display</title>\n    <script type=\"text/javascript\">\n        var ws;\n        var wsUri = \"ws:\";\n        var loc = window.location;\n        console.log(loc);\n        if (loc.protocol === \"https:\") { wsUri = \"wss:\"; }\n        // This needs to point to the web socket in the Node-RED flow\n        // ... in this case it's ws/simple\n        wsUri += \"//\" + loc.host + loc.pathname.replace(\"simple\",\"ws/simple\");\n\n        function wsConnect() {\n            console.log(\"connect\",wsUri);\n            ws = new WebSocket(wsUri);\n            //var line = \"\";    // either uncomment this for a building list of messages\n            ws.onmessage = function(msg) {\n                var line = \"\";  // or uncomment this to overwrite the existing message\n                // parse the incoming message as a JSON object\n                var data = msg.data;\n                //console.log(data);\n                // build the output from the topic and payload parts of the object\n                line += \"<p>\"+data+\"</p>\";\n                // replace the messages div with the new \"line\"\n                document.getElementById('messages').innerHTML = line;\n                //ws.send(JSON.stringify({data:data}));\n            }\n            ws.onopen = function() {\n                // update the status div with the connection status\n                document.getElementById('status').innerHTML = \"connected\";\n                //ws.send(\"Open for data\");\n                console.log(\"connected\");\n            }\n            ws.onclose = function() {\n                // update the status div with the connection status\n                document.getElementById('status').innerHTML = \"not connected\";\n                // in case of lost connection tries to reconnect every 3 secs\n                setTimeout(wsConnect,3000);\n            }\n        }\n        \n        function doit(m) {\n            if (ws) { ws.send(m); }\n        }\n    </script>\n    </head>\n    <body onload=\"wsConnect();\" onunload=\"ws.disconnect();\">\n        <font face=\"Arial\">\n        <h1>Simple Live Display</h1>\n        <div id=\"messages\"></div>\n        <button type=\"button\" onclick='doit(\"click\");'>Click to send message</button>\n        <hr/>\n        <div id=\"status\">unknown</div>\n        </font>\n    </body>\n</html>\n",
+        "x": 390,
+        "y": 100,
+        "wires": [
+            [
+                "42a28745.bd5d78"
+            ]
+        ]
+    },
+    {
+        "id": "45dbf990.ba2408",
+        "type": "function",
+        "z": "1b74f3faa1d61e81",
+        "name": "format time nicely",
+        "func": "msg.payload = Date(msg.payload).toString();\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 390,
+        "y": 160,
+        "wires": [
+            [
+                "50da04b3.af25fc"
+            ]
+        ]
+    },
+    {
+        "id": "eccc8bc2.133378",
+        "type": "websocket in",
+        "z": "1b74f3faa1d61e81",
+        "name": "",
+        "server": "985ecbc7.67a138",
+        "client": "",
+        "x": 640,
+        "y": 220,
+        "wires": [
+            [
+                "9adfff59.652"
+            ]
+        ]
+    },
+    {
+        "id": "9adfff59.652",
+        "type": "debug",
+        "z": "1b74f3faa1d61e81",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 830,
+        "y": 220,
+        "wires": []
+    }
+]

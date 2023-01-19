@@ -20,22 +20,37 @@ Elke sensor-id geeft dus aan welke meting data er op volgt (grootheid en eenheid
 
 ### Werking
 
-#### 1. FLWSB-board
+#### 1. SIS Web Forms
+
+Bij het deployen van de FLWSB-boards wordt het board ingegeven via het SIS Board Registration form.
+Ook de hierop aangesloten sensoren worden gerigistreerd via het SIS Sensor Registration form.
+
+![SIS Registration Web Forms.](./assets/node-red-dashboard-sis-forms.png 'Figuur 1: SIS Registration Web Forms.')
+
+#### 2. FLWSB-board
 
 Het FLWSB-board detecteert de sensoren door de I²C adressen te lezen en te meten of er iets op de analoge poorten aanwezig is.
-De metingen worden verzameld en de data wordt geformatteerd naar een bitstream.
+De metingen worden verzameld en de data wordt, samen met de sensor-id's, geformatteerd naar een bitstream.
 Waarna de bitstream wordt verzonden over LoRaWAN.
 
-#### 2. TTN applicatie
+![FLWSB demo opstellig: overzicht, hoek.](./assets/flwsb-demo-overview-angle.jpg 'Figuur 2: FLWSB demo opstellig: overzicht, hoek..')
+
+#### 3. TTN applicatie
 
 De uitgestuurde bitstream wordt ontvangen door een TTN gateway en verwerkt door hun servers.
-Hierbij wordt de data beschikbaar gemaakt via MQTT.
+Hierbij wordt de data beschikbaar gemaakt via MQTT waarin de board-id, of eui, door de TTN applicatie wordt ingevoegd.
 
-*(Het is mogelijk data reeds te formateren in de TTN applicatie aan de hand van de TTN Formatter. Met het SIS is dit echter niet mogelijk omdat het data vereist vanuit de database.)*
+![TTN FLWSB applicatie overzicht.](./assets/ttn-flwsb-app-overview.png 'Figuur 3: TTN FLWSB applicatie overzicht.')
 
-#### 3. BaaVend (backend met Node-RED en InfluxDb)
+*Voor er iets ontvangen kan worden moet het FLWSB-board uiteraard eerst geregistreerd zijn, bij voorkeur door [Over-the-Air Activation (OTAA)](https://www.thethingsnetwork.org/docs/lorawan/addressing/#:~:text=Over%2Dthe%2DAir%20Activation%20(OTAA)%20is%20the%20preferred,are%20negotiated%20with%20the%20device.).*
 
-In Node-RED is er een MQTT node aanwezig die gesubscribeerd is op het topic van het FLWSB-board.
+*Het is mogelijk data reeds te formateren in de TTN applicatie aan de hand van de TTN Formatter. Met het SIS is dit echter niet mogelijk omdat het data vereist vanuit de database.*
+
+![TTN FLWSB applicatie default payload formatter.](./assets/ttn-flwsb-app-payload-formatter.png 'Figuur 3: TTN FLWSB applicatie default payload formatter.')
+
+#### 4. BaaVend (backend met Node-RED en InfluxDb)
+
+In Node-RED is er een MQTT node aanwezig die gesubscribeerd is op het topic van het FLWSB-board, dit per node op de eui van in de TTN applicatie.
 Van zodra de data door de TTN applicatie verwerkt is wordt deze beschikbaar en ontvangen als JSON in Node-RED.
 
 Aan de hand van de FLWSB-board naam wordt de nodige SIS data opgevraagd uit de database.
@@ -44,6 +59,8 @@ De dataverwerking van de bitstream gebeurt in volgende herhalende stappen tot he
  - De hoeveelheid bytes van de achterliggende data wordt bepaald en geformatteerd naar het juiste datatype.
  - De geformatteerde meting wordt in een JSON object gestructureerd volgens de bepaalde data structuur en de juiste tags worden toegekend (zie onderdeel [Data Structuur](./data-formatting/data-structuur.md)).
 
-Eens volledig wordt de JSON weggeschreven naar de database en als document toegevoegd aan de collection van dat FLWSB-board.
+Eens volledig wordt het JSON object weggeschreven naar de database.
+
+![Node-RED flow van TTN MQTT tot InfluxDb push.](./assets/node-red-flow-ttn-sis-flwsb.png 'Figuur 4: Node-RED flow van TTN MQTT tot InfluxDb push.')
 
 ---
