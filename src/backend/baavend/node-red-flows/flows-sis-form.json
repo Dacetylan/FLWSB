@@ -246,7 +246,7 @@
         "id": "a8b8745a5f2b3318",
         "type": "function",
         "z": "25e707b9e505301b",
-        "name": "Data Formatting Board reg",
+        "name": "Data Formatting Sensor reg",
         "func": "var form = msg.payload\n\nmsg.payload = [\n    {\n        sensor_name: form.sensor_name,\n        nr_of_measurements: form.nr_of_measurements,\n        quantity: form.quantity,\n        unit: form.unit,\n        range: form.range,\n        conversion: form.conversion,\n        datatype: form.datatype,\n        time: new Date()\n    },\n    {\n        board_id: form.board_id,\n        sensor_id: form.sensor_id,\n    }\n];\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,

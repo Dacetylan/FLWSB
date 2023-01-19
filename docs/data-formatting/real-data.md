@@ -103,15 +103,11 @@ Het resultaat in de InfluxDb database Data Explorer web interface.
 
 #### Bitstream
 
-De meting wordt opgevraagd en omgezet van een byte array naar een bitstream:
-
-```c
-// Voorbeeld code van op de SAMDaaNo21
-```
-
-```
+De meting wordt opgevraagd en omgezet van een byte array naar een bitstream.
+Dit is vrij uitgebreide en complexe code terug te vinden in het onderdeel [PoC Code (example sketches)](embedded-programming/poc-code.md).
 
 De verzonden bitstream, of toch enkel de data zelf, ziet er als volgt uit:
+
 ```c
 00001000
 00010111

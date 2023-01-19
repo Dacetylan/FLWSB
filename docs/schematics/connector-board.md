@@ -6,6 +6,24 @@ Het connector board dient als verbindingspunt voor de SAMDaaNo21. Het is de tuss
 
 ![FLWSB Connector Board schema v1.1](./assets/FLWSB-connector-board-schema-v1.1.svg)
 
+Het Connector Board is voorzien op een hele hoop aansluitingen:
+ - Pin header voor SAMDaaNo21.
+ - Pin header voor de Solar Power Manager.
+ - Pin header voor +5 en +3V3 output naar sensoren.
+ - Pin headers voor specifieke breakoutboard van sensoren.
+
+ De laatst genoemde pin headers voor sensoren hebben een specifieke pinout voor bepaalde breakoutboards. Zo kunnen deze eenvoudig aangesloten worden op female pin headers, of rechtstreeks gesoldeerd. Maar deze kunnen uiteraard ook met andere sensoren verbonden worden, met aandacht voor de variërende pinouts.
+
+Op de huidige iteratie van de SAMDaaNo21 zijn er geen LED's aanwezig voor visuele feedback. Dit geeft een lager stroomverbruik, maar voor debugging is dit niet zo handig.
+Om die reden zijn er op dit Connector Board een aantal LED's aanwezig, te zien op het schema:
+ - VIN (5V) van de SAMDaaNo21.
+ - 3V3 van de SAMDaaNo21.
+ - +3V3 op het Connector Board (LDL1117S33R).
+ - RX en TX lijnen van UART connectoren.
+ - RX en TX van de LoRa module.
+
+Er is verder nog een pin header voorzien voor de LoRa RX en TX als testpunten.
+
 ## Blokdiagram
 
 ![FLWSB Connector Board blokdiagram v1.0](./assets/connector-board-blockdiagram-v1.0.jpg)
