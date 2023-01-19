@@ -334,7 +334,7 @@ Om gebruik van de SAMDaaNo21 gemakkelijker te maken zijn alle pinnen die omschre
 Ook de SERCOM poorten zijn in dit bestand geformuleerd.
 
 
-## Uitbreidingen
+## Mogelijke verbeteringen en uitbreidingen
 
 - In het `Tools` menu van de Arduino IDE kunnen nog instellingen worden toegevoegd zoals kloksnelheid.
 - Echte release maken zodat de boards via de Board Manager geïnstalleerd worden zoals bij de ESP32.
