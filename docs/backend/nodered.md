@@ -29,7 +29,7 @@ Een voorbeeld van effectieve data voor flows kan gevonden worden in [Real Data](
 
 Om data te kunnen ingeven in het Sensor Identification System is er een web formulier gemaakt aan de hand van Node-RED Dashboard.
 
-![Node-RED flow sis-form.](./assets/node-red-flow-sis-form.png 'Figuur : Node-RED flow sis-form.')
+![Node-RED flow sis-form.](./assets/node-red-flow-sis-form.png 'Figuur 1: Node-RED flow sis-form.')
 
 Deze bestaat uit:
 1. [Node-Red Dashboard](https://flows.nodered.org/node/node-red-dashboard) `form` nodes (niet standaard, apart te installeren).
@@ -40,7 +40,7 @@ Deze bestaat uit:
 
 De `form` nodes creëren volgende web pagina:
 
-![SIS Registration Form webpagina.](./assets/node-red-dashboard-sis-forms.png 'Figuur : SIS Registration Form webpagina.')
+![SIS Registration Form webpagina.](./assets/node-red-dashboard-sis-forms.png 'Figuur 2: SIS Registration Form webpagina.')
 
 ##### Data Formatting
 
@@ -130,7 +130,7 @@ Vervolgens gebeurt de push automatisch als het inkomende bericht het juiste form
 
 Data verwerking voor FLWSB-board met gebruik van The Things Network voor LoRaWAN connectiviteit.
 
-![Node-RED flow ttn-sis-flwsb.](./assets/node-red-flow-ttn-sis-flwsb.png 'Figuur : Node-RED flow ttn-sis-flwsb.')
+![Node-RED flow ttn-sis-flwsb.](./assets/node-red-flow-ttn-sis-flwsb.png 'Figuur 3: Node-RED flow ttn-sis-flwsb.')
 
 Deze flow bestaat uit drie, of eerder vijf, stappen:
 1. MQTT msg van de TTN applicatie.
@@ -152,11 +152,11 @@ Meer informatie beschikbaar in de [TTN MQTT documentatie](https://www.thethingsi
 
 De instellingen van de node zijn als volgt:
 
-![TTN MQTT in node instellingen.](./assets/ttn-mqtt-in-node-settings.png 'Figuur : TTN MQTT in node instellingen.')
+![TTN MQTT in node instellingen.](./assets/ttn-mqtt-in-node-settings.png 'Figuur 4: TTN MQTT in node instellingen.')
 
-![TTN MQTT broker node connection instellingen.](./assets/ttn-mqtt-broker-node-connection-settings.png 'Figuur : TTN MQTT broker node connection instellingen.')
+![TTN MQTT broker node connection instellingen.](./assets/ttn-mqtt-broker-node-connection-settings.png 'Figuur 5: TTN MQTT broker node connection instellingen.')
 
-![TTN MQTT broker node security instellingen.](./assets/ttn-mqtt-broker-node-security-settings.png 'Figuur : TTN MQTT broker node security instellingen.')
+![TTN MQTT broker node security instellingen.](./assets/ttn-mqtt-broker-node-security-settings.png 'Figuur 6: TTN MQTT broker node security instellingen.')
 
 ##### Flux Query
 
@@ -183,6 +183,9 @@ return msg;
 Deze node combineerd beide inkomende berichten eenvoudig weg door de msg.payload te combineren in een array.
 
 #### Data formatting
+
+Onderstaande code dient om een ontvangen bitstream aan de hand van het SIS te formatteren.
+Er zitten echter nog fouten in, vermoedelijk een memoryleak, waardoor bij gebruik Node-RED vastloopt.
 
 ```javascript
 const ttn = msg.payload[0]; // TTN MQTT msg
@@ -305,7 +308,7 @@ return msg;
 
 Een vereenvoudigde versie van de flow specifiek voor de SAMDaaNo21 Proof-of-Concept verbonden met een BME280:
 
-![Node-RED flow ttn-flwsb.](./assets/node-red-flow-ttn-flwsb.png 'Figuur : Node-RED flow ttn-flwsb.')
+![Node-RED flow ttn-flwsb.](./assets/node-red-flow-ttn-flwsb.png 'Figuur 7: Node-RED flow ttn-flwsb.')
 
 ---
 
@@ -313,7 +316,7 @@ Een vereenvoudigde versie van de flow specifiek voor de SAMDaaNo21 Proof-of-Conc
 
 Data verwerking voor de weerstations.
 
-![Node-RED flow weather-station-sis.](./assets/node-red-flow-weather-station-sis.png 'Figuur : Node-RED flow weather-station-sis.')
+![Node-RED flow weather-station-sis.](./assets/node-red-flow-weather-station-sis.png 'Figuur 8: Node-RED flow weather-station-sis.')
 
 Deze flow gebeurt zeer gelijkaardig aan de *ttn-sis-flwsb* flow.
 
@@ -321,11 +324,11 @@ Deze flow gebeurt zeer gelijkaardig aan de *ttn-sis-flwsb* flow.
 
 De instellingen van de MQTT node zijn als volgt:
 
-![Mosquitto MQTT (baavend-mqtt) in node instellingen.](./assets/baavend-mqtt-in-node-settings.png 'Figuur : Mosquitto MQTT (baavend-mqtt)  in node instellingen.')
+![Mosquitto MQTT (baavend-mqtt) in node instellingen.](./assets/baavend-mqtt-in-node-settings.png 'Figuur 9: Mosquitto MQTT (baavend-mqtt)  in node instellingen.')
 
-![Mosquitto MQTT (baavend-mqtt)  broker node connection instellingen.](./assets/baavend-mqtt-broker-node-connection-settings.png 'Figuur : Mosquitto MQTT (baavend-mqtt)  broker node connection instellingen.')
+![Mosquitto MQTT (baavend-mqtt)  broker node connection instellingen.](./assets/baavend-mqtt-broker-node-connection-settings.png 'Figuur 10: Mosquitto MQTT (baavend-mqtt)  broker node connection instellingen.')
 
-![Mosquitto MQTT (baavend-mqtt)  broker node security instellingen.](./assets/baavend-mqtt-broker-node-security-settings.png 'Figuur : Mosquitto MQTT (baavend-mqtt)  broker node security instellingen.')
+![Mosquitto MQTT (baavend-mqtt)  broker node security instellingen.](./assets/baavend-mqtt-broker-node-security-settings.png 'Figuur 11: Mosquitto MQTT (baavend-mqtt)  broker node security instellingen.')
 
 ##### Flux Query
 
@@ -370,7 +373,7 @@ return msg;
 
 #### Mosquitto MQTT Broker Logging (mqtt-logging)
 
-![Node-RED flow mqtt-logging.](./assets/node-red-flow-mqtt-logging.png 'Figuur : Node-RED flow mqtt-logging.')
+![Node-RED flow mqtt-logging.](./assets/node-red-flow-mqtt-logging.png 'Figuur 12: Node-RED flow mqtt-logging.')
 
 ```javascript
 

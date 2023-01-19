@@ -30,21 +30,21 @@ InfluxDb beschikt over een CLI, maar kan ook eenvoudig beheerd worden aan de han
 
 Buckets zijn eenvoudig te beheren.
 
-![InfluxDb web interface: Buckets.](./assets/influxdb-buckets.png 'Figuur : InfluxDb web interface: Buckets.')
+![InfluxDb web interface: Buckets.](./assets/influxdb-buckets.png 'Figuur 1: InfluxDb web interface: Buckets.')
 
 #### API Tokens
 
 API tokens aanmaken, om connecties naar buiten op te zetten, met specifieke machtigingen kunnen ook zeer eenvoudig.
 
-![InfluxDb web interface: API tokens.](./assets/influxdb-api-tokens.png 'Figuur : InfluxDb web interface: API tokens.')
+![InfluxDb web interface: API tokens.](./assets/influxdb-api-tokens.png 'Figuur 2: InfluxDb web interface: API tokens.')
 
 #### Data Explorer
 
 De web interface beschikt ook over een Data Explorer. Een zeer handige tool om query's op te stellen, als ook een snelle visualisatie van data.
 
-![InfluxDb web interface: Data Explorer, Query Builder en graph view.](./assets/influxdb-data-explorer-query-builder-graph.png 'Figuur : InfluxDb web interface: Data Explorer, Query Builder en graph.')
+![InfluxDb web interface: Data Explorer, Query Builder en graph view.](./assets/influxdb-data-explorer-query-builder-graph.png 'Figuur 3: InfluxDb web interface: Data Explorer, Query Builder en graph.')
 
-![InfluxDb web interface: Data Explorer, Script Editor en raw data view.](./assets/influxdb-data-explorer-script-editor-raw-data.png 'Figuur : InfluxDb web interface: Data Explorer, Script Editor en raw data view.')
+![InfluxDb web interface: Data Explorer, Script Editor en raw data view.](./assets/influxdb-data-explorer-script-editor-raw-data.png 'Figuur 4: InfluxDb web interface: Data Explorer, Script Editor en raw data view.')
 
 ---
 

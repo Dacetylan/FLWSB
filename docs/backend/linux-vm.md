@@ -9,6 +9,8 @@ Voor meer informatie heeft [Digital Ocean uitstekende documentatie](https://docs
 
 *[DigitalOcean droplet (baavend-ubuntu-s-1vcpu-1gb-intel-ams3-01)](https://cloud.digitalocean.com/droplets/328289429/graphs?i=8bcdff&period=hour) IP: 167.71.75.179*
 
+![DigitalOcean droplet logging graph na resize van 1GB RAM naar 2GB.](./assets/digitalocean-graph-resize.png 'Figuur 1: DigitalOcean droplet logging graph na resize van 1GB RAM naar 2GB.')
+
 ### Troubleshooting
 
 Bij het opstarten van de __Node-RED__ en __Grafana__ containers op een Linux Virtual Machine kan je stuiten op permission errors.

@@ -1,4 +1,4 @@
-* __[Introduction](README.md)__
+* [Introduction](README.md)
 
 * Flexibility
 
@@ -70,7 +70,9 @@
 
   * [Grafana](frontend/grafana.md)
 
-* __[Future Iterations](future-iterations/improvements.md)__
+* Future Iterations
+
+  * [Improvements](future-iterations/improvements.md)
 
 * Demo
 

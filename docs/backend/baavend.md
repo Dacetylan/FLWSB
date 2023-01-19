@@ -30,7 +30,7 @@ Als referentie is er onderstaand een blokdiagram met een algemeen overzicht van 
 
 ### Blokdiagram
 
-![BaaVend Blokdiagram](./assets/baavend-diagram.jpg)
+![BaaVend Blokdiagram](./assets/baavend-diagram.jpg 'Figuur 1: BaaVend Blokdiagram')
 
 ### Services
 
