@@ -162,4 +162,4 @@ Er zijn namelijk twee varianten berichten die van het weerstation komen. Eén wa
 
 Er kan ook altijd nog extra getest worden in Node-Red door zelf berichten op het topic te sturen en aan de hand van debug nodes (debug = groen).
 
-![weather station flow in Node-Red](./assets/node-red-flow-weather-station.png)
+![Weather station flow in Node-Red.](./assets/node-red-flow-weather-station-sis.png 'Figuur 1: Weather station flow in Node-Red.')
