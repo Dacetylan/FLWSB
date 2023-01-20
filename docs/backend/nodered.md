@@ -18,7 +18,7 @@ Dit zijn:
  - weather-station-sis: data verwerking voor de weerstations via de Mosquitto MQTT broker, met gebruik van SIS.
  - mqtt-logging: opslag van logging van de Mosquitto MQTT broker naar de InfluxDB database.
 
-__*Broncode voor elke flow kan gevonden worden in deze repository onder `src\backend\baavend\node-red-flows`.
+__*Broncode voor elke flow kan gevonden worden in deze repository onder `src\backend\node-red-flows`.
 Deze kan in Node-RED geïmporteerd worden om de flow te creëren.*__
 
 Een voorbeeld van effectieve data voor flows kan gevonden worden in [Real Data](data-formatting/real-data.md).

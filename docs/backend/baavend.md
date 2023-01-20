@@ -52,20 +52,21 @@ services:
         build:
           context: .
           dockerfile: Dockerfile-nodered
-        container_name: baavend-red #you can give another name here
+        container_name: baavend-red  # Another name can be given here
         networks:
             - net
         ports:
             - 1880:1880
         links:
-           - "influxdb:db"  # the container influxdb is reachable as the hostnames "influxdb" and "db" through this container.
+           - "influxdb:db"  # the container influxdb is reachable as the hostnames "influxdb" and "db" through this container, eg. http://influxdb:8086 or http://db:8086
         environment:
             - TZ=Europe/Brussels
         volumes:
             - ./baavend-red:/data
-            - ./nodered-flows.json:/data/flows.json:rw
-            - ./nodered-flows_cred.json:/data/flows_cred.json:rw
-            - ./nodered-settings.js:/data/settings.js:ro
+            # Comment out the following volumes after the first deployment, otherwise this will override the current files and produce errors on deploy of edited flows and revert changes in settings.
+            - ./nodered-flows.json:/data/flows.json:rw  # Comment out after first deployment
+            - ./nodered-flows_cred.json:/data/flows_cred.json:rw  # Comment out after first deployment
+            - ./nodered-settings.js:/data/settings.js:ro  # Comment out after first deployment
         restart: on-failure:10
 
     influxdb:
@@ -74,7 +75,7 @@ services:
         networks:
             - net
         ports:
-            - 8086:8086   # https://localhost:8086
+            - 8086:8086   # http://localhost:8086 or http://influxdb:8086
         volumes:
             - ./baavend-db/data:/var/lib/influxdb2:rw
             - ./baavend-db/config:/etc/influxdb2:rw
@@ -125,6 +126,20 @@ networks:
    net:
       # Dit creërd een default netwerk met met filenaam_net = baavend_net
 ```
+
+__*Merk op dat de Node-RED configuratie volumes uitgecomment moeten worden na de eerste deplyment. Anders gaat docker-compose de huidige versies van deze bestanden overschrijven bij opstarten met `docker-compose up -d`. Dit lijdt tot errors bij nieuwe deploys van gewijzigde flows, als ook het terugdraaien van eventuele wijzigingen in de instellingen.*__
+
+#### Docker en docker-compose commando's
+
+*In windows zijn de commanod's van docker-compose zonder het `-`, dus bijvoorbeeld `docker compose up -d` in plaats van `docker-compose op -d` in Ubuntu (Linux).
+
+- `docker-compose build`: download en/of bouwt alle images al zonder deze op te starten.
+- `docker-compose up -d`: download en/of bouwt de images indien nog niet gebeurt, en start alle services. `-d` staat voor *detached* wat betekend dat er niet in de terminals van de containers wordt gegaan.
+- `docker-compose up -d --build` zelfde als voorgaande, maar herbouwt alle images.
+- `docker-compose down`: stopt alle services. Combinatie van `docker stop` en `docker rm` voor alle services gedefiniëerd in het docker-compose bestand.
+- `docker-compose exec -it <container-name> <bash-or-sh>`: Attach aan container terminal in Windows. Meeste werken met bash, maar sommige werken enkel met sh.
+- `docker attach <container-id>`: Attach aan container terminal in Ubuntu (Linux).
+- `docker ps`: geeft overzicht van conatiners, hun ID en status.
 
 ---
 
