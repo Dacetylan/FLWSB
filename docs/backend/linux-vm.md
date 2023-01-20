@@ -5,9 +5,13 @@
 Voor het draaien van Docker wordt er gebruik gemaakt van een Linux VM, of Virtual Machine.
 Er is gekozen om de cloud service van Digital Ocean te gebruiken.
 Digital Ocean noemt deze droplets en er is gekozen voor Ubuntu 22.04 (LTS) x64 als Linux versie met de standaard 25 GB aan SSD opslag ruimte.
-Voor meer informatie heeft [Digital Ocean uitstekende documentatie](https://docs.digitalocean.com/) beschikbaar.
+DigitalOcean beschikt ook over een periodiek backup systeem, voor draaiende droplets. Als ook een snapshot systeem waarmee je images van de droplet/VM kan bij houden wanneer de droplet niet draaid. Dit aan een extra kost uiteraard. Deze zijn echter wel beperkt tot DigitalOcean en kunnen niet worden gedownload.
+Als externe backup van dit project zijn de bestanden gebackupt als encrypteerde zip-file met daarin alle betsanden als ook een .tar.gz van al deze betsanden. Te vinden in `src/backend` van deze repository. (Bij het maken van de .tar.gz gaf het wel aan op het einde dat er errors waren, maar in de logs stonden geen errors. Dus deze bevat al dan niet errors.)
+Voor meer informatie heeft [Digital Ocean uitstekende documentatie](https://docs.digitalocean.com/) beschikbaar. Voor zowel hun services als het opzetten van specifieke Ubuntu versies in een VM.
 
-*[DigitalOcean droplet (baavend-ubuntu-s-1vcpu-1gb-intel-ams3-01)](https://cloud.digitalocean.com/droplets/328289429/graphs?i=8bcdff&period=hour) IP: 167.71.75.179*
+[![DigitalOcean Referral Badge](https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%203.svg)](https://www.digitalocean.com/?refcode=568af813537f&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
+
+*[DigitalOcean droplet (baavend-ubuntu-s-1vcpu-1gb-intel-ams3-01)](https://cloud.digitalocean.com/droplets/328289429/graphs?i=8bcdff&period=hour) IP: 167.71.75.179 __(Niet meer actief vanaf 20-01-2023)__*
 
 ![DigitalOcean droplet logging graph na resize van 1GB RAM naar 2GB.](./assets/digitalocean-graph-resize.png 'Figuur 1: DigitalOcean droplet logging graph na resize van 1GB RAM naar 2GB.')
 
