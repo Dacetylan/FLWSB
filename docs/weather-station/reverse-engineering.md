@@ -27,13 +27,41 @@ We krijgen data binnen van het weerstation op de GUI dat meekwam met het weersta
 
 #### [Dit project](https://www.skyon.be/maak-je-weerstation-geconnecteerd-en-slim/) volgen stap voor stap
 
-We hebben het commando hieronder uitgevoerd. We hebben de parameters ingevuld met onze eigen mqtt server. Jammer genoeg zagen we geen data binnen komen op de mqtt server.
+We hebben het commando hieronder uitgevoerd. We hebben de parameters ingevuld met onze eigen mqtt server.
 
 ```
 /usr/local/bin/rtl_433 -R 119 -f 868M -s 1024k -F mqtt://<mqtt_server_ip> 1883 retain 0 devices rtl_433[/id]
 ```
 
-We weten niet goed wat er mis gaat met de RTL-SDR. Hier moet meer mee gexperimenteerd worden.
+rtl_433 is een open-source project op GitHub dat het demoduleren en decoderen van radiosignalen van een groot bereik van weerstations mogelijk maakt. Toen wij het commando hierboven uitvoerde was er geen zichtbare data binnen gekomen op onze MQTT server. Wij hebben ook een aantal varianten geprobeerd.
+
+1. Misschien werkt MQTT niet
+   
+   We hebben MQTT getest door testdata door te sturen, dit werkt. We hebben ook het commando uitgevoerd met de terminal als output in plaats van MQTT. **Nog steeds geen data**.
+
+2. Misschien is de sample rate verkeerd
+   
+   We hebben het commando uitgevoerd met verschillende sample rates. **Nog steeds geen data**.
+
+3. Misschien is de frequentie verkeerd
+   
+   We hebben het commando uitgevoerd met verschillende frequenties rond 868MHz. **Nog steeds geen data**.
+
+4. Mischien gebruiken we een verkeerd algoritme
+   
+   We hebben naar de lijst van algoritmes gekeken op de GitHub van rtl_433. Met CTRL+F hebben we gezocht naar "Bresser"
+   
+   1. [52]  Bresser Thermo-/Hygro-Sensor 3CH
+   
+   2. [119]  Bresser Weather Center 5-in-1
+   
+   3. [172]  Bresser Weather Center 6-in-1, [...]
+   
+   4. [173]  Bresser Weather Center 7-in-1
+
+Zoals eerder besproken is onze weerstation een variant op de Bresser Weather Center 5-in-1. Tussen de lijst van algoritmes staat er maar 1 die overeenkomt met de 5-in-1. Het algoritme dat we gebruiken in het commando hierboven klopt dus. **Nog steeds geen data**.
+
+Later zullen we nog ontdekken waarom dat we geen data ontvangen.
 
 #### Met een HackRF proberen onderscheppen
 
@@ -128,3 +156,33 @@ De windrichting wordt op een interessante manier gelezen. Er is een cirkelvormig
 *fig 12, Anemometer*
 
 Dit is een soort van magnetische sensor dat gebruikt wordt om de de windsnelheid te meten. Het werkt gelijkaardig aan de werking van een speedometer op een fiets.
+
+@reboot rtl_433 -f 868.3MHz -R 172 -F "mqtt://167.71.75.179:1883, user=bavo, pass=s120267, retain=0,events=weatherStation" -M time:unix:utc:tz:iso:usec -F kv
+
+#### RTL_433
+
+Om te onderzoeken hoe dat de gedemoduleerde data gedecodeert kon worden werden de C-files op de GitHub van RTL_433 geraadpleegd. RTL_433 is zoals eerder vermeld een open-source project op GitHub dat zich bezig houdt met het demoduleren en decoderen van radiosignalen op de ISM band. Onder andere ook weerstations zoals die van ons.
+
+Er werd gebruik gemaakt van de zoekfunctie op GitHub om alle files te doorzoeken naar zoektermen. Zo werd er gezocht op "5-in-1" om alle files te vinden die zich bezig houden met het decoderen, demoduleren, en documenteren van de Bresser 5-in-1.
+
+Toen werd er ontdekt dat in de C-file die zich bezig houdt met de Bresser 6-in-1 het volgende staat:
+
+```md
+Decoder for Bresser Weather Center 6-in-1.
+- also Bresser Weather Center 7-in-1 indoor sensor.
+- also Bresser new 5-in-1 sensors.
+- also Froggit WH6000 sensors.
+- also rebranded as Ventus C8488A (W835)
+- also Bresser 3-in-1 Professional Wind Gauge / Anemometer, PN 7002531
+- also Bresser soil temperature and moisture meter, PN 7009972
+- also Bresser Thermo-/Hygro-Sensor 7 Channel 868 MHz, PN 7009999
+
+```
+
+Het algoritme voor de Bresser 6-in-1 werkt ook met de nieuwe Bresser 5-in-1. Opmerkelijk.
+
+Dit werd uiteraard meteen getest. **Nu ontvangen we data van het weerstation**. De volgende stap is om deze data ook inneens binnen te halen op de backend via MQTT. Daarvoor moet wel de data een timestamp krijgen om te werken met influxDB. Dan moet er nog voor gezorgd worden dat dit commando altijd runt, ook bij startup van de raspberry pi. Met deze aanpassing ziet het commando er alst volgt uit.
+
+`rtl_433 -f 868.3MHz -R 172 -F "mqtt://167.71.75.179:1883, user=bavo, pass=s120267, retain=0,events=weatherStation" -M time:unix:utc:tz:iso:usec -F kv`
+
+Dit commando wordt dan in een crontab gezet met de `@reboot` functie zodat deze opstart samen met de raspberry pi.
